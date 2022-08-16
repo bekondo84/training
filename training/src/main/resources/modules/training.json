@@ -1,0 +1,13 @@
+{
+  "version" : "1.0",
+  "name" : "training",
+  "description" : "Module de gestion des formations internes",
+  "longDescription" : "Module de gestion des formations internes organisées par la DSI du PAK.",
+  "owner" : "Port Autonome de Kribi",
+  "sequence": 100,
+  "autoInstall" : true,
+  "depends": [],
+  "menus" : [
+
+  ]
+}

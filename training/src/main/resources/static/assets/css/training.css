@@ -1,0 +1,51 @@
+html,body
+{
+   height : 100% ;
+   margin: 0;
+}
+
+.parent {
+   display: flex;
+   flex-flow: column;
+   height:100%;
+}
+.parent .header {
+    flex: 1 1 auto;
+}
+
+.parent .container {
+    flex: 1 1 auto;
+}
+
+.container
+{
+   max-width: inherit ;
+   display: flex ;
+   flex-flow: row unwrap;
+   justify-content : flex-start;
+   align-items: stretch;
+   padding: 1px;
+   border: 1px groove ;
+}
+
+.editor
+{
+ flex-grow: 1;
+ margin-left: 0 ;
+}
+.menu
+{
+  border: 1px groove;
+}
+.toolbar
+{
+  border:groove;
+}
+.actionsbar
+{
+   display:flex;
+   align-items: flex-start;
+}
+.nav-padding {
+    padding: 0px;
+}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head th:fragment="vertical-menu">
+    <meta charset="UTF-8">
+</head>
+<body>
+  <div th:fragment="verticalMenu">
+      <ul>
+          <li th:each="menu : ${menus}">
+              <a th:href="${menu.path}" th:if="${menu.path != null}" th:text="${{menu.label}}"></a>
+              <span th:if="${menu.path == null}" th:text="${{menu.label}}"></span>
+              <ul th:if="${menu.children !=null }">
+                  <li th:each="submenu : ${menu.children}">
+                      <a th:href="${submenu.path}" th:if="${submenu.path != null}" th:text="${{submenu.label}}"></a>
+                      <span th:if="${submenu.path == null}" th:text="${{submenu.label}}"></span>
+                      <ul th:if="${submenu.children !=null }">
+                          <li th:each="menu02 : ${submenu.children}">
+                              <a th:href="${menu02.path}" th:text="${{submenu.label}}"></a>
+                          </li>
+                      </ul>
+                  </li>
+              </ul>
+          </li>
+      </ul>
+  </div>
+</body>
+</html>

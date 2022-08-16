@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link th:rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/assets/css/training.css}">
+    <script type="text/babel">
+       var app = new Vue({*
+            el: '#container'
+        });
+    </script>
+    <title>Title</title>
+</head>
+<body>
+  <div class="parent">
+    <header class="header" th:insert="components/header.html :: header"> </header>
+    <main class="container" role="main">
+        <section class="menu" th:insert="components/verticalMenu.html :: verticalMenu"></section>
+        <section th:if="${ template != null }"  class="editor">
+            <div th:replace="~{ ${template} :: ${fragment}}"></div>
+        </section>
+    </main>
+  </div>
+  <script th:src="@{/assets/js/popper.min.js}"></script>
+  <script th:src="@{/assets/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/js/vue.js}"></script>
+    <script th:src="@{/assets/js/babel.min.js}"></script>
+</body>
+</html>

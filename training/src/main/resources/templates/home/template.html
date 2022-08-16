@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link th:rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/assets/css/training.css}">
+    <script type="text/babel">
+       var app = new Vue({
+            el: '#app',
+            data: {
+               name : "POPOPOPOP"
+            }
+        });
+    </script>
+    <title>Title</title>
+</head>
+<body>
+  <div id="app" class="parent">
+      <t-home />
+  </div>
+    <script th:src="@{/assets/js/popper.min.js}"></script>
+    <script th:src="@{/assets/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/js/vue.js}"></script>
+    <script th:src="@{/assets/js/axios.min.js}"></script>
+    <script th:src="@{/assets/js/moment.min.js}"></script>
+    <script th:src="@{/assets/js/vee-validate.js}"></script>
+    <script th:src="@{/assets/js/httpVueLoader.js}"></script>
+    <!-- router import -->
+    <script th:src="@{/assets/js/vuetify.min.js}"></script>
+    <script th:src="@{/assets/js/babel.min.js}"></script>
+    <script th:src="@{/components/header.vue.js}"></script>
+    <script th:src="@{/components/verticalmenu.vue.js}"></script>
+    <script th:src="@{/components/home.vue.js}"></script>
+</body>
+</html>

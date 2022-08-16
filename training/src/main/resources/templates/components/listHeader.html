@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header">
+    <meta charset="UTF-8">
+</head>
+<body>
+ <div th:fragment="header" class="toolbar">
+     <!--Bar de titre -->
+     <div class="d-flex flex-row justify-content-around" >
+         <div th:text="${{title}}"> </div>
+         <div>
+             <form class="d-flex">
+                 <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search">
+                 <button class="btn btn-primary" type="submit">Search</button>
+             </form>
+         </div>
+     </div>
+     <!--Bar d'outil  -->
+     <div class="actionsbar" >
+         <ul class="nav nav-pills" th:if="${#lists.size(actions) > 0}">
+             <li class="nav-item dropdown">
+                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Actions :</a>
+                 <ul class="dropdown-menu">
+                     <li  th:each="action : ${actions}">
+                         <a class="dropdown-item"  th:href="${action.path}" th:text="${{action.name}}">Action</a>
+                     </li>
+                 </ul>
+             </li>
+         </ul>
+         <nav aria-label="Page navigation example">
+             <ul class="pagination">
+                 <li class="page-item">
+                     <a class="page-link" href="#" aria-label="Previous">
+                         <span aria-hidden="true">&laquo;</span>
+                     </a>
+                 </li>
+                 <li class="page-item"><a class="page-link" href="#">1</a></li>
+                 <li class="page-item"><a class="page-link" href="#">2</a></li>
+                 <li class="page-item"><a class="page-link" href="#">3</a></li>
+                 <li class="page-item">
+                     <a class="page-link" href="#" aria-label="Next">
+                         <span aria-hidden="true">&raquo;</span>
+                     </a>
+                 </li>
+             </ul>
+         </nav>
+     </div>
+ </div>
+</body>
+</html>

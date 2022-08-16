@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="table-frag">
+    <meta charset="UTF-8">
+</head>
+<body>
+   <div th:fragment="tableTemplate(columns, datas)">
+      <table>
+          <thead>
+            <tr>
+             <th th:each=" col : ${columns}"  th:tex="${col}"></th>
+            </tr>
+          </thead>
+          <tbody>
+             <tr th:each="row : ${datas}">
+                 <td th:each=" col : ${columns}"  th:text="${row[col]}"></td>
+             </tr>
+          </tbody>
+      </table>
+   </div>
+</body>
+</html>

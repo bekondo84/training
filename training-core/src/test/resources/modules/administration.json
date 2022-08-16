@@ -1,0 +1,102 @@
+{
+  "version" : "1.0",
+  "name" : "administration",
+  "description" : "Modules administration de l'application",
+  "longDescription" : "...",
+  "owner" : "Port Autonome de Kribi",
+  "sequence": 100,
+  "autoInstall" : true,
+  "depends": [],
+  "menus" : [
+    {"name":"modules",
+      "label": "load.extensions",
+      "order": "1",
+      "path": "/modules",
+      "actions": null,
+      "children": [{
+             "name": "load.extensions",
+             "label": "load",
+             "order" : "1",
+             "path": "/loadAll",
+             "children" :null,
+            "actions" : [
+              {
+                "name": "module.create",
+                "label": "action.create",
+                "path" : "/plugins/create",
+                "method": "get",
+                "icon": null
+              },{
+                "name": "module.delete",
+                "label": "action.delete",
+                "path" : "/plugins/delete",
+                "method": "delete",
+                "icon": null
+              }]
+         },{
+          "name": "modules",
+          "label": "load.extensions",
+          "order" : "2",
+          "path": "/extensions",
+          "children" :null,
+          "actions": null
+      }]
+    },
+    {
+      "name": "users_menu",
+      "order": "3",
+      "path": null,
+      "actions": null,
+      "children": [{
+          "name": "groupes",
+          "label": "load.extensions",
+          "order" : "1",
+          "path" : "/group",
+          "children": null,
+          "actions": null
+        },{
+          "name": "users",
+          "label": "load.extensions",
+          "order" : "2",
+          "path" : "/users",
+          "children": null,
+          "actions": null
+        }]
+    },{
+      "name": "settings_menu",
+      "order": "2",
+      "path": null,
+      "actions": null,
+      "children": [{
+          "name": "mailling",
+          "label": "load.extensions",
+          "order" : "1",
+          "path" : null,
+          "children": [
+            {
+              "name": "mailling_config",
+              "label": "load.extensions",
+              "order" : "1",
+              "path" : "/maillingConfig",
+              "children": null,
+              "actions": null
+            },{
+              "name": "mailling_server",
+              "label": "load.extensions",
+              "order" : "2",
+              "path" : "/mailling_server",
+              "children": null,
+              "actions": null
+            },
+            {
+              "name": "mailling_template",
+              "label": "load.extensions",
+              "order" : "3",
+              "path" : "/mailling_template",
+              "children": null,
+              "actions": null
+            }
+          ]
+        }]
+    }]
+}

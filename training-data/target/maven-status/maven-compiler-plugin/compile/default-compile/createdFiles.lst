@@ -1,0 +1,13 @@
+cm\pak\models\core\ExtensionModel.class
+cm\pak\models\security\base\ItemModel.class
+cm\pak\models\security\UserModel.class
+cm\pak\repositories\ModelService.class
+cm\pak\exceptions\ModelServiceException.class
+cm\pak\TrainingDataConfig.class
+cm\pak\models\core\MenuItemModel.class
+cm\pak\repositories\impl\DefaultModelService.class
+cm\pak\models\core\AbstractMenu.class
+cm\pak\repositories\impl\DefaultFlexibleSearch.class
+cm\pak\PakTrainigCons.class
+cm\pak\repositories\FlexibleSearch.class
+cm\pak\models\core\MenuModel.class

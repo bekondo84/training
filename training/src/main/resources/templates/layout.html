@@ -1,0 +1,19 @@
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">P</title>
+</head>
+<body>
+  <div class="parent">
+    <header class="header" th:insert="components/header.html :: header"> </header>
+    <main class="container" role="main">
+        <section class="menu" th:insert="components/verticalMenu.html :: verticalMenu"></section>
+        <section class="editor"  layout:fragment="content">
+          <div th:fragment="content">  </div>
+        </section>
+    </main>
+  </div>
+    <script th:src="@{/assets/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/js/vue.js}"></script>
+    <script th:src="@{/assets/js/babel.min.js}"></script>
+</body>
+</html>

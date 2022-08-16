@@ -1,0 +1,15 @@
+cm\pak\populators\Populator.class
+cm\pak\data\ModuleData.class
+cm\pak\converters\impl\ModuleDataConverter.class
+cm\pak\services\ExtensionService.class
+cm\pak\services\impl\DefaultUserService.class
+cm\pak\TrainingCoreConfig.class
+cm\pak\services\UserService.class
+cm\pak\converters\impl\MenuDataConverter.class
+cm\pak\data\ModuleListData.class
+cm\pak\data\MenuData.class
+cm\pak\utils\FilesHelper.class
+cm\pak\services\impl\DefaultJsonService.class
+cm\pak\converters\Converter.class
+cm\pak\services\JsonService.class
+cm\pak\services\impl\DefaultExtensionService.class
