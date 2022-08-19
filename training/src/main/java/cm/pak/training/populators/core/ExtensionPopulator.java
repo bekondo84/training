@@ -2,11 +2,18 @@ package cm.pak.training.populators.core;
 
 import cm.pak.models.core.ExtensionModel;
 import cm.pak.populators.Populator;
+import cm.pak.repositories.ModelService;
 import cm.pak.training.beans.core.ExtensionData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 @Component
 public class ExtensionPopulator implements Populator<ExtensionModel, ExtensionData> {
+
+    @Autowired
+    private ModelService modelService;
 
     @Override
     public ExtensionData popule(ExtensionModel source) {
@@ -26,6 +33,16 @@ public class ExtensionPopulator implements Populator<ExtensionModel, ExtensionDa
 
     @Override
     public ExtensionModel revert(ExtensionData source) {
-        return null;
+        final  ExtensionModel data = modelService.find(ExtensionModel.class, source.getPk());
+        data.setOwner(source.getOwner());
+        data.setCode(source.getCode());
+        data.setOwner(source.getOwner());
+        data.setUpdate(new Date());
+        data.setVersion(source.getVersion());
+        data.setLongDescription(source.getLongDescription());
+        data.setShortDescription(source.getShortDescription());
+        data.setInstall(source.isInstall());
+        data.setSequence(source.getSequence());
+        return data;
     }
 }

@@ -49,6 +49,14 @@ public class GroupData implements Serializable {
         fields.add(field);
     }
 
+    public List<FieldData> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<FieldData> fields) {
+        this.fields = fields;
+    }
+
     @Override
     public String toString() {
         return "GroupData{" +

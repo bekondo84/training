@@ -1,16 +1,23 @@
 package cm.pak.services;
 
-import cm.pak.annotations.Widget;
 import cm.pak.data.FieldData;
 import cm.pak.data.MetaData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public interface MetaService {
-
+    static final Logger LOG = LoggerFactory.getLogger(MetaService.class);
+   /**
+    *
+    * @param clazz
+    * @return
+    */
+   default MetaData getMeta(final String clazz) throws ClassNotFoundException {
+      final Class objClass = Class.forName(clazz);
+      return  getMeta(objClass);
+   }
    /**
     *
     * @param clazz

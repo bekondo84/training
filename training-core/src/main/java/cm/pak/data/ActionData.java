@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class ActionData implements Serializable {
     private String name ;
     private String label ;
-    private String path ;
+    private String component ;
     private String method ;
     private String icon;
 
@@ -29,12 +29,12 @@ public class ActionData implements Serializable {
         this.label = label;
     }
 
-    public String getPath() {
-        return path;
+    public String getComponent() {
+        return component;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setComponent(String component) {
+        this.component = component;
     }
 
     public String getMethod() {

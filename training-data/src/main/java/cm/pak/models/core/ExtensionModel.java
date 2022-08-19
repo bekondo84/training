@@ -5,7 +5,6 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -39,8 +38,6 @@ public class ExtensionModel extends ItemModel {
     @Column(name = "t_inst")
     private boolean install ;
 
-    @Transient
-    private Set<AbstractMenu> menus ;
 
 
     public ExtensionModel() {
@@ -103,14 +100,6 @@ public class ExtensionModel extends ItemModel {
 
     public void setDepends(Set<String> depends) {
         this.depends = depends;
-    }
-
-    public Set<AbstractMenu> getMenus() {
-        return Collections.unmodifiableSet(menus);
-    }
-
-    public void setMenus(Set<AbstractMenu> menus) {
-        this.menus = menus;
     }
 
     public int getSequence() {

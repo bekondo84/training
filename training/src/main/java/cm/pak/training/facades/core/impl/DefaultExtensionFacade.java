@@ -2,7 +2,9 @@ package cm.pak.training.facades.core.impl;
 
 import cm.pak.data.MenuData;
 import cm.pak.data.ModuleData;
+import cm.pak.exceptions.ModelServiceException;
 import cm.pak.models.core.ExtensionModel;
+import cm.pak.repositories.ModelService;
 import cm.pak.services.ExtensionService;
 import cm.pak.services.JsonService;
 import cm.pak.training.beans.core.ExtensionData;
@@ -12,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -29,6 +32,16 @@ public class DefaultExtensionFacade implements ExtensionFacade {
     private JsonService jsonService ;
     @Autowired
     private ExtensionPopulator populator ;
+    @Autowired
+    private ModelService modelService;
+
+    @Override
+    public ExtensionData getExtension(Long pk) throws URISyntaxException, IOException {
+        final ExtensionData data = populator.popule(extensionService.get(pk));
+        data.setMenus(getActions(data));
+        LOG.info(String.format("*******************  Data : %s", data));
+        return data;
+    }
 
     @Override
     public List<ExtensionData> getInstallExtensions() throws URISyntaxException, IOException {
@@ -70,5 +83,12 @@ public class DefaultExtensionFacade implements ExtensionFacade {
         return extensionService.getExtensions().stream()
                 .map(ext -> populator.popule(ext))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void save(ExtensionData data) throws ModelServiceException {
+           final ExtensionModel model = populator.revert(data);
+           modelService.createOrUpdate(model);
     }
 }

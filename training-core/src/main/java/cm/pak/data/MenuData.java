@@ -10,7 +10,11 @@ public class MenuData implements Serializable {
     private String name;
     private String label ;
     private String order ;
-    private String path ;
+    private String listComponent ;
+    private String viewComponent ;
+    private String metadata;
+    private String source ;
+    private String viewMode ;
     private List<MenuData> children ;
     private List<ActionData> actions ;
 
@@ -34,12 +38,20 @@ public class MenuData implements Serializable {
         this.order = order;
     }
 
-    public String getPath() {
-        return path;
+    public String getListComponent() {
+        return listComponent;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setListComponent(String listComponent) {
+        this.listComponent = listComponent;
+    }
+
+    public String getViewComponent() {
+        return viewComponent;
+    }
+
+    public void setViewComponent(String viewComponent) {
+        this.viewComponent = viewComponent;
     }
 
     public List<MenuData> getChildren() {
@@ -66,13 +78,29 @@ public class MenuData implements Serializable {
         this.label = label;
     }
 
-    @Override
-    public String toString() {
-        return "MenuData{" +
-                "name='" + name + '\'' +
-                ", order='" + order + '\'' +
-                ", path='" + path + '\'' +
-                ", children=" + children +
-                '}';
+    public String getMetadata() {
+        return metadata;
     }
+
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getViewMode() {
+        return viewMode;
+    }
+
+    public void setViewMode(String viewMode) {
+        this.viewMode = viewMode;
+    }
+
+
 }

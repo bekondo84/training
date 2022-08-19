@@ -82,7 +82,5 @@ public class DefaultExtensionServiceTest {
     public void get() throws URISyntaxException, IOException {
         module = extensionService.get(module.getPk());
         assertNotNull(module);
-        assertFalse(module.getMenus().isEmpty());
-        assertEquals(3, module.getMenus().size());
     }
 }

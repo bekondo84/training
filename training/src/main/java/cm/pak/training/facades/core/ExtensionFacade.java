@@ -3,6 +3,7 @@ package cm.pak.training.facades.core;
 import cm.pak.data.ActionData;
 import cm.pak.data.MenuData;
 import cm.pak.data.MetaData;
+import cm.pak.exceptions.ModelServiceException;
 import cm.pak.training.beans.core.ExtensionData;
 import org.springframework.util.CollectionUtils;
 
@@ -15,6 +16,8 @@ import java.util.Set;
 
 public interface ExtensionFacade {
 
+    ExtensionData getExtension(final Long pk) throws URISyntaxException, IOException;
+
     List<ExtensionData> getInstallExtensions() throws URISyntaxException, IOException;
 
     List<MenuData> getActions(final ExtensionData extension) throws URISyntaxException, IOException;
@@ -22,6 +25,8 @@ public interface ExtensionFacade {
     List<MenuData> getActions(final String name) throws URISyntaxException, IOException;
 
     List<ExtensionData> getExtensions();
+
+    void save(final ExtensionData data) throws ModelServiceException;
 
     default List<ActionData> getAction(final String name, final List<MenuData> menus) {
 

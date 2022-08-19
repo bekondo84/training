@@ -5,7 +5,6 @@ var menu = Vue.component("v-menus-bar", {
      },methods: {
          onMenuSelected(menu) {
             this.$emit("menu-change", menu);
-            console.log("*** Menu change : "+menu);
          }
      },template: `<section class="menu">
                       <ul>

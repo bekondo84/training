@@ -4,16 +4,26 @@ import java.io.Serializable;
 
 public class FieldData implements Serializable {
     private String name ;
+    private String label ;
     private int sequence ;
     private String type ;
 
     public FieldData() {
     }
 
-    public FieldData(String name, int sequence, String type) {
+    public FieldData(String name, String label, int sequence, String type) {
         this.name = name;
         this.sequence = sequence;
         this.type = type;
+        this.label = label ;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public String getName() {

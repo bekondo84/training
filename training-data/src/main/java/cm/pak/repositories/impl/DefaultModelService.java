@@ -23,10 +23,11 @@ public class DefaultModelService implements ModelService {
 
         T result = null ;
         try {
+
             if (Objects.isNull(((ItemModel) entity).getPk())) {
                 em.persist(entity);
             } else {
-                result = em.merge(entity);
+               result = em.merge(entity);
             }
         } catch (Exception ex) {
             throw new ModelServiceException(ex);

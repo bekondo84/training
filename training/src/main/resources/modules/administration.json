@@ -11,30 +11,42 @@
     {"name":"plugins",
       "label" : "plugins_menu_label",
       "order": "1",
-      "path": "#",
+      "listComponent": "list-component",
+      "viewComponent": "view-component",
+      "metadata": null,
+      "source": "#",
+      "viewMode": null,
       "children": [{
              "name": "refresh",
              "label" : "load.plugins",
              "order" : "1",
-             "path": "/plugins/refresh",
+             "listComponent": "list-component",
+             "viewComponent": "view-component",
+             "metadata": "cm.pak.training.beans.core.ExtensionData",
+             "source": "/api/v1/plugins",
+             "viewMode": "list,view",
              "children" :null
          },{
           "name": "all",
           "label": "all.plugins",
           "order" : "2",
-          "path": "/plugins/all",
+          "listComponent": "list-component",
+          "viewComponent": "view-component",
+          "metadata": "cm.pak.training.beans.core.ExtensionData",
+          "source": "/api/v1/plugins",
+          "viewMode": "list,view",
           "children" :null,
           "actions" : [
             {
               "name": "module.create",
               "label": "action.create",
-              "path" : "/plugins/create",
+              "component" : "/plugins/create",
               "method": "get",
               "icon": null
             },{
               "name": "module.delete",
               "label": "action.delete",
-              "path" : "/plugins/delete",
+              "component" : "/plugins/delete",
               "method": "delete",
               "icon": null
             }
@@ -45,49 +57,80 @@
       "name": "users_menu",
       "label": "users_menu_label",
       "order": "3",
-      "path": null,
+      "listComponent": "list-component",
+      "viewComponent": "view-component",
+      "metadata": "cm.pak.training.beans.core.ExtensionData",
+      "source": "#",
+      "viewMode": null,
       "children": [{
           "name": "groupes",
           "label": "groupes_label",
           "order" : "1",
-          "path" : "/group",
+          "listComponent": "list-component",
+          "viewComponent": "view-component",
+          "metadata": "cm.pak.training.beans.core.ExtensionData",
+          "source": "/api/v1/plugins",
+          "viewMode": "list,view",
           "children": null
         },{
           "name": "users",
           "label": "users_menu_label",
           "order" : "2",
-          "path" : "/users",
+          "listComponent": "list-component",
+          "viewComponent": "view-component",
+          "metadata": "cm.pak.training.beans.core.ExtensionData",
+          "source": "/api/v1/plugins",
+          "viewMode": "list,view",
           "children": null
         }]
     },{
       "name": "settings_menu",
       "label": "settings_menu_label",
       "order": "2",
-      "path": null,
+      "listComponent": "list-component",
+      "viewComponent": "view-component",
+      "metadata": "cm.pak.training.beans.core.ExtensionData",
+      "source": "#",
+      "viewMode": null,
       "children": [{
           "name": "mailling",
           "label": "mailling_menu_label",
           "order" : "1",
-          "path" : null,
+          "listComponent": "list-component",
+          "viewComponent": "view-component",
+          "metadata": "cm.pak.training.beans.core.ExtensionData",
+          "source": "#",
           "children": [
             {
               "name": "mailling_config",
               "label": "mailling_config_label",
               "order" : "1",
-              "path" : "/maillingConfig",
+              "listComponent": "list-component",
+              "viewComponent": "view-component",
+              "metadata": "cm.pak.training.beans.core.ExtensionData",
+              "source": "/api/v1/plugins",
+              "viewMode": "list,view",
               "children": null
             },{
               "name": "mailling_server",
               "label": "mailling8server_label",
               "order" : "2",
-              "path" : "/mailling_server",
+              "listComponent": "list-component",
+              "viewComponent": "view-component",
+              "metadata": "cm.pak.training.beans.core.ExtensionData",
+              "source": "/api/v1/plugins",
+              "viewMode": "list,view",
               "children": null
             },
             {
               "name": "mailling_template",
               "label": "mailling_template_label",
               "order" : "3",
-              "path" : "/mailling_template",
+              "listComponent": "list-component",
+              "viewComponent": "view-component",
+              "metadata": "cm.pak.training.beans.core.ExtensionData",
+              "source": "/api/v1/plugins",
+              "viewMode": "list,view",
               "children": null
             }
           ]

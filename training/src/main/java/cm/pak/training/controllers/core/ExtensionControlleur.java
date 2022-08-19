@@ -1,6 +1,7 @@
 package cm.pak.training.controllers.core;
 
 import cm.pak.data.MenuData;
+import cm.pak.exceptions.ModelServiceException;
 import cm.pak.training.beans.core.ExtensionData;
 import cm.pak.training.facades.core.ExtensionFacade;
 import org.slf4j.Logger;
@@ -29,9 +30,20 @@ public class ExtensionControlleur  {
         return ResponseEntity.ok(facade.getInstallExtensions()) ;
     }
 
-    @GetMapping("/{name}")
+    @GetMapping(value = "/{pk}")
+    public ResponseEntity<ExtensionData> getPlugin(@PathVariable("pk") Long pk) throws URISyntaxException, IOException {
+         return  ResponseEntity.ok(facade.getExtension(pk));
+    }
+    @GetMapping("/menus/{name}")
+    @CrossOrigin
     public ResponseEntity<List<MenuData>> getMenus(final Model model, @PathVariable("name") String name) throws URISyntaxException, IOException {
         return ResponseEntity.ok(facade.getActions(name)) ;
+    }
+
+    @PostMapping
+    public ResponseEntity<ExtensionData> save(@RequestBody ExtensionData data) throws ModelServiceException {
+        facade.save(data);
+        return ResponseEntity.ok(data);
     }
 
     /**

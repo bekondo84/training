@@ -1,6 +1,5 @@
 package cm.pak.services.impl;
 
-import cm.pak.converters.impl.MenuDataConverter;
 import cm.pak.converters.impl.ModuleDataConverter;
 import cm.pak.data.MenuData;
 import cm.pak.data.ModuleData;
@@ -32,9 +31,7 @@ public class DefaultExtensionService implements ExtensionService {
 
     @Autowired
     private ModuleDataConverter moduleConverter ;
-    @Autowired
-    private MenuDataConverter menuConverter;
-    @Autowired
+     @Autowired
     private ModelService modelService ;
     @Autowired
     private FlexibleSearch flexibleSearch;
@@ -91,17 +88,6 @@ public class DefaultExtensionService implements ExtensionService {
         final ExtensionModel extension = modelService.find(ExtensionModel.class, pk);
         final ModuleData module = jsonService.getModule(extension.getCode());
         final Set<AbstractMenu> menus = new HashSet<>();
-
-        if (Objects.nonNull(module)
-                && !CollectionUtils.isEmpty(module.getMenus())) {
-
-            for (MenuData menu : module.getMenus()) {
-                if (Objects.nonNull(menu)) {
-                    menus.add(menuConverter.convert(menu));
-                }
-            }
-        }
-        extension.setMenus(menus);
         return extension;
     }
 }
