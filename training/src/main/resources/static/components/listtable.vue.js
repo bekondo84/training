@@ -2,7 +2,7 @@ var listtable = Vue.component("l-table", {
       props : ["data", "meta"],
       data() {
          return {
-            datas: this.data
+            datas: this.data != null ? this.data : []
          }
       },methods : {
           selectAll() {
@@ -22,19 +22,17 @@ var listtable = Vue.component("l-table", {
                               <table class="table table-striped table-hover table-sm">
                                   <thead>
                                   <tr>
-                                      <th scope="col">
-                                          <input type="checkbox"  @change="selectAll()">
-                                      </th>
                                       <th scope="col" v-for="c of columns">{{c.label}}</th>
                                   </tr>
                                   </thead>
                                   <tbody>
                                       <tr class="clickable-row" v-for="data of datas">
-                                          <th scope="row">
-                                              <input type="checkbox" v-model="data.selected">
-                                          </th>
                                           <td v-for="col of columns" v-on:dblclick="itemSelected(data)">
-                                              <span >{{data[col.name]}}</span>
+                                              <span v-if="col.type == 'many-to-one' && data[col.name] != null">{{data[col.name].value}}</span>
+                                              <span class="form-check form-switch" v-else-if="col.type == 'checkbox'">
+                                                <input class="form-check-input" type="checkbox" v-model="data[col.name]" :checked="data[col.name]" disabled>
+                                              </span>
+                                              <span v-else>{{data[col.name]}}</span>
                                           </td>
                                       </tr>
                                   </tbody>

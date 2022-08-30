@@ -18,6 +18,11 @@ public interface MetaService {
       final Class objClass = Class.forName(clazz);
       return  getMeta(objClass);
    }
+
+   default Object getInstance(final String clazz) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+      final Class objClass = Class.forName(clazz);
+      return objClass.newInstance();
+   }
    /**
     *
     * @param clazz

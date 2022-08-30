@@ -23,7 +23,7 @@ var header = Vue.component("t-header", {
                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                        <li class="nav-item" v-for="plugin of plugins">
-                                           <a class="nav-link active" aria-current="page" href="#" v-on:click.prevent.stop="onSelect(plugin)">{{plugin.listTitle}}</a>
+                                           <a class="nav-link active" aria-current="page" href="#" v-on:click.prevent.stop="onSelect(plugin)">{{plugin.code}}</a>
                                        </li>
                                    </ul>
                                    <div class="d-flex">

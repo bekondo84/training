@@ -2,9 +2,7 @@ package cm.pak.models.security;
 
 import cm.pak.models.security.base.ItemModel;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -25,6 +23,10 @@ public class UserModel extends ItemModel implements Serializable {
 
     @Column(name = "t_pwd")
     private String password ;
+
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private GroupeModel groupeModel;
 
     public UserModel() {
         super();
@@ -68,5 +70,13 @@ public class UserModel extends ItemModel implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public GroupeModel getGroupe() {
+        return groupeModel;
+    }
+
+    public void setGroupe(GroupeModel groupeModel) {
+        this.groupeModel = groupeModel;
     }
 }

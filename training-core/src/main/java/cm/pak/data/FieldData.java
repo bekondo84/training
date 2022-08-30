@@ -1,14 +1,26 @@
 package cm.pak.data;
 
+import cm.pak.annotations.SelectItem;
+
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class FieldData implements Serializable {
     private String name ;
     private String label ;
     private int sequence ;
     private String type ;
+    private boolean editable ;
+    private boolean updatable ;
+    private String metadata ;
+    private String source;
+    private Set<SelectItemData> selectItems ;
+
 
     public FieldData() {
+        editable = true ;
+        selectItems = new HashSet<>();
     }
 
     public FieldData(String name, String label, int sequence, String type) {
@@ -16,6 +28,7 @@ public class FieldData implements Serializable {
         this.sequence = sequence;
         this.type = type;
         this.label = label ;
+        selectItems = new HashSet<>();
     }
 
     public String getLabel() {
@@ -50,12 +63,47 @@ public class FieldData implements Serializable {
         this.type = type;
     }
 
-    @Override
-    public String toString() {
-        return "FieldData{" +
-                "name='" + name + '\'' +
-                ", sequence=" + sequence +
-                ", type='" + type + '\'' +
-                '}';
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public boolean isUpdatable() {
+        return updatable;
+    }
+
+    public void setUpdatable(boolean updatable) {
+        this.updatable = updatable;
+    }
+
+    public Set<SelectItemData> getSelectItems() {
+        return selectItems;
+    }
+
+    public void setSelectItems(Set<SelectItemData> selectItems) {
+        this.selectItems = selectItems;
+    }
+
+    public void addSelectItem(final SelectItemData item) {
+          selectItems.add(item);
     }
 }

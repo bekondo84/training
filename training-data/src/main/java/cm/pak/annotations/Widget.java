@@ -11,6 +11,8 @@ public @interface Widget {
     String value() ;
     int sequence() default 0 ;
     String group() ;
-    String tab() default "";
     boolean column() default false ;
+    boolean editable() default true ;
+    boolean updatable() default true;
+    String  metadata() default "" ;
 }

@@ -28,6 +28,7 @@ public class ExtensionPopulator implements Populator<ExtensionModel, ExtensionDa
         data.setShortDescription(source.getShortDescription());
         data.setInstall(source.isInstall());
         data.setSequence(source.getSequence());
+        data.setValue(data.getCode());
         return data;
     }
 

@@ -3,10 +3,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-    <link th:rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css} "/>
+    <link th:href="@{/assets/css/vuetify.min.css}" rel="stylesheet">
+    <link th:rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}"/>
     <link th:rel="stylesheet" th:href="@{/assets/css/training.css}">
     <link th:rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
     <title>Title</title>
@@ -17,15 +15,24 @@
   </div>
     <script th:src="@{/assets/js/popper.min.js}"></script>
     <script th:src="@{/assets/js/bootstrap.min.js}"></script>
-      <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+      <script th:src="@{/assets/js/vue.js}"></script>
+      <script th:src="@{/assets/js/vuetify.js}"></script>
     <script th:src="@{/assets/js/axios.min.js}"></script>
     <script th:src="@{/assets/js/moment.min.js}"></script>
     <script th:src="@{/assets/js/vee-validate.js}"></script>
     <script th:src="@{/assets/js/httpVueLoader.js}"></script>
     <!-- router import
-    <script th:src="@{/assets/js/vuetify.min.js}"></script>-->
+    <script th:src="@{/assets/js/vuetify.js}"></script>-->
     <script th:src="@{/assets/js/babel.min.js}"></script>
+    <script th:src="@{/components/widgets/input.vue.js}"></script>
+    <script th:src="@{/components/widgets/checkbox.vue.js}"></script>
+    <script th:src="@{/components/dialogtable.vue.js}"></script>
+    <script th:src="@{/components/dialogform.vue.js}"></script>
+    <script th:src="@{/components/dialog.vue.js}"></script>
+    <script th:src="@{/components/widgets/buttonSelect.vue.js}"></script>
+    <script th:src="@{/components/widgets/onetomany.vue.js}"></script>
+    <script th:src="@{/components/widgets/manytomany.vue.js}"></script>
+    <script th:src="@{/components/widgets/manytoone.vue.js}"></script>
     <script th:src="@{/components/header.vue.js}"></script>
     <script th:src="@{/components/verticalmenu.vue.js}"></script>
     <script th:src="@{/components/home.vue.js}"></script>
@@ -43,6 +50,6 @@
                    name : "POPOPOPOP"
                 }
             });
-        </script>
+      </script>
 </body>
 </html>

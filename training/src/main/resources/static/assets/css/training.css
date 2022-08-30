@@ -53,3 +53,21 @@ html,body
 .border-botton-zero {
     border-botton : 0 ;
 }
+.margin-left-auto {
+    margin-left : auto;
+ }
+ .width-350 {
+    width:350px;
+ }
+ .title-bar {
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 5px;
+ }
+ .manytoone-box {
+    display: flex;
+    flex-flow: row;
+ }
+ .data-button {
+     padding : 5px;
+ }

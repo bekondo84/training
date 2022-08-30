@@ -2,22 +2,28 @@ package cm.pak.training.beans.core;
 
 import cm.pak.annotations.*;
 import cm.pak.data.MenuData;
+import cm.pak.models.core.ExtensionModel;
 import cm.pak.training.beans.AbstractData;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 import java.util.*;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@GlobalConfig(creatable = false,updatable = false,deletable = false)
 @Groups({@Group(name ="admin", label = "admin.group", sequence = 100),
         @Group(name = "general", label ="general.group", sequence = 1),
         @Group(name = "description", label = "description.group", sequence = 2)})
+@SearchKey(value = "pk", label = "code")
 public class ExtensionData extends AbstractData implements Serializable {
-    @Widget(value = "number", group = "admin")
+    @Widget(value = "number", group = "admin", editable = false)
     private Long pk ;
-    @Widget(value = "date", group = "admin")
+    @Widget(value = "date", group = "admin" ,editable = false)
     private Date create;
-    @Widget(value = "date", group = "admin")
+    @Widget(value = "date", group = "admin", editable = false)
     private Date update;
-    @Widget(value = "text", group = "general")
+    @Widget(value = "text", group = "general", column = true)
     private String code ;
     @Widget(value = "text", group = "general", column = true)
     private String version ;
@@ -34,7 +40,14 @@ public class ExtensionData extends AbstractData implements Serializable {
     private List<MenuData> menus ;
 
     public ExtensionData() {
+        super();
         this.menus = new ArrayList<>();
+
+    }
+
+    @Override
+    public String getTargetEntity() {
+        return ExtensionModel.class.getName();
     }
 
     public Long getPk() {
@@ -67,8 +80,6 @@ public class ExtensionData extends AbstractData implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
-        setListTitle("plugins".concat(".").concat(code));
-        setFormTitle("plugin.".concat(code));
     }
 
     public String getVersion() {
@@ -126,6 +137,7 @@ public class ExtensionData extends AbstractData implements Serializable {
     public void setInstall(boolean install) {
         this.install = install;
     }
+
 
     @Override
     public boolean equals(Object o) {

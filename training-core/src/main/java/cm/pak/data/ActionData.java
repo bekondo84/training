@@ -8,6 +8,7 @@ public class ActionData implements Serializable {
     private String component ;
     private String method ;
     private String icon;
+    private String scope ;
 
 
     public ActionData() {
@@ -51,5 +52,13 @@ public class ActionData implements Serializable {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
     }
 }

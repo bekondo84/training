@@ -1,8 +1,8 @@
-package cm.pak.training.populators;
+package cm.pak.training.populators.security;
 
 import cm.pak.models.security.UserModel;
 import cm.pak.populators.Populator;
-import cm.pak.training.beans.UserData;
+import cm.pak.training.beans.security.UserData;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,10 +13,13 @@ public class UserPopulator implements Populator<UserModel, UserData> {
         final UserData data = new UserData();
 
         data.setPk(source.getPk());
-        data.setUpdateOn(source.getCreate());
-        data.setUpdateOn(source.getUpdate());
+        data.setCreate(source.getCreate());
+        data.setUpdate(source.getUpdate());
         data.setCategory(source.getCategorie());
-
+        data.setCode(source.getCode());
+        data.setGenre(source.getGenre());
+        data.setName(source.getName());
+        data.setValue(source.getName());
         return data;
     }
 
@@ -27,6 +30,9 @@ public class UserPopulator implements Populator<UserModel, UserData> {
         model.setCategorie(source.getCategory());
         model.setCode(source.getCode());
         model.setGenre(source.getGenre());
+        model.setUpdate(source.getUpdate());
+        model.setName(source.getName());
+        model.setCreate(source.getCreate());
         return model;
     }
 }

@@ -42,7 +42,14 @@ var home = Vue.component("t-home", {
            }catch(error){
              console.log(error);
            }
-       }
+       },async createdAction(data) {
+          this.data = data;
+          this.container = this.menu.viewComponent ;
+       },async onCancelEvent() {
+           let response = await axios.get(this.menu.source);
+           this.data = response.data;
+           this.container = this.menu.listComponent;
+        }
    },async mounted() {
        try {
           let response = await axios.get("/api/v1/plugins");
@@ -66,7 +73,10 @@ var home = Vue.component("t-home", {
                             :menu="menu"
                             :data="data"
                             :meta="meta"
-                            @item-selected="itemSelected"></component>
+                            @item-selected="itemSelected"
+                            @created-action="createdAction"
+                            @form-cancel-event="onCancelEvent"
+                            @refresh-list-form="onCancelEvent"></component>
                    </main>
              </div>`
 });

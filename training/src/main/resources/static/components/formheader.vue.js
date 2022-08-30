@@ -5,47 +5,57 @@ var formHeader = Vue.component("f-header", {
 
         }
      }, computed : {
-         title() { return this.data.formTitle}
+         title() { return this.meta != null ? this.meta.formTitle : ""; },
+         creatable() { return this.meta.creatable || this.data.pk >0 && this.meta.updatable ;},
+         deletable() { return this.meta.deletable ;},
+         actions() {
+                 return this.menu.actions != null ? this.menu.actions.filter(act => act.scope=="view") : [] ;
+            }
      }, methods : {
-         async save() {
+         async remove() {
+            try {
+              await axios.delete(this.menu.source.concat("/").concat(this.data.pk));
+              this.$emit("refresh-list-form");
+            } catch (error) {
+              console.log(error);
+            }
+         },async save() {
            try {
               let response = await axios.post(this.menu.source, this.data);
             }catch (error) {
                console.log(error);
             }
-         }
-     },template: ` <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                      <!-- Container wrapper -->
-                      <div class="container-fluid">
-                       <!-- Collapsible wrapper -->
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                          <!-- Left links -->
-                          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                              <a class="nav-link"  href="#" @click="save()">Enregistrer</a>
-                            </li>
-                            <li class="nav-item">
-                              <a class="nav-link" href="#">Supprimer</a>
-                            </li>
-                           <li class="nav-item dropdown">
-                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                   Dropdown
-                                 </a>
-                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                   <li><a class="dropdown-item" href="#">Action</a></li>
-                                   <li><a class="dropdown-item" href="#">Another action</a></li>
-                                   <li><hr class="dropdown-divider"></li>
-                                   <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                 </ul>
-                            </li>
-                             <li class="nav-item">
-                               <a class="nav-link" href="#">Quitter</a>
+         },cancel() {
+            this.$emit("form-cancel-event");
+         },processAction(action) {
+
+        }
+     },template: ` <div>
+                 <div class="title-bar">
+                     <div><p><p>{{title}}</p></p></div>
+                     <div class="input-group margin-left-auto width-350"></div>
+                </div>
+                  <div class="title-bar">
+                     <ul class="nav">
+                       <li class="nav-item" v-if="creatable">
+                         <a class="nav-link link-primary" aria-current="page" href="#" @click="save()">Enregistrer</a>
+                       </li>
+                       <li class="nav-item" v-if="deletable">
+                        <a class="nav-link link-danger" aria-current="page" href="#" @click="remove()">Supprimer</a>
+                       </li>
+                       <li class="nav-item dropdown"  v-if="actions.length > 0">
+                           <a class="nav-link link-secondary dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Autres:</a>
+                           <ul class="dropdown-menu">
+                             <li v-for="action in actions">
+                                <a class="dropdown-item" href="#" @click="processAction(action)">{{action.label}}</a>
                              </li>
-                          </ul>
-                          <!-- Left links -->
-                        </div>
-                        <!-- Collapsible wrapper -->
-                      </div>
-                      <!-- Container wrapper -->
-                </nav>`
+                           </ul>
+                         </li>
+                         <li class="nav-item">
+                            <a class="nav-link link-secondary" aria-current="page" href="#" @click="cancel()">Quitter</a>
+                         </li>
+                     </ul>
+                     <div class="margin-left-auto"></div>
+                  </div>
+                </div>`
 });

@@ -6,12 +6,24 @@ import java.util.List;
 
 public class MetaData implements Serializable {
     private String name ;
-    private List<GroupData> groups ;
-    private List<FieldData> columns ;
+    private boolean creatable ;
+    private boolean updatable;
+    private boolean deletable ;
+    protected String listTitle ;
+    protected String formTitle ;
+    protected String searchKey ;
+    protected String label ;
+    protected List<GroupData> groups ;
+    protected List<FieldData> columns ;
+
 
     public MetaData() {
         groups = new ArrayList<>();
         columns = new ArrayList<>();
+        this.creatable = true;
+        this.updatable = true ;
+        this.deletable = true ;
+        this.searchKey = "pk";
     }
 
     public List<GroupData> getGroups() {
@@ -46,10 +58,59 @@ public class MetaData implements Serializable {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "MetaData{" +
-                "groups=" + groups +
-                '}';
+    public boolean isCreatable() {
+        return creatable;
+    }
+
+    public void setCreatable(boolean creatable) {
+        this.creatable = creatable;
+    }
+
+    public boolean isUpdatable() {
+        return updatable;
+    }
+
+    public void setUpdatable(boolean updatable) {
+        this.updatable = updatable;
+    }
+
+    public boolean isDeletable() {
+        return deletable;
+    }
+
+    public void setDeletable(boolean deletable) {
+        this.deletable = deletable;
+    }
+
+    public String getListTitle() {
+        return listTitle;
+    }
+
+    public void setListTitle(String listTitle) {
+        this.listTitle = listTitle;
+    }
+
+    public String getFormTitle() {
+        return formTitle;
+    }
+
+    public void setFormTitle(String formTitle) {
+        this.formTitle = formTitle;
+    }
+
+    public String getSearchKey() {
+        return searchKey;
+    }
+
+    public void setSearchKey(String searchKey) {
+        this.searchKey = searchKey;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

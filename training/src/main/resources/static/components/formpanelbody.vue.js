@@ -2,7 +2,10 @@ var formbody = Vue.component("f-body", {
     props : ["meta", "data"],
     data() {
        return {
-          tab : null
+          tab : null ,
+          context : new Object(),
+          value : "",
+          values : ["Monda","Wenesda","Frida"]
        }
     },methods : {
         isInputField(field) {
@@ -16,28 +19,50 @@ var formbody = Vue.component("f-body", {
          },
          isDateField(field) {
             return field.type =="date";
+         },isDisabled(field) {
+             return !field.editable || !field.updatable && this.data.pk >0 && this.data[field.name] != null ;
+         },isManyToOneField(field) {
+            return field.type =="many-to-one";
+         },isOneToManyField(field) {
+              return field.type =="one-to-many";
+           },async initField(field) {
+           try{
+                let response = await axios.get(field.source);
+                this.context[field.name]  = response.data ;
+            } catch( error ) {
+               console.log(error);
+            }
          }
     },created() {
-       //console.log(" !!!!!!!!!!!!!!!!!!!!!! "+JSON.stringify(this.data));
+       //this.context = new Object();
+       this.context['plugin'] = [];
+
     },template:  `<v-tabs v-model="tab">
                        <v-tab v-for="tab of meta.groups" :key="tab.name">{{tab.label}}</v-tab>
                        <v-tab-item  v-for="tab in meta.groups" :key="tab.name">
                            <v-container style="border-bottom:0">
                              <v-row style="margin-left:30px;" v-if="tab.fields.length > 1">
                                 <v-col col="12" md="5" v-for="field in tab.fields">
-                                    <v-text-field  v-if="isInputField(field)"
-                                     :label="field.label"
-                                     v-model="data[field.name]"
-                                     :type="field.type"></v-text-field>
+                                   <t-text-field  v-if="isInputField(field)"
+                                     :field="field"
+                                     :data="data"></t-text-field>
                                      <v-textarea v-if="isTextareaField(field)"
                                            :autocomplete="field.label"
                                            :label="field.label"
                                            v-model="data[field.name]"
-                                         ></v-textarea>
-                                     <v-checkbox v-if="isCheckboxField(field)"
-                                           v-model="data[field.name]"
-                                           :label="field.label"
-                                         ></v-checkbox>
+                                           :disabled="isDisabled(field)"></v-textarea>
+                                     <t-checkbox v-if="isCheckboxField(field)"
+                                           :data="data"
+                                           :field="field"></t-checkbox>
+                                     <t-manytoone v-if="isManyToOneField(field)"
+                                         v-model="data[field.name]"
+                                         :field="field"
+                                         :data="data"
+                                         :disabled="isDisabled(field)"
+                                         ></t-manytoone>
+                                      <v-onetomany v-if="isOneToManyField(field)"
+                                          :field="field"
+                                          :data="data"></v-onetomany>
                                 </v-col>
                              </v-row>
                              <v-row v-else>
@@ -45,12 +70,15 @@ var formbody = Vue.component("f-body", {
                                      <v-text-field  v-if="isInputField(field)"
                                       :label="field.label"
                                       v-model="data[field.name]"
-                                      :type="field.type"></v-text-field>
+                                      :type="field.type"
+                                      :disabled="isDisabled(field)"></v-text-field>
                                       <v-textarea v-if="isTextareaField(field)"
                                             :autocomplete="field.label"
                                             :label="field.label"
-                                            v-model="data[field.name]"
-                                          ></v-textarea>
+                                            v-model="data[field.name]"></v-textarea>
+                                      <v-onetomany v-if="isOneToManyField(field)"
+                                             :field="field"
+                                             :data="data"></v-onetomany>
                                  </v-col>
                              </v-row>
                            </v-container>
