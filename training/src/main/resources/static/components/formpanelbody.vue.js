@@ -9,7 +9,8 @@ var formbody = Vue.component("f-body", {
        }
     },methods : {
         isInputField(field) {
-              return field.type == "text" || field.type=="number" ;
+              return field.type == "text" || field.type=="number"
+                 || field.type=="file" || field.type =="date" ;
          },
          isTextareaField(field) {
                return field.type == "textarea";
@@ -21,11 +22,15 @@ var formbody = Vue.component("f-body", {
             return field.type =="date";
          },isDisabled(field) {
              return !field.editable || !field.updatable && this.data.pk >0 && this.data[field.name] != null ;
+         },isSelect(field) {
+            return field.type == "select";
          },isManyToOneField(field) {
             return field.type =="many-to-one";
          },isOneToManyField(field) {
               return field.type =="one-to-many";
-           },async initField(field) {
+           },isManyToManyField(field) {
+                          return field.type =="many-to-many";
+                       },async initField(field) {
            try{
                 let response = await axios.get(field.source);
                 this.context[field.name]  = response.data ;
@@ -63,6 +68,12 @@ var formbody = Vue.component("f-body", {
                                       <v-onetomany v-if="isOneToManyField(field)"
                                           :field="field"
                                           :data="data"></v-onetomany>
+                                      <v-manytomany v-if="isManyToManyField(field)"
+                                          :field="field"
+                                          :data="data"></v-manytomany>
+                                      <v-select v-if="isSelect(field)"
+                                              :field="field"
+                                              :data="data"></v-select>
                                 </v-col>
                              </v-row>
                              <v-row v-else>
@@ -79,6 +90,9 @@ var formbody = Vue.component("f-body", {
                                       <v-onetomany v-if="isOneToManyField(field)"
                                              :field="field"
                                              :data="data"></v-onetomany>
+                                      <v-manytomany v-if="isManyToManyField(field)"
+                                            :field="field"
+                                            :data="data"></v-manytomany>
                                  </v-col>
                              </v-row>
                            </v-container>

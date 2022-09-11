@@ -4,6 +4,10 @@ import cm.pak.models.security.base.ItemModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "T_USER")
@@ -24,12 +28,13 @@ public class UserModel extends ItemModel implements Serializable {
     @Column(name = "t_pwd")
     private String password ;
 
-    @ManyToOne
-    @JoinColumn(name = "group_id")
-    private GroupeModel groupeModel;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "t_user_grou", joinColumns = @JoinColumn(name = "t_user"), inverseJoinColumns = @JoinColumn(name = "t_grou"))
+    private Set<GroupeModel> profils;
 
     public UserModel() {
         super();
+        profils = new HashSet<>();
     }
 
     public String getCode() {
@@ -72,11 +77,14 @@ public class UserModel extends ItemModel implements Serializable {
         this.password = password;
     }
 
-    public GroupeModel getGroupe() {
-        return groupeModel;
+    public Set<GroupeModel> getProfils() {
+        return profils;
     }
 
-    public void setGroupe(GroupeModel groupeModel) {
-        this.groupeModel = groupeModel;
+    public void setProfils(Set<GroupeModel> profils) {
+        this.profils = profils;
+    }
+    public void addProfil(final GroupeModel profil) {
+         profils.add(profil);
     }
 }

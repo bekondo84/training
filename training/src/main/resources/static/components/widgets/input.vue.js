@@ -9,7 +9,7 @@ var input = Vue.component("t-text-field", {
            id() { return this.field.name ;},
            disabled() { return !this.field.editable || !this.field.updatable && this.data.pk >0 && this.data[this.field.name] != null ;},
            type() {
-              return "text";
+              return this.field.type;
            },
            isNotNull() { return this.field == null || this.field == undefined }
         },created() {

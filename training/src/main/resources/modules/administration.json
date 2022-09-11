@@ -36,23 +36,7 @@
           "source": "/api/v1/plugins",
           "viewMode": "list,view",
           "children" :null,
-          "actions" : [
-            {
-              "name": "module.create",
-              "label": "action.create",
-              "component" : "/plugins/create",
-              "method": "get",
-              "icon": null,
-              "scope" : "view"
-            },{
-              "name": "module.delete",
-              "label": "action.delete",
-              "component" : "/plugins/delete",
-              "method": "delete",
-              "icon": null,
-              "scope" : "list"
-            }
-          ]
+          "actions" : null
       }]
     },
     {

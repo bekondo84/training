@@ -8,7 +8,6 @@ import cm.pak.models.security.GroupeModel;
 import cm.pak.repositories.FlexibleSearch;
 import cm.pak.repositories.ModelService;
 import cm.pak.services.JsonService;
-import cm.pak.training.beans.core.ExtensionData;
 import cm.pak.training.beans.security.GroupeData;
 import cm.pak.training.facades.security.GroupeFacade;
 import cm.pak.training.populators.security.GroupePopulaor;
@@ -42,13 +41,13 @@ public class DefaultGroupeFacade implements GroupeFacade {
     @Override
     public List<GroupeData> getGroupes() {
         final List<GroupeModel> groupes = flexibleSearch.find("SELECT c FROM GroupeModel AS c");
-        return groupes.stream().map(gr ->populator.popule(gr)).collect(Collectors.toList());
+        return groupes.stream().map(gr ->populator.populate(gr)).collect(Collectors.toList());
     }
 
     @Override
     public GroupeData geGroupe(Long pk) {
         final GroupeModel grp = modelService.find(GroupeModel.class, pk);
-        return populator.popule(grp);
+        return populator.populate(grp);
     }
 
     @Override

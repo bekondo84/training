@@ -12,17 +12,11 @@ import java.util.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @GlobalConfig(creatable = false,updatable = false,deletable = false)
-@Groups({@Group(name ="admin", label = "admin.group", sequence = 100),
+@Groups({
         @Group(name = "general", label ="general.group", sequence = 1),
         @Group(name = "description", label = "description.group", sequence = 2)})
 @SearchKey(value = "pk", label = "code")
 public class ExtensionData extends AbstractData implements Serializable {
-    @Widget(value = "number", group = "admin", editable = false)
-    private Long pk ;
-    @Widget(value = "date", group = "admin" ,editable = false)
-    private Date create;
-    @Widget(value = "date", group = "admin", editable = false)
-    private Date update;
     @Widget(value = "text", group = "general", column = true)
     private String code ;
     @Widget(value = "text", group = "general", column = true)
@@ -56,22 +50,6 @@ public class ExtensionData extends AbstractData implements Serializable {
 
     public void setPk(Long pk) {
         this.pk = pk;
-    }
-
-    public Date getCreate() {
-        return create;
-    }
-
-    public void setCreate(Date create) {
-        this.create = create;
-    }
-
-    public Date getUpdate() {
-        return update;
-    }
-
-    public void setUpdate(Date update) {
-        this.update = update;
     }
 
     public String getCode() {

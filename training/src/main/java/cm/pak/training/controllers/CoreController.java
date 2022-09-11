@@ -10,20 +10,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.NoResultException;
-import java.io.IOException;
-import java.net.URISyntaxException;
+import java.util.Locale;
 
 @Controller
 @RequestMapping
-public class TrainingController extends AbstractController{
-    private static final Logger LOG = LoggerFactory.getLogger(TrainingController.class);
+public class CoreController extends AbstractController{
+    private static final Logger LOG = LoggerFactory.getLogger(CoreController.class);
 
     @Autowired
     private ExtensionFacade extensionFacade;

@@ -2,7 +2,6 @@ package cm.pak.training.populators.security;
 
 import cm.pak.models.security.GroupeModel;
 import cm.pak.populators.Populator;
-import cm.pak.repositories.FlexibleSearch;
 import cm.pak.repositories.ModelService;
 import cm.pak.training.beans.security.GroupeData;
 import cm.pak.training.populators.core.ExtensionPopulator;
@@ -23,19 +22,17 @@ public class GroupePopulaor implements Populator<GroupeModel, GroupeData> {
     private AccesRigthDataPopulator rigthPopulator;
 
     @Override
-    public GroupeData popule(GroupeModel source) {
+    public GroupeData populate(GroupeModel source) {
         final GroupeData groupe = new GroupeData();
-        groupe.setPk(source.getPk());
-        groupe.setCreate(source.getCreate());
-        groupe.setUpdate(source.getUpdate());
+        populate(source, groupe);
         groupe.setCode(source.getCode());
         groupe.setIntitule(source.getIntitule());
         groupe.setValue(source.getIntitule());
         if (Objects.nonNull(source.getPlugin())) {
-            groupe.setPlugin(populator.popule(source.getPlugin()));
+            groupe.setPlugin(populator.populate(source.getPlugin()));
         }
         if (!CollectionUtils.isEmpty(source.getRigths())) {
-             source.getRigths().forEach(rg -> groupe.addRigth(rigthPopulator.popule(rg)));
+             source.getRigths().forEach(rg -> groupe.addRigth(rigthPopulator.populate(rg)));
         }
         return groupe;
     }
@@ -43,7 +40,7 @@ public class GroupePopulaor implements Populator<GroupeModel, GroupeData> {
     @Override
     public GroupeModel revert(GroupeData source) {
         GroupeModel model = new GroupeModel();
-
+        revert(source, model);
         if (Objects.nonNull(source.getPk())) {
             model = modelService.find(GroupeModel.class, source.getPk());
         }

@@ -16,13 +16,11 @@ public class ExtensionPopulator implements Populator<ExtensionModel, ExtensionDa
     private ModelService modelService;
 
     @Override
-    public ExtensionData popule(ExtensionModel source) {
+    public ExtensionData populate(ExtensionModel source) {
         final  ExtensionData data = new ExtensionData();
-        data.setPk(source.getPk());
+        populate(source, data);
         data.setCode(source.getCode());
         data.setOwner(source.getOwner());
-        data.setCreate(source.getCreate());
-        data.setUpdate(source.getUpdate());
         data.setVersion(source.getVersion());
         data.setLongDescription(source.getLongDescription());
         data.setShortDescription(source.getShortDescription());
@@ -35,6 +33,7 @@ public class ExtensionPopulator implements Populator<ExtensionModel, ExtensionDa
     @Override
     public ExtensionModel revert(ExtensionData source) {
         final  ExtensionModel data = modelService.find(ExtensionModel.class, source.getPk());
+        revert(source, data);
         data.setOwner(source.getOwner());
         data.setCode(source.getCode());
         data.setOwner(source.getOwner());

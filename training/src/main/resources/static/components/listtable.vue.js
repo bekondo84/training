@@ -11,8 +11,8 @@ var listtable = Vue.component("l-table", {
                       this.datas[i].selected = !this.datas[i].selected ;
                   }
               }
-          },itemSelected(item) {
-              this.$emit("item-selected", {"item" :item, "viewMode":"view"});
+          },itemSelected(item, viewMode) {
+              this.$emit("item-selected", {"item" :item, "viewMode":viewMode});
           }
       },computed : {
           columns() {
@@ -27,7 +27,7 @@ var listtable = Vue.component("l-table", {
                                   </thead>
                                   <tbody>
                                       <tr class="clickable-row" v-for="data of datas">
-                                          <td v-for="col of columns" v-on:dblclick="itemSelected(data)">
+                                          <td v-for="col of columns" v-on:dblclick="itemSelected(data, 'view')"  v-on:click="itemSelected(data, 'list')">
                                               <span v-if="col.type == 'many-to-one' && data[col.name] != null">{{data[col.name].value}}</span>
                                               <span class="form-check form-switch" v-else-if="col.type == 'checkbox'">
                                                 <input class="form-check-input" type="checkbox" v-model="data[col.name]" :checked="data[col.name]" disabled>

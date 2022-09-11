@@ -13,6 +13,7 @@ public class FieldData implements Serializable {
     private String type ;
     private boolean editable ;
     private boolean updatable ;
+    private boolean deletable ;
     private String metadata ;
     private String source;
     private Set<SelectItemData> selectItems ;
@@ -105,5 +106,13 @@ public class FieldData implements Serializable {
 
     public void addSelectItem(final SelectItemData item) {
           selectItems.add(item);
+    }
+
+    public boolean isDeletable() {
+        return deletable;
+    }
+
+    public void setDeletable(boolean deletable) {
+        this.deletable = deletable;
     }
 }

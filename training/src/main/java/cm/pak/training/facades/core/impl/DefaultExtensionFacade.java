@@ -13,14 +13,16 @@ import cm.pak.training.populators.core.ExtensionPopulator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Component
@@ -34,12 +36,13 @@ public class DefaultExtensionFacade implements ExtensionFacade {
     private ExtensionPopulator populator ;
     @Autowired
     private ModelService modelService;
+    @Autowired
+    private MessageSource messageSource;
 
     @Override
     public ExtensionData getExtension(Long pk) throws URISyntaxException, IOException {
-        final ExtensionData data = populator.popule(extensionService.get(pk));
+        final ExtensionData data = populator.populate(extensionService.get(pk));
         data.setMenus(getActions(data));
-        LOG.info(String.format("*******************  Data : %s", data));
         return data;
     }
 
@@ -53,7 +56,7 @@ public class DefaultExtensionFacade implements ExtensionFacade {
             }
         });
         final List<ExtensionData> extensionss = extensions.stream()
-                .map(data -> populator.popule(data))
+                .map(data -> populator.populate(data))
                 .collect(Collectors.toList());
 
         for (ExtensionData ext : extensionss ) {
@@ -70,6 +73,9 @@ public class DefaultExtensionFacade implements ExtensionFacade {
     @Override
     public List<MenuData> getActions(String name) throws URISyntaxException, IOException {
         final ModuleData module = jsonService.getModule(name) ;
+        if (!CollectionUtils.isEmpty(module.getMenus())) {
+            module.getMenus().forEach(m -> translate(m));
+        }
         return module.getMenus().stream().sorted(new Comparator<MenuData>() {
             @Override
             public int compare(MenuData o1, MenuData o2) {
@@ -78,10 +84,21 @@ public class DefaultExtensionFacade implements ExtensionFacade {
         }) .collect(Collectors.toList());
     }
 
+    private void translate(final MenuData menu) {
+        Locale locale = Locale.getDefault();
+        menu.setLabel(messageSource.getMessage(menu.getLabel(), null, menu.getLabel(), locale));
+        if (!CollectionUtils.isEmpty(menu.getChildren())) {
+           menu.getChildren().forEach(m -> translate(m));
+        }
+        if (!CollectionUtils.isEmpty(menu.getActions())) {
+            menu.getActions().forEach(a -> a.setLabel(messageSource.getMessage(a.getLabel(), null, a.getLabel(), locale)));
+        }
+    }
+
     @Override
     public List<ExtensionData> getExtensions() {
         return extensionService.getExtensions().stream()
-                .map(ext -> populator.popule(ext))
+                .map(ext -> populator.populate(ext))
                 .collect(Collectors.toList());
     }
 

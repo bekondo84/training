@@ -6,18 +6,21 @@ var formHeader = Vue.component("f-header", {
         }
      }, computed : {
          title() { return this.meta != null ? this.meta.formTitle : ""; },
-         creatable() { return this.meta.creatable || this.data.pk >0 && this.meta.updatable ;},
-         deletable() { return this.meta.deletable ;},
+         creatable() { return this.meta!= null && this.meta.creatable || this.data !=null && this.data.pk >0 && this.meta!= null && this.meta.updatable ;},
+         deletable() { return this.meta!= null && this.meta.deletable && this.data !=null &&  this.data.pk != null ;},
          actions() {
-                 return this.menu.actions != null ? this.menu.actions.filter(act => act.scope=="view") : [] ;
+                 return this.meta !=null && this.menu.actions != null ? this.menu.actions.filter(act => act.type=="view") : [] ;
             }
      }, methods : {
          async remove() {
-            try {
-              await axios.delete(this.menu.source.concat("/").concat(this.data.pk));
-              this.$emit("refresh-list-form");
-            } catch (error) {
-              console.log(error);
+            var answer = confirm("Voulez-vous continuer ?");
+            if (answer) {
+                try {
+                  await axios.delete(this.menu.source.concat("/").concat(this.data.pk));
+                  this.$emit("refresh-list-form");
+                } catch (error) {
+                  console.log(error);
+                }
             }
          },async save() {
            try {
@@ -26,9 +29,10 @@ var formHeader = Vue.component("f-header", {
                console.log(error);
             }
          },cancel() {
-            this.$emit("form-cancel-event");
+            this.$emit("cancel-event");
          },processAction(action) {
-
+            var copy = Object.assign({}, action);
+            this.$emit("process-action", copy);
         }
      },template: ` <div>
                  <div class="title-bar">

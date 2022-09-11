@@ -1,4 +1,10 @@
 -------------------------------------------------------------------------------
 Test set: cm.pak.services.impl.DefaultJsonServiceTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in cm.pak.services.impl.DefaultJsonServiceTest
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.001 s <<< FAILURE! - in cm.pak.services.impl.DefaultJsonServiceTest
+getModule(cm.pak.services.impl.DefaultJsonServiceTest)  Time elapsed: 0 s  <<< ERROR!
+com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: 
+Unrecognized field "path" (class cm.pak.data.MenuData), not marked as ignorable (10 known properties: "label", "viewComponent", "name", "actions", "order", "listComponent", "viewMode", "source", "metadata", "children"])
+ at [Source: (File); line: 14, column: 16] (through reference chain: cm.pak.data.ModuleData["menus"]->java.util.HashSet[0]->cm.pak.data.MenuData["path"])
+	at cm.pak.services.impl.DefaultJsonServiceTest.getModule(DefaultJsonServiceTest.java:41)
+

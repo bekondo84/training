@@ -13,25 +13,18 @@ import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Groups({
-        @Group(name = "admin", sequence = 100, label = "admin.group"),
         @Group(name = "general", sequence = 1, label = "general.group"),
         @Group(name = "profil", sequence = 2, label = "profil.group")
 })
 @SearchKey(label = "intitule", value = "code")
 public class GroupeData extends AbstractData implements Serializable {
-    @Widget(value = "number", group = "admin", editable = false)
-    private Long pk ;
-    @Widget(value = "date", group = "admin", editable = false)
-    private Date create ;
-    @Widget(value = "date", group = "admin", editable = false)
-    private Date update ;
     @Widget(value = "text", group = "general", column = true)
     private String code ;
     @Widget(value = "text", group = "general", column = true)
     private String intitule;
     @Manytoone(updatable = false, group = "general", source = "/api/v1/plugins", column = true)
     private ExtensionData plugin ;
-    @Onetomany(group = "profil", source = "/api/v1/plugins")
+    @Onetomany(group = "profil", editable = false, deletable = false , source = "/api/v1/plugins")
     private Set<AccesRigthData> rigths ;
 
     public GroupeData() {
@@ -66,22 +59,6 @@ public class GroupeData extends AbstractData implements Serializable {
 
     public void setPk(Long pk) {
         this.pk = pk;
-    }
-
-    public Date getCreate() {
-        return create;
-    }
-
-    public void setCreate(Date create) {
-        this.create = create;
-    }
-
-    public Date getUpdate() {
-        return update;
-    }
-
-    public void setUpdate(Date update) {
-        this.update = update;
     }
 
     public ExtensionData getPlugin() {

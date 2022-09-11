@@ -1,8 +1,8 @@
 var l_header = Vue.component("l-header", {
-     props: ["menu", "meta"],
+     props: ["menu", "meta", "backbtn"],
      data() {
          return {
-
+            selectItem : null
          }
      },methods: {
         async  createAction() {
@@ -12,12 +12,15 @@ var l_header = Vue.component("l-header", {
            }catch (error) {
              console.log(error);
            }
+         },cancel() {
+           this.$emit("cancel-event");
          },processAction(action) {
+            this.$emit("process-action", action);
          }
      },computed :{
          creatable() { return this.meta != null ? this.meta.creatable : false ;},
          actions() {
-             return this.menu.actions != null ? this.menu.actions.filter(act => act.scope=="list") : [];
+             return this.menu.actions != null ? this.menu.actions.filter(act => act.type=="list") : [];
          },title() { return this.meta != null ? this.meta.listTitle : ""; },
      },template : `<div>
       <div class="title-bar">
@@ -29,10 +32,13 @@ var l_header = Vue.component("l-header", {
      </div>
        <div class="title-bar">
           <ul class="nav">
-            <li class="nav-item" v-if="creatable">
+            <li class="nav-item nav-item-button-margin-rigth" v-if="backbtn">
+              <a class="btn btn-secondary btn-sm" aria-current="page" href="#" @click="cancel()">Quitter</a>
+            </li>
+            <li class="nav-item  nav-item-button-margin-rigth" v-if="creatable">
               <a class="btn btn-danger btn-sm" aria-current="page" href="#" @click="createAction()">Créer</a>
             </li>
-            <li class="nav-item dropdown" v-if="actions.length > 0">
+            <li class="nav-item  nav-item-button-margin-rigth dropdown" v-if="actions.length > 0">
                 <a class="nav-link link-secondary dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Autres:</a>
                 <ul class="dropdown-menu">
                   <li v-for="action in actions">

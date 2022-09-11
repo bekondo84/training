@@ -12,20 +12,12 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Groups({
         @Group(name = "general", label = "general.group"),
-        @Group(name = "admin", label = "admin.group", sequence = 05),
         @Group(name = "security", label = "security.group", sequence = 2)
 })
 @SearchKey(value = "code", label = "code")
 public class UserData extends AbstractData implements Serializable {
-
-    @Widget(value = "number", group = "admin")
-    private Long pk ;
-    @Widget(value = "date", group = "admin")
-    private Date create ;
     @Widget(value = "text", column = true, group = "general")
     private String code ;
-    @Widget(value = "date", group = "admin")
-    private Date update ;
     @Widget(value = "text", column = true, group = "general")
     private String name ;
     @Select(column = true, group = "general", value = {
@@ -56,22 +48,6 @@ public class UserData extends AbstractData implements Serializable {
 
     public void setPk(Long pk) {
         this.pk = pk;
-    }
-
-    public Date getCreate() {
-        return create;
-    }
-
-    public void setCreate(Date create) {
-        this.create = create;
-    }
-
-    public Date getUpdate() {
-        return update;
-    }
-
-    public void setUpdate(Date update) {
-        this.update = update;
     }
 
     public String getName() {

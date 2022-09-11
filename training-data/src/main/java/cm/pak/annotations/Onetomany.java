@@ -12,6 +12,7 @@ public @interface Onetomany {
     String group() ;
     boolean editable() default true ;
     boolean updatable() default true;
+    boolean deletable() default true;
     String  metadata() default "" ;
     String source() default "";
 }

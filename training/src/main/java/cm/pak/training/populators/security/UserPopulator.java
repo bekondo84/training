@@ -9,12 +9,9 @@ import org.springframework.stereotype.Component;
 public class UserPopulator implements Populator<UserModel, UserData> {
 
     @Override
-    public UserData popule(UserModel source) {
+    public UserData populate(UserModel source) {
         final UserData data = new UserData();
-
-        data.setPk(source.getPk());
-        data.setCreate(source.getCreate());
-        data.setUpdate(source.getUpdate());
+        populate(source, data);
         data.setCategory(source.getCategorie());
         data.setCode(source.getCode());
         data.setGenre(source.getGenre());
@@ -26,13 +23,11 @@ public class UserPopulator implements Populator<UserModel, UserData> {
     @Override
     public UserModel revert(UserData source) {
         final UserModel model = new UserModel();
-        model.setPk(source.getPk());
+        revert(source, model);
         model.setCategorie(source.getCategory());
         model.setCode(source.getCode());
         model.setGenre(source.getGenre());
-        model.setUpdate(source.getUpdate());
         model.setName(source.getName());
-        model.setCreate(source.getCreate());
         return model;
     }
 }

@@ -1,4 +1,28 @@
 -------------------------------------------------------------------------------
 Test set: cm.pak.services.impl.DefaultExtensionServiceTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.401 s - in cm.pak.services.impl.DefaultExtensionServiceTest
+Tests run: 4, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 8.439 s <<< FAILURE! - in cm.pak.services.impl.DefaultExtensionServiceTest
+installModule(cm.pak.services.impl.DefaultExtensionServiceTest)  Time elapsed: 0.306 s  <<< ERROR!
+com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: 
+Unrecognized field "path" (class cm.pak.data.MenuData), not marked as ignorable (10 known properties: "label", "viewComponent", "name", "actions", "order", "listComponent", "viewMode", "source", "metadata", "children"])
+ at [Source: (File); line: 14, column: 16] (through reference chain: cm.pak.data.ModuleData["menus"]->java.util.HashSet[0]->cm.pak.data.MenuData["path"])
+	at cm.pak.services.impl.DefaultExtensionServiceTest.setUp(DefaultExtensionServiceTest.java:40)
+
+uninstallModule(cm.pak.services.impl.DefaultExtensionServiceTest)  Time elapsed: 0.073 s  <<< ERROR!
+com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: 
+Unrecognized field "path" (class cm.pak.data.MenuData), not marked as ignorable (10 known properties: "label", "viewComponent", "name", "actions", "order", "listComponent", "viewMode", "source", "metadata", "children"])
+ at [Source: (File); line: 14, column: 16] (through reference chain: cm.pak.data.ModuleData["menus"]->java.util.HashSet[0]->cm.pak.data.MenuData["path"])
+	at cm.pak.services.impl.DefaultExtensionServiceTest.setUp(DefaultExtensionServiceTest.java:40)
+
+get(cm.pak.services.impl.DefaultExtensionServiceTest)  Time elapsed: 0.032 s  <<< ERROR!
+com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: 
+Unrecognized field "path" (class cm.pak.data.MenuData), not marked as ignorable (10 known properties: "label", "viewComponent", "name", "actions", "order", "listComponent", "viewMode", "source", "metadata", "children"])
+ at [Source: (File); line: 14, column: 16] (through reference chain: cm.pak.data.ModuleData["menus"]->java.util.HashSet[0]->cm.pak.data.MenuData["path"])
+	at cm.pak.services.impl.DefaultExtensionServiceTest.setUp(DefaultExtensionServiceTest.java:40)
+
+createAdminExtension(cm.pak.services.impl.DefaultExtensionServiceTest)  Time elapsed: 0.022 s  <<< ERROR!
+com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: 
+Unrecognized field "path" (class cm.pak.data.MenuData), not marked as ignorable (10 known properties: "label", "viewComponent", "name", "actions", "order", "listComponent", "viewMode", "source", "metadata", "children"])
+ at [Source: (File); line: 14, column: 16] (through reference chain: cm.pak.data.ModuleData["menus"]->java.util.HashSet[0]->cm.pak.data.MenuData["path"])
+	at cm.pak.services.impl.DefaultExtensionServiceTest.setUp(DefaultExtensionServiceTest.java:40)
+

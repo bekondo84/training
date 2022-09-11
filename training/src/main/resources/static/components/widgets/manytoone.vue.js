@@ -17,7 +17,7 @@ var manytoone = Vue.component("t-manytoone", {
          },value() {
             if (this.meta != null && this.field != null && this.data != null) {
                  if (this.data[this.field.name] != null) {
-                    return this.data[this.field.name][this.meta.label];
+                    return this.data[this.field.name].value;
                  }
              }
              return "";

@@ -5,9 +5,18 @@ var dialogtable = Vue.component("d-table", {
             datas:  []
          }
       },methods : {
-         itemSelected(item) {
-              if (this.data != null) {
-                  this.data[this.field.name] = item;
+        isDataArray() {
+            return Array.isArray(this.data[this.field.name]) ;
+         },itemSelected(item) {
+            this.isDataArray();
+             if (this.data != null) {
+                 if (this.isDataArray()) {
+                    if (!this.data[this.field.name].map(i => i.pk).includes(item.pk)) {
+                      this.data[this.field.name].push(item);
+                    }
+                 } else {
+                   this.data[this.field.name] = item;
+                 }
                   var modalEl = document.getElementById(this.id);
                   var modal = bootstrap.Modal.getInstance(modalEl)
                   modal.hide();
@@ -25,8 +34,7 @@ var dialogtable = Vue.component("d-table", {
          } catch(error) {
              console.log(error);
          }
-      },template: `<div style="border: solid 1px green; ">
-                     <div  style="border: solid 1px yellow; ">Tool bar header</div>
+      },template: `<div>
                      <div class="table-responsive">
                               <table class="table table-striped table-hover table-sm">
                                   <thead>

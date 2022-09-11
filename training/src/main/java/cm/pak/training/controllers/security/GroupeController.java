@@ -41,6 +41,7 @@ public class GroupeController extends AbstractController {
     public ResponseEntity<GroupeData> getInstace() {
         return ResponseEntity.ok(new GroupeData());
     }
+
     @PostMapping
     public ResponseEntity<GroupeData> save(@RequestBody GroupeData grp) throws ModelServiceException, URISyntaxException, IOException {
         facade.save(grp);

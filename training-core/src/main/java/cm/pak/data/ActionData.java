@@ -5,10 +5,14 @@ import java.io.Serializable;
 public class ActionData implements Serializable {
     private String name ;
     private String label ;
-    private String component ;
+    private String source ;
+    private String listComponent;
+    private String viewComponent;
     private String method ;
     private String icon;
     private String scope ;
+    private String type;
+    private String metadata;
 
 
     public ActionData() {
@@ -30,12 +34,12 @@ public class ActionData implements Serializable {
         this.label = label;
     }
 
-    public String getComponent() {
-        return component;
+    public String getSource() {
+        return source;
     }
 
-    public void setComponent(String component) {
-        this.component = component;
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getMethod() {
@@ -60,5 +64,37 @@ public class ActionData implements Serializable {
 
     public void setScope(String scope) {
         this.scope = scope;
+    }
+
+    public String getListComponent() {
+        return listComponent;
+    }
+
+    public void setListComponent(String listComponent) {
+        this.listComponent = listComponent;
+    }
+
+    public String getViewComponent() {
+        return viewComponent;
+    }
+
+    public void setViewComponent(String viewComponent) {
+        this.viewComponent = viewComponent;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
     }
 }

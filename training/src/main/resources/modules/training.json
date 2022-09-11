@@ -4,10 +4,130 @@
   "description" : "Module de gestion des formations internes",
   "longDescription" : "Module de gestion des formations internes organisées par la DSI du PAK.",
   "owner" : "Port Autonome de Kribi",
-  "sequence": 100,
+  "sequence": 2,
   "autoInstall" : true,
   "depends": [],
   "menus" : [
-
+    {
+      "name":"training.planning",
+      "label" : "training_planning",
+      "order": "1",
+      "listComponent": null,
+      "viewComponent": null,
+      "metadata": null,
+      "source": "#",
+      "viewMode": null,
+      "children": [
+        {
+          "name": "training.sessions",
+          "label" : "training.sessions",
+          "order" : "1",
+          "listComponent": "list-component",
+          "viewComponent": "view-component",
+          "metadata": "cm.pak.training.beans.training.TrainingSessionData",
+          "source": "/api/v1/sessions",
+          "viewMode": "list,view",
+          "children" :null,
+          "actions": [
+            {
+              "name": "session.addlearner.action",
+              "label": "session.addlearner.action",
+              "source" : "/api/v1/leaners",
+              "method": "get",
+              "listComponent": "list-component",
+              "viewComponent": "view-component",
+              "metadata": "cm.pak.training.beans.training.InvolvedData",
+              "icon": null,
+              "scope" : "list,view",
+              "type":"view"
+            },{
+              "name": "session.planning.action",
+              "label": "session.planning.action",
+              "source" : "/api/v1/sessionGroups",
+              "method": "get",
+              "listComponent": "list-component",
+              "viewComponent": "view-component",
+              "metadata": "cm.pak.training.beans.training.TrainingGroupData",
+              "icon": null,
+              "scope" : "list,view",
+              "type":"view"
+            }
+          ]
+        }
+      ]
+    },{
+      "name":"training.settings",
+      "label" : "training_settings",
+      "order": "2",
+      "listComponent": null,
+      "viewComponent": null,
+      "metadata": null,
+      "source": "#",
+      "viewMode": null,
+      "children": [
+        {
+          "name": "trainings",
+          "label" : "trainings",
+          "order" : "1",
+          "listComponent": "list-component",
+          "viewComponent": "view-component",
+          "metadata": "cm.pak.training.beans.training.TrainingData",
+          "source": "/api/v1/trainings",
+          "viewMode": "list,view",
+          "children" :null,
+          "actions": [
+              {
+                "name": "training.activate.action",
+                "label": "training.activate",
+                "source" : "/activate",
+                "method": "post",
+                "icon": null,
+                "scope" : "view"
+              },{
+                "name": "training.desactivate.action",
+                "label": "training.desactivate",
+                "source" : "/desactivate",
+                "method": "post",
+                "icon": null,
+                "scope" : "view"
+            },{
+              "name": "training.activate.acion",
+              "label": "training.activate",
+              "source" : "/activate",
+              "method": "post",
+              "icon": null,
+              "scope" : "list"
+            },{
+              "name": "training.desactivate.acion",
+              "label": "training.desactivate",
+              "source" : "/desactivate",
+              "method": "post",
+              "icon": null,
+              "scope" : "list"
+            }
+          ]
+        },{
+          "name": "training.theme",
+          "label" : "training.themes",
+          "order" : "1",
+          "listComponent": "list-component",
+          "viewComponent": "view-component",
+          "metadata": "cm.pak.training.beans.training.TrainingThemeData",
+          "source": "/api/v1/themes",
+          "viewMode": "list,view",
+          "children" :null
+        },{
+          "name": "training.classroom",
+          "label" : "training.classrooms",
+          "order" : "1",
+          "listComponent": "list-component",
+          "viewComponent": "view-component",
+          "metadata": "cm.pak.training.beans.training.ClassRoomData",
+          "source": "/api/v1/classrooms",
+          "viewMode": "list,view",
+          "children" :null
+        }
+      ]
+    }
   ]
 }

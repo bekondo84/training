@@ -71,3 +71,6 @@ html,body
  .data-button {
      padding : 5px;
  }
+ .nav-item-button-margin-rigth {
+    margin: 5px;
+ }

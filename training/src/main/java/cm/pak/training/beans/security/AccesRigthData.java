@@ -12,15 +12,9 @@ import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Groups({
-        @Group(name = "admin", label = "admin.group" ,sequence = 100),
         @Group(name = "general", label = "general.group", sequence = 2)
 })
 public class AccesRigthData extends AbstractData implements Serializable {
-    @Widget(value = "number", group = "admin", editable = false)
-    private Long pk ;
-    private Date create ;
-    @Widget(value = "date", group = "admin", editable = false)
-    private Date update;
     @Widget(value = "date", group = "admin", editable = false)
     private String label ;
     @Widget(value = "text", group = "general", column = true)
@@ -76,22 +70,6 @@ public class AccesRigthData extends AbstractData implements Serializable {
 
     public void setPk(Long pk) {
         this.pk = pk;
-    }
-
-    public Date getCreate() {
-        return create;
-    }
-
-    public void setCreate(Date create) {
-        this.create = create;
-    }
-
-    public Date getUpdate() {
-        return update;
-    }
-
-    public void setUpdate(Date update) {
-        this.update = update;
     }
 
     public boolean isCancreate() {

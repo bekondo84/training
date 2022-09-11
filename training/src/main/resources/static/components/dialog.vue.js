@@ -15,8 +15,9 @@ var dialog = Vue.component("t-dialog", {
              }
              return "";
          }
-   },template: `<!-- Modal -->
-                <div class="modal fade" :id="id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+   }, created() {
+        console.log("dialog : ************************* : "+JSON.stringify(this.meta));
+   },template: `<div class="modal fade" :id="id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                   <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                        <div class="modal-header">

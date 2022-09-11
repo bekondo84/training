@@ -14,10 +14,9 @@ public class AccesRigthDataPopulator implements Populator<AccesRigth, AccesRigth
     private FlexibleSearch flexibleSearch;
 
     @Override
-    public AccesRigthData popule(AccesRigth source) {
+    public AccesRigthData populate(AccesRigth source) {
         final AccesRigthData access = new AccesRigthData();
-        access.setPk(source.getPk());
-        access.setCreate(source.getCreate());
+        populate(source, access);
         access.setCancreate(source.isCancreate());
         access.setName(source.getName());
         access.setDelete(source.isCandelete());
@@ -30,9 +29,8 @@ public class AccesRigthDataPopulator implements Populator<AccesRigth, AccesRigth
     @Override
     public AccesRigth revert(AccesRigthData source) {
         final AccesRigth access = flexibleSearch.find(AccesRigth.class, source.getPk());
-         access.setPk(source.getPk());
+         revert(source, access);
          access.setLabel(source.getLabel());
-         access.setCreate(source.getCreate());
          access.setCandelete(source.isDelete());
          access.setCanread(source.isRead());
          access.setCanwrite(source.isWrite());
