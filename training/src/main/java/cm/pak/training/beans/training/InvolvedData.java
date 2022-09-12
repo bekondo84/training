@@ -2,7 +2,7 @@ package cm.pak.training.beans.training;
 
 import cm.pak.annotations.*;
 import cm.pak.models.training.InvolvedModel;
-import cm.pak.training.beans.AbstractData;
+import cm.pak.training.beans.AbstractItemData;
 import cm.pak.training.beans.security.UserData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Groups({
         @Group(name = "general", label = "general.group", sequence = 2)
 })
-public class InvolvedData extends AbstractData implements Serializable {
+public class InvolvedData extends AbstractItemData implements Serializable {
     @Manytoone(group = "general", editable = false, source = "/api/v1/sessions")
     private TrainingSessionData session ;
     @Manytoone(group = "general",column = true, source = "/api/v1/users")

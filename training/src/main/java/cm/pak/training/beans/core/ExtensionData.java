@@ -3,8 +3,7 @@ package cm.pak.training.beans.core;
 import cm.pak.annotations.*;
 import cm.pak.data.MenuData;
 import cm.pak.models.core.ExtensionModel;
-import cm.pak.training.beans.AbstractData;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
@@ -16,7 +15,7 @@ import java.util.*;
         @Group(name = "general", label ="general.group", sequence = 1),
         @Group(name = "description", label = "description.group", sequence = 2)})
 @SearchKey(value = "pk", label = "code")
-public class ExtensionData extends AbstractData implements Serializable {
+public class ExtensionData extends AbstractItemData implements Serializable {
     @Widget(value = "text", group = "general", column = true)
     private String code ;
     @Widget(value = "text", group = "general", column = true)

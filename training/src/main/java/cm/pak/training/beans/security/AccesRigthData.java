@@ -4,17 +4,16 @@ import cm.pak.annotations.Group;
 import cm.pak.annotations.Groups;
 import cm.pak.annotations.Widget;
 import cm.pak.models.security.AccesRigth;
-import cm.pak.training.beans.AbstractData;
+import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Groups({
         @Group(name = "general", label = "general.group", sequence = 2)
 })
-public class AccesRigthData extends AbstractData implements Serializable {
+public class AccesRigthData extends AbstractItemData implements Serializable {
     @Widget(value = "date", group = "admin", editable = false)
     private String label ;
     @Widget(value = "text", group = "general", column = true)

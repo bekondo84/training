@@ -10,14 +10,15 @@ var onetomany = Vue.component("v-onetomany", {
      },computed : {
         columns() { return this.meta != null ? this.meta.columns : []},
         datas() {  return this.data == null ? [] : this.data[this.field.name]},
-        id() { return "#d-".concat(this.field.name)},
+        id() { return this.field!= null ? "#d-".concat(this.field.name) : new Date().getTime();},
         editable() { return this.field.editable } ,
         deletable() { return this.field.deletable },
         updatable() { return this.field.updatable;}
      },methods : {
         fieldValue(item, col) {
+          if (item == null ) return null;
           if (item[col.name] != null && typeof item[col.name] == 'object') {
-             return item[col.name].value ;
+             return item[col.name] != null ? item[col.name].value : item[col.name] ;
           }
           return item[col.name];
         }, async add() {
@@ -38,11 +39,18 @@ var onetomany = Vue.component("v-onetomany", {
             } else {
                alert("Veuillez selectionner une ligne");
             }
-         }
+         },refreshList(item) {
+              console.log("inside refreshList ::::::::::::::: "+JSON.stringify(item)+" -------- "+JSON.stringify(this.data))
+              if (this.data != null) {
+                  this.data.push(item);
+              }
+          }
      },async created() {
        try {
          let response = await axios.get("/api/v1/meta/".concat(this.field.metadata));
          this.meta = response.data;
+         response = await axios.get("/api/v1/instance/".concat(this.field.metadata));
+         this.instance = response.data ;
        }catch (error) {
            console.log(error);
        }
@@ -75,7 +83,8 @@ var onetomany = Vue.component("v-onetomany", {
                                :meta="meta"
                                :data="instance"
                                :key="keyValue"
-                               type="view"></component>
+                               type="view"
+                               @dialog-save="refreshList"></component>
                         </div>
                         <div class="table-responsive">
                                  <table class="table table-striped table-hover table-sm">

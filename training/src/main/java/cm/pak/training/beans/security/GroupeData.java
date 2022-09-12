@@ -2,12 +2,11 @@ package cm.pak.training.beans.security;
 
 import cm.pak.annotations.*;
 import cm.pak.models.security.GroupeModel;
-import cm.pak.training.beans.AbstractData;
+import cm.pak.training.beans.AbstractItemData;
 import cm.pak.training.beans.core.ExtensionData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,7 +16,7 @@ import java.util.Set;
         @Group(name = "profil", sequence = 2, label = "profil.group")
 })
 @SearchKey(label = "intitule", value = "code")
-public class GroupeData extends AbstractData implements Serializable {
+public class GroupeData extends AbstractItemData implements Serializable {
     @Widget(value = "text", group = "general", column = true)
     private String code ;
     @Widget(value = "text", group = "general", column = true)

@@ -4,19 +4,22 @@ var dialog = Vue.component("t-dialog", {
       return {
 
       }
-   },methods :{
-      save() {
-      }
    },computed : {
+        source(){ return this.field.source ;},
         id() { return "d-"+this.field.name ;},
+        isViewMode() { return this.type == "view";},
         title() {
              if (this.meta != null ) {
                 return this.type!=null && this.type=='view' ? this.meta.formTitle : this.meta.listTitle
              }
              return "";
          }
+   }, methods: {
+       saveOn: function() {
+           console.log("------------------------------ "+JSON.stringify(this.data));
+           this.$emit('dialog-save', this.data);
+       }
    }, created() {
-        console.log("dialog : ************************* : "+JSON.stringify(this.meta));
    },template: `<div class="modal fade" :id="id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                   <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
@@ -36,8 +39,8 @@ var dialog = Vue.component("t-dialog", {
                             :data="data">
                         </d-form>
                       </div>
-                      <div class="modal-footer" v-if="type =='view'">
-                        <button type="button" class="btn btn-primary" @click="save()">accept.btn</button>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="saveOn()" v-if="isViewMode">accept.btn</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancel.btn</button>
                       </div>
                     </div>

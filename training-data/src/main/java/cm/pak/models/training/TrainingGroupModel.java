@@ -37,9 +37,13 @@ public class TrainingGroupModel extends ItemModel implements Serializable {
     @Column(name = "t_endA", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date endAt;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "t_tish")
+    private Set<TimeSheetItemModel> timeSheet;
 
     public TrainingGroupModel() {
         registered = new HashSet<>();
+        timeSheet = new HashSet<>();
     }
 
     public String getCode() {
@@ -112,5 +116,13 @@ public class TrainingGroupModel extends ItemModel implements Serializable {
 
     public void setEndAt(Date endAt) {
         this.endAt = endAt;
+    }
+
+    public Set<TimeSheetItemModel> getTimeSheet() {
+        return timeSheet;
+    }
+
+    public void setTimeSheet(Set<TimeSheetItemModel> timeSheet) {
+        this.timeSheet = timeSheet;
     }
 }

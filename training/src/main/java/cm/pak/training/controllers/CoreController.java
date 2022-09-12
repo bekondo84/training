@@ -3,7 +3,7 @@ package cm.pak.training.controllers;
 import cm.pak.data.MetaData;
 import cm.pak.repositories.FlexibleSearch;
 import cm.pak.services.MetaService;
-import cm.pak.training.beans.AbstractData;
+import cm.pak.training.beans.AbstractItemData;
 import cm.pak.training.facades.core.ExtensionFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.NoResultException;
-import java.util.Locale;
 
 @Controller
 @RequestMapping
@@ -47,7 +46,7 @@ public class CoreController extends AbstractController{
     @GetMapping("/api/v1/search/{searchKey}/{value}/{target}")
     public ResponseEntity getItemBySearchKey(@PathVariable("searchKey") String key, @PathVariable("value") Object value, @PathVariable("target") String target) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Object entity = Class.forName(target).newInstance();
-        final String modelClassName = ((AbstractData)entity).getTargetEntity();
+        final String modelClassName = ((AbstractItemData)entity).getTargetEntity();
         final Class modelClass = Class.forName(modelClassName);
         try {
             Object result = flexibleSearch.find(modelClass, key, value);

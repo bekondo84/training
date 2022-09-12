@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class TrainingSessionController {
         facade.remove(pk);
     }
     @PostMapping
-    public ResponseEntity<TrainingSessionData> save(@RequestBody TrainingSessionData source) throws ModelServiceException {
+    public ResponseEntity<TrainingSessionData> save(@RequestBody TrainingSessionData source) throws ModelServiceException, ParseException {
         final TrainingSessionData data = facade.save(source);
         return ResponseEntity.ok(data);
     }

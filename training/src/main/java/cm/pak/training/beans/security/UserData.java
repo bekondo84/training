@@ -1,11 +1,10 @@
 package cm.pak.training.beans.security;
 
 import cm.pak.annotations.*;
-import cm.pak.training.beans.AbstractData;
+import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,7 +14,7 @@ import java.util.Objects;
         @Group(name = "security", label = "security.group", sequence = 2)
 })
 @SearchKey(value = "code", label = "code")
-public class UserData extends AbstractData implements Serializable {
+public class UserData extends AbstractItemData implements Serializable {
     @Widget(value = "text", column = true, group = "general")
     private String code ;
     @Widget(value = "text", column = true, group = "general")

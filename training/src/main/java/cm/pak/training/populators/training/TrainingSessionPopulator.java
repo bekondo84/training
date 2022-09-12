@@ -6,12 +6,15 @@ import cm.pak.training.beans.training.TrainingSessionData;
 import cm.pak.training.populators.security.UserPopulator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 @Component
 public class TrainingSessionPopulator implements Populator<TrainingSessionModel, TrainingSessionData> {
-
+    private final static SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
     @Autowired
     private TrainingPopulator populator;
     @Autowired
@@ -22,8 +25,12 @@ public class TrainingSessionPopulator implements Populator<TrainingSessionModel,
         final TrainingSessionData data = new TrainingSessionData();
         populate(source, data);
         data.setCode(source.getCode());
-        data.setEndAt(source.getEndAt());
-        data.setStartAt(source.getStartAt());
+        if (Objects.nonNull(source.getEndAt())) {
+            data.setEndAt(SDF.format(source.getEndAt()));
+        }
+        if (Objects.nonNull(source.getStartAt())) {
+            data.setStartAt(SDF.format(source.getStartAt()));
+        }
         data.setIntitule(source.getIntitule());
         data.setValue(source.getIntitule());
         if (Objects.nonNull(source.getTraining())) {
@@ -33,12 +40,16 @@ public class TrainingSessionPopulator implements Populator<TrainingSessionModel,
     }
 
     @Override
-    public TrainingSessionModel revert(TrainingSessionData source) {
+    public TrainingSessionModel revert(TrainingSessionData source) throws ParseException {
         final TrainingSessionModel data = new TrainingSessionModel();
         revert(source, data);
         data.setCode(source.getCode());
-        data.setEndAt(source.getEndAt());
-        data.setStartAt(source.getStartAt());
+        if (StringUtils.hasLength(source.getEndAt())) {
+            data.setEndAt(SDF.parse(source.getEndAt()));
+        }
+        if (StringUtils.hasLength(source.getStartAt())) {
+            data.setStartAt(SDF.parse(source.getStartAt()));
+        }
         data.setIntitule(source.getIntitule());
         if (Objects.nonNull(source.getTraining())) {
             data.setTraining(populator.revert(source.getTraining()));

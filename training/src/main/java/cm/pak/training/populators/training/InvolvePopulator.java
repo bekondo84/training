@@ -7,6 +7,7 @@ import cm.pak.training.populators.security.UserPopulator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
 import java.util.Objects;
 
 @Component
@@ -36,7 +37,7 @@ public class InvolvePopulator implements Populator<InvolvedModel, InvolvedData> 
     }
 
     @Override
-    public InvolvedModel revert(InvolvedData source) {
+    public InvolvedModel revert(InvolvedData source) throws ParseException {
         final InvolvedModel data = new InvolvedModel();
         revert(source, data);
         if (Objects.nonNull(source.getInvolve())){

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class InvolvedController {
     }
 
     @PostMapping("/{session}")
-    public ResponseEntity<InvolvedData> save(@PathVariable("session")Long session, @RequestBody InvolvedData source) throws ModelServiceException {
+    public ResponseEntity<InvolvedData> save(@PathVariable("session")Long session, @RequestBody InvolvedData source) throws ModelServiceException, ParseException {
         return ResponseEntity.ok(facade.save(session, source));
     }
 

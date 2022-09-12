@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +36,7 @@ public class DefaultInvolveFacade implements InvolveFacade {
 
     @Override
     @Transactional
-    public InvolvedData save(final Long session, final InvolvedData involve) throws ModelServiceException {
+    public InvolvedData save(final Long session, final InvolvedData involve) throws ModelServiceException, ParseException {
         final TrainingSessionData sessionData = sessionPopulator.populate(flexibleSearch.find(TrainingSessionModel.class, session));
         involve.setSession(sessionData);
         final InvolvedModel data = populator.revert(involve);

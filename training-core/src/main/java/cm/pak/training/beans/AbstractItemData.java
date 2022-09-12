@@ -4,12 +4,10 @@ import cm.pak.annotations.Group;
 import cm.pak.annotations.Groups;
 import cm.pak.annotations.Widget;
 
-import java.util.Date;
-
 @Groups({
         @Group(name = "admin", label = "admin.group", sequence = 100)
 })
-public abstract class AbstractData {
+public abstract class AbstractItemData {
     protected boolean selected = false;
     protected String value ;
     @Widget(value = "number", group = "admin", editable = false)
@@ -19,7 +17,7 @@ public abstract class AbstractData {
     @Widget(value = "date", group = "admin", editable = false)
     protected String update;
 
-    public AbstractData() {
+    public AbstractItemData() {
         this.selected = false;
     }
 

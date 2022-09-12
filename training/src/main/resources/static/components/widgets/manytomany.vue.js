@@ -8,11 +8,12 @@ var manytomany = Vue.component("v-manytomany", {
         }
      },computed : {
         columns() { return this.meta != null ? this.meta.columns : []},
-        id() { return "#d-".concat(this.field.name)},
+        id() { return this.field != null ?  "#d-".concat(this.field.name) : new Date().getTime();},
         editable() { return this.field.editable} ,
         deletable() { return this.field.deletable }
      },methods : {
         fieldValue(item, col) {
+            if (item == null) return item;
              if (typeof item[col.name] == 'object' && item[col.name] != null) {
                  return item[col.name].value ;
              }

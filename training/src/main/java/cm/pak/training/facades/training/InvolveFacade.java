@@ -4,11 +4,12 @@ import cm.pak.exceptions.ModelServiceException;
 import cm.pak.training.beans.training.InvolvedData;
 import cm.pak.training.beans.training.TrainingSessionData;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface InvolveFacade {
 
-    InvolvedData save(final Long session, final InvolvedData involve) throws ModelServiceException;
+    InvolvedData save(final Long session, final InvolvedData involve) throws ModelServiceException, ParseException;
 
     List<InvolvedData> getInvolves(final Long session);
 

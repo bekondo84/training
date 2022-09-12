@@ -1,7 +1,7 @@
 package cm.pak.populators;
 
 import cm.pak.models.security.base.ItemModel;
-import cm.pak.training.beans.AbstractData;
+import cm.pak.training.beans.AbstractItemData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -15,7 +15,7 @@ import java.util.Objects;
  * @param <T>
  * @param <Y>
  */
-public interface Populator<T extends ItemModel, Y extends AbstractData> {
+public interface Populator<T extends ItemModel, Y extends AbstractItemData> {
     final static SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
     final static Logger LOG = LoggerFactory.getLogger(Populator.class);
     /**

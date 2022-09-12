@@ -5,7 +5,7 @@ var select = Vue.component("v-select", {
           items : this.field !=null && this.field.selectItems != null ? this.field.selectItems : []
       }
    },computed : {
-
+        id() { return this.field.name ;}
    },methods : {
        isSelected(item) {
            return item==null || item.value != this.data[this.field.name] ? false : true ;

@@ -10,7 +10,7 @@ var formbody = Vue.component("f-body", {
     },methods : {
         isInputField(field) {
               return field.type == "text" || field.type=="number"
-                 || field.type=="file" || field.type =="date" ;
+                 || field.type=="file" || field.type =="date" || field.type=="time" ;
          },
          isTextareaField(field) {
                return field.type == "textarea";

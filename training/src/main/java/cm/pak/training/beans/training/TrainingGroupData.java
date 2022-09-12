@@ -2,20 +2,21 @@ package cm.pak.training.beans.training;
 
 import cm.pak.annotations.*;
 import cm.pak.models.training.TrainingGroupModel;
-import cm.pak.training.beans.AbstractData;
+import cm.pak.training.beans.AbstractItemData;
 import cm.pak.training.beans.security.UserData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Groups({
         @Group(name = "general", label = "general.group"),
+        @Group(name = "timesheet", label = "timesheet.group"),
         @Group(name = "registered", label = "registered.group")
 })
-public class TrainingGroupData extends AbstractData implements Serializable {
+public class TrainingGroupData extends AbstractItemData implements Serializable {
     @Widget(value = "text", column = true, group = "general")
     private String code ;
     @Manytoone(group = "general", editable = false, source = "/api/v1/sessions")
@@ -32,10 +33,14 @@ public class TrainingGroupData extends AbstractData implements Serializable {
     private Integer availablePlaces;
     @Widget(value = "number", group = "general", column = true, editable = false)
     private Integer reservePlaces;
+    @Onetomany(group = "timesheet")
+    private Set<TimeSheetItemData> timesheet ;
     @Manytomany(group = "registered", source = "/api/v1/users", editable = false, deletable = false)
     private Set<UserData> registered ;
 
     public TrainingGroupData() {
+        registered = new HashSet<>();
+        timesheet = new HashSet<>();
     }
 
     public String getCode() {
@@ -116,6 +121,14 @@ public class TrainingGroupData extends AbstractData implements Serializable {
 
     public void setEndAt(String endAt) {
         this.endAt = endAt;
+    }
+
+    public Set<TimeSheetItemData> getTimesheet() {
+        return timesheet;
+    }
+
+    public void setTimesheet(Set<TimeSheetItemData> timesheet) {
+        this.timesheet = timesheet;
     }
 
     @Override

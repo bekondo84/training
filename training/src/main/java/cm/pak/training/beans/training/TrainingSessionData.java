@@ -2,12 +2,11 @@ package cm.pak.training.beans.training;
 
 import cm.pak.annotations.*;
 import cm.pak.models.training.TrainingSessionModel;
-import cm.pak.training.beans.AbstractData;
+import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -17,7 +16,7 @@ import java.util.List;
         @Group(name = "planing", label = "planing.group", sequence = 4)
 })
 @SearchKey(value = "code", label = "code")
-public class TrainingSessionData extends AbstractData implements Serializable {
+public class TrainingSessionData extends AbstractItemData implements Serializable {
     @Widget(value = "text", group = "general", column = true, updatable = false)
     private String code ;
     @Widget(value = "text", group = "general", column = true)
@@ -25,9 +24,9 @@ public class TrainingSessionData extends AbstractData implements Serializable {
     @Manytoone(group = "general", column = true, source = "/api/v1/trainings")
     private TrainingData training;
     @Widget(value = "date", group = "general" ,column = true)
-    private Date startAt;
+    private String startAt;
     @Widget(value = "date", group = "general", column = true)
-    private Date endAt ;
+    private String endAt ;
     @Onetomany(group = "learner", editable = false, updatable = false, deletable = false, source = "/api/v1/plugins")
     private List<InvolvedData> learners;
     @Onetomany(group = "planing", editable = false, updatable = false, deletable = false, source = "/api/v1/sessionGroups")
@@ -61,19 +60,19 @@ public class TrainingSessionData extends AbstractData implements Serializable {
         this.training = training;
     }
 
-    public Date getStartAt() {
+    public String getStartAt() {
         return startAt;
     }
 
-    public void setStartAt(Date startAt) {
+    public void setStartAt(String startAt) {
         this.startAt = startAt;
     }
 
-    public Date getEndAt() {
+    public String getEndAt() {
         return endAt;
     }
 
-    public void setEndAt(Date endAt) {
+    public void setEndAt(String endAt) {
         this.endAt = endAt;
     }
 

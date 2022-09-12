@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,7 +69,7 @@ public class TrainingSessionFacadeImpl implements TrainingSessionFacade {
 
     @Override
     @Transactional
-    public TrainingSessionData save(TrainingSessionData source) throws ModelServiceException {
+    public TrainingSessionData save(TrainingSessionData source) throws ModelServiceException, ParseException {
         TrainingSessionModel data = populator.revert(source);
         modelService.createOrUpdate(data);
         data = flexibleSearch.find(TrainingSessionModel.class, "code", source.getCode());

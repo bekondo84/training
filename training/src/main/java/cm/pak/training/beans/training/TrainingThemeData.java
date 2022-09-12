@@ -5,18 +5,15 @@ import cm.pak.annotations.Groups;
 import cm.pak.annotations.SearchKey;
 import cm.pak.annotations.Widget;
 import cm.pak.models.training.TrainingModel;
-import cm.pak.training.beans.AbstractData;
+import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.Column;
-import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Groups({
         @Group(name = "general", label = "general.group", sequence = 2)
 })
 @SearchKey(value = "code", label = "code")
-public class TrainingThemeData extends AbstractData {
+public class TrainingThemeData extends AbstractItemData {
     @Widget(value = "text", group = "general", column = true)
     private String code ;
     @Widget(value = "text", group = "general", column = true)

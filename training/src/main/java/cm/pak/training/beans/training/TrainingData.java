@@ -2,11 +2,10 @@ package cm.pak.training.beans.training;
 
 import cm.pak.annotations.*;
 import cm.pak.models.training.TrainingThemeModel;
-import cm.pak.training.beans.AbstractData;
+import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Groups({
@@ -14,7 +13,7 @@ import java.util.Date;
         @Group(name = "description", label = "description.label", sequence = 3)
 })
 @SearchKey(value = "name", label = "name")
-public class TrainingData extends AbstractData implements Serializable {
+public class TrainingData extends AbstractItemData implements Serializable {
     @Widget(value = "text", group = "general", column = true)
     private String name ;
     @Manytoone(group = "general", source = "/api/v1/themes", column = true)
