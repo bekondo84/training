@@ -1,8 +1,11 @@
 package cm.pak.training.controllers.security;
 
 import cm.pak.exceptions.ModelServiceException;
+import cm.pak.training.beans.ImportData;
 import cm.pak.training.beans.security.UserData;
 import cm.pak.training.facades.security.UserFacade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
-
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserFacade facade ;
 
@@ -36,5 +39,16 @@ public class UserController {
     @DeleteMapping("/{pk}")
     public void remove(@PathVariable("pk") final Long pk) {
         facade.remove(pk);
+    }
+
+    @GetMapping("/import")
+    public ResponseEntity<ImportData> getImport() {
+       return  ResponseEntity.ok(new ImportData());
+    }
+
+    @PostMapping("/import")
+    public ResponseEntity<ImportData> importData(@RequestBody ImportData source) {
+        LOG.info(String.format("------------------------- %s", source));
+        return ResponseEntity.ok(source);
     }
 }

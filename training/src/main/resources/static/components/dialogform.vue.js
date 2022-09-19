@@ -2,15 +2,14 @@ var dialogform = Vue.component("d-form", {
     props :["field", "meta", "data"],
     data() {
         return {
-            tab : null ,
-            context : new Object()
+
         }
     }, computed : {
        groups() { return this.meta != null && this.meta.groups!= null ? this.meta.groups : []}
     },methods : {
         isInputField(field) {
-              return field.type == "text" || field.type=="number"
-                 || field.type=="file" || field.type =="date" || field.type=="time" ;
+              return field.type == "text" || field.type=="number" || field.type=="datetime-local"
+                 || field.type=="file" || field.type =="date" || field.type=="time" || field.type=="email";
          },
          isTextareaField(field) {
                return field.type == "textarea";
@@ -27,18 +26,13 @@ var dialogform = Vue.component("d-form", {
          },isManyToOneField(field) {
             return field.type =="many-to-one";
          },isOneToManyField(field) {
-              return field.type =="one-to-many";
-           },isManyToManyField(field) {
-                          return field.type =="many-to-many";
-                       },async initField(field) {
-           try{
-                let response = await axios.get(field.source);
-                this.context[field.name]  = response.data ;
-            } catch( error ) {
-               console.log(error);
-            }
+           return field.type =="one-to-many";
+         },isManyToManyField(field) {
+          return field.type =="many-to-many";
          }
-    }, template: `<v-tabs v-model="tab">
+    }, created(){
+
+    }, template: `<v-tabs>
                     <v-tab v-for="tab of groups" :key="tab.name">{{tab.label}}</v-tab>
                     <v-tab-item  v-for="tab in groups" :key="tab.name">
                         <v-container style="border-bottom:0">

@@ -9,6 +9,8 @@ import cm.pak.training.beans.training.TrainingGroupData;
 import cm.pak.training.facades.training.TrainingGroupFacade;
 import cm.pak.training.populators.training.TrainingGroupPopulator;
 import cm.pak.training.populators.training.TrainingSessionPopulator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class DefaultTrainingGroupFacade implements TrainingGroupFacade {
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultTrainingGroupFacade.class);
     public static final String GROUPS_FOR_SESSION = "SELECT c FROM TrainingGroupModel AS c WHERE c.session.id=%s";
     @Autowired
     private TrainingGroupPopulator populator;
@@ -34,6 +37,7 @@ public class DefaultTrainingGroupFacade implements TrainingGroupFacade {
     @Override
     @Transactional
     public TrainingGroupData save(Long sessionId, TrainingGroupData source) throws ModelServiceException, ParseException {
+        LOG.info(String.format("----------------------------------------- %s", source));
         final TrainingGroupModel data = populator.revert(source);
         final TrainingSessionModel sessionModel = modelService.find(TrainingSessionModel.class, sessionId);
         data.setSession(sessionModel);

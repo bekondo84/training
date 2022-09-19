@@ -114,6 +114,7 @@ public class DefaultMetaService implements MetaService {
                 group.add(fieldData);
                 fieldData.setMetadata(field.getType().getName());
                 fieldData.setUpdatable(widget.updatable());
+                fieldData.setNullable(widget.nullable());
             }
             final Manytoone manytoone = field.getDeclaredAnnotation(Manytoone.class);
             if (Objects.nonNull(manytoone) && manytoone.group()!= null && manytoone.group().equalsIgnoreCase(annGroup.name())) {

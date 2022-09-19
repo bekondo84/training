@@ -9,9 +9,33 @@
   "depends": [],
   "menus" : [
     {
+      "name":"my.training",
+      "label" : "my_training_label",
+      "order": "1",
+      "listComponent": null,
+      "viewComponent": null,
+      "metadata": null,
+      "source": "#",
+      "viewMode": "view",
+      "children": [
+        {
+          "name": "my.learning.action",
+          "label" : "my.learning.registred",
+          "order" : "1",
+          "listComponent": "mylearning-component",
+          "viewComponent": null,
+          "metadata": "cm.pak.training.beans.training.MyLearningData",
+          "source": "/api/v1/mylearning",
+          "viewMode": "list,view",
+          "children" :null,
+          "actions":null
+        }
+      ]
+    },
+    {
       "name":"training.planning",
       "label" : "training_planning",
-      "order": "1",
+      "order": "2",
       "listComponent": null,
       "viewComponent": null,
       "metadata": null,
@@ -32,11 +56,11 @@
             {
               "name": "session.addlearner.action",
               "label": "session.addlearner.action",
-              "source" : "/api/v1/leaners",
+              "source" : "/api/v1/sessionGroups",
               "method": "get",
               "listComponent": "list-component",
               "viewComponent": "view-component",
-              "metadata": "cm.pak.training.beans.training.InvolvedData",
+              "metadata": "cm.pak.training.beans.training.TrainingGroupData",
               "icon": null,
               "scope" : "list,view",
               "type":"view"
@@ -58,7 +82,7 @@
     },{
       "name":"training.settings",
       "label" : "training_settings",
-      "order": "2",
+      "order": "3",
       "listComponent": null,
       "viewComponent": null,
       "metadata": null,

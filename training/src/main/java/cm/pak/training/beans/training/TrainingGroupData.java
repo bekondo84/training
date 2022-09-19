@@ -135,4 +135,20 @@ public class TrainingGroupData extends AbstractItemData implements Serializable 
     public String getTargetEntity() {
         return TrainingGroupModel.class.getName();
     }
+
+    @Override
+    public String toString() {
+        return "TrainingGroupData{" +
+                "code='" + code + '\'' +
+                ", session=" + session +
+                ", classRoom=" + classRoom +
+                ", numberOfPlaces=" + numberOfPlaces +
+                ", startAt='" + startAt + '\'' +
+                ", endAt='" + endAt + '\'' +
+                ", availablePlaces=" + availablePlaces +
+                ", reservePlaces=" + reservePlaces +
+                ", timesheet=" + timesheet +
+                ", registered=" + registered +
+                '}';
+    }
 }

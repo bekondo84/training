@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/assets/css/vuetify.min.css}" rel="stylesheet">
     <link th:rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}"/>
     <link th:rel="stylesheet" th:href="@{/assets/css/training.css}">
-    <link th:rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-    <title>Title</title>
+    <link th:rel="icon" type="image/x-icon" th:href="@{/images/faviconpac.png}">
+    <title>myLearning</title>
 </head>
 <body>
   <div id="app" class="parent">
@@ -24,12 +23,19 @@
     <!-- router import
     <script th:src="@{/assets/js/vuetify.js}"></script>-->
     <script th:src="@{/assets/js/babel.min.js}"></script>
+    <script th:src="@{/components/widgets/card.vue.js}"></script>
     <script th:src="@{/components/widgets/combobox.vue.js}"></script>
     <script th:src="@{/components/widgets/input.vue.js}"></script>
     <script th:src="@{/components/widgets/checkbox.vue.js}"></script>
+    <script th:src="@{/components/dialogfooter.vue.js}"></script>
     <script th:src="@{/components/dialogtable.vue.js}"></script>
     <script th:src="@{/components/dialogform.vue.js}"></script>
     <script th:src="@{/components/dialog.vue.js}"></script>
+    <script th:src="@{/components/mylearning/mylearningdialog.vue.js}"></script>
+    <script th:src="@{/components/mylearning/sessionbody.vue.js}"></script>
+    <script th:src="@{/components/mylearning/sessionheader.vue.js}"></script>
+    <script th:src="@{/components/mylearning/sessions.vue.js}"></script>
+    <script th:src="@{/components/mylearning/mylearning.vue.js}"></script>
     <script th:src="@{/components/widgets/buttonSelect.vue.js}"></script>
     <script th:src="@{/components/widgets/onetomany.vue.js}"></script>
     <script th:src="@{/components/widgets/manytomany.vue.js}"></script>

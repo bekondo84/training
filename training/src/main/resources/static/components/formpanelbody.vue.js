@@ -9,8 +9,8 @@ var formbody = Vue.component("f-body", {
        }
     },methods : {
         isInputField(field) {
-              return field.type == "text" || field.type=="number"
-                 || field.type=="file" || field.type =="date" || field.type=="time" ;
+              return field.type == "text" || field.type=="number" || field.type=="datetime-local"
+                 || field.type=="file" || field.type =="date" || field.type=="time" || field.type=="email" ;
          },
          isTextareaField(field) {
                return field.type == "textarea";

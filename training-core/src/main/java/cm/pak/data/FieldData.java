@@ -17,10 +17,12 @@ public class FieldData implements Serializable {
     private String metadata ;
     private String source;
     private Set<SelectItemData> selectItems ;
+    private boolean nullable ;
 
 
     public FieldData() {
         editable = true ;
+        nullable = true ;
         selectItems = new HashSet<>();
     }
 
@@ -114,5 +116,13 @@ public class FieldData implements Serializable {
 
     public void setDeletable(boolean deletable) {
         this.deletable = deletable;
+    }
+
+    public boolean isNullable() {
+        return nullable;
+    }
+
+    public void setNullable(boolean nullable) {
+        this.nullable = nullable;
     }
 }

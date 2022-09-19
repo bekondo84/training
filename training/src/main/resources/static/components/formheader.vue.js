@@ -10,7 +10,10 @@ var formHeader = Vue.component("f-header", {
          deletable() { return this.meta!= null && this.meta.deletable && this.data !=null &&  this.data.pk != null ;},
          actions() {
                  return this.meta !=null && this.menu.actions != null ? this.menu.actions.filter(act => act.type=="view") : [] ;
-            }
+            },
+        hideCancelBtn() {
+             return this.menu
+        }
      }, methods : {
          async remove() {
             var answer = confirm("Voulez-vous continuer ?");
@@ -36,7 +39,7 @@ var formHeader = Vue.component("f-header", {
         }
      },template: ` <div>
                  <div class="title-bar">
-                     <div><p><p>{{title}}</p></p></div>
+                     <div  class="title">{{title}}</div>
                      <div class="input-group margin-left-auto width-350"></div>
                 </div>
                   <div class="title-bar">

@@ -4,16 +4,17 @@ var onetomany = Vue.component("v-onetomany", {
         return {
            meta : null,
            instance : null,
-           dialog : "t-dialog",
+           dialog : null,
            keyValue: 12
         }
      },computed : {
         columns() { return this.meta != null ? this.meta.columns : []},
         datas() {  return this.data == null ? [] : this.data[this.field.name]},
-        id() { return this.field!= null ? "#d-".concat(this.field.name) : new Date().getTime();},
+        id() { return "d-".concat(this.field.name) ;},
         editable() { return this.field.editable } ,
         deletable() { return this.field.deletable },
-        updatable() { return this.field.updatable;}
+        updatable() { return this.field.updatable;},
+        key() { return new Date().getTime();}
      },methods : {
         fieldValue(item, col) {
           if (item == null ) return null;
@@ -27,6 +28,10 @@ var onetomany = Vue.component("v-onetomany", {
                 this.instance = response.data ;
                 this.dialog = "t-dialog";
                 this.keyValue = new Date().getTime();
+                var modal = new bootstrap.Modal(document.getElementById(this.id), {
+                  keyboard: false
+                });
+                modal.show();
              } catch (error) {
                  console.log(error);
               }
@@ -36,39 +41,33 @@ var onetomany = Vue.component("v-onetomany", {
             if (this.instance != null) {
               this.dialog = "t-dialog";
               this.keyValue = new Date().getTime();
+               var modal = new bootstrap.Modal(document.getElementById(this.id), {
+                 keyboard: false
+               });
+               modal.show();
             } else {
                alert("Veuillez selectionner une ligne");
             }
          },refreshList(item) {
-              console.log("inside refreshList ::::::::::::::: "+JSON.stringify(item)+" -------- "+JSON.stringify(this.data))
-              if (this.data != null) {
-                  this.data.push(item);
+              if (this.data[this.field.name] != null) {
+                  this.data[this.field.name].push(item);
               }
           }
      },async created() {
        try {
          let response = await axios.get("/api/v1/meta/".concat(this.field.metadata));
          this.meta = response.data;
-         response = await axios.get("/api/v1/instance/".concat(this.field.metadata));
-         this.instance = response.data ;
        }catch (error) {
            console.log(error);
        }
-    },watch : {
-        data:  function(newVal, oldVal) {
-            //console.log(JSON.stringify(newVal)+" : ********************************* : "+JSON.stringify(oldVal))
-        }
     },template : `<div>
                         <div>
                            <nav class="nav">
                              <a class="nav-link data-button" aria-current="page" href="#"
-                                 data-bs-toggle="modal" :data-bs-target="id"
                                  @click="add()" v-if="editable">
                                 <img src="../../images/add.gif" class="rounded">
                              </a>
-                             <a class="nav-link data-button" href="#"
-                                 data-bs-toggle="modal" :data-bs-target="id"
-                                 @click="update()" v-if="updatable">
+                             <a class="nav-link data-button" href="#"  @click="update()" v-if="updatable">
                                  <img src="../../images/upda.gif" class="rounded">
                              </a>
                              <a class="nav-link data-button" href="#">
@@ -82,8 +81,8 @@ var onetomany = Vue.component("v-onetomany", {
                                :field="field"
                                :meta="meta"
                                :data="instance"
-                               :key="keyValue"
                                type="view"
+                               :key="key"
                                @dialog-save="refreshList"></component>
                         </div>
                         <div class="table-responsive">

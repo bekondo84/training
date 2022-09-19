@@ -67,18 +67,42 @@
           "metadata": "cm.pak.training.beans.security.UserData",
           "source": "/api/v1/users",
           "viewMode": "list,view",
-          "children": null
+          "children": null,
+          "actions": [
+            {
+              "name": "user.import.action",
+              "label": "user.import.action",
+              "source" : "/api/v1/users/import",
+              "method": "get",
+              "listComponent": "list-component",
+              "viewComponent": "view-component",
+              "metadata": "cm.pak.training.beans.ImportData",
+              "icon": null,
+              "scope" : "view",
+              "type":"list"
+            }
+          ]
         }]
     },{
       "name": "settings_menu",
       "label": "settings_menu_label",
       "order": "3",
-      "listComponent": "list-component",
-      "viewComponent": "view-component",
-      "metadata": "cm.pak.training.beans.core.ExtensionData",
+      "listComponent": null,
+      "viewComponent": null,
+      "metadata": null,
       "source": "#",
       "viewMode": null,
       "children": [{
+        "name": "general.settings",
+        "label": "general.settings.label",
+        "order" : "1",
+        "listComponent": null,
+        "viewComponent": "view-component",
+        "metadata": "cm.pak.training.beans.core.SettingData",
+        "source": "/api/v1/settings",
+        "viewMode": "view",
+        "children": null
+      },{
           "name": "mailling",
           "label": "mailling_menu_label",
           "order" : "1",

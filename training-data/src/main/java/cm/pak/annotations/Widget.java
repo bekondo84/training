@@ -15,4 +15,7 @@ public @interface Widget {
     boolean editable() default true ;
     boolean updatable() default true;
     String  metadata() default "" ;
+    boolean nullable() default  true;
+    int size() default 0 ;
+    String pattern() default "";
 }

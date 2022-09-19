@@ -37,7 +37,7 @@ public class TrainingGroupModel extends ItemModel implements Serializable {
     @Column(name = "t_endA", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date endAt;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "t_tish")
     private Set<TimeSheetItemModel> timeSheet;
 

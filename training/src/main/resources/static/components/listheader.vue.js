@@ -24,7 +24,7 @@ var l_header = Vue.component("l-header", {
          },title() { return this.meta != null ? this.meta.listTitle : ""; },
      },template : `<div>
       <div class="title-bar">
-          <div><p>{{title}}</p></div>
+          <div class="title"><p>{{title}}</p></div>
           <div class="input-group margin-left-auto width-350">
             <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
             <button type="button" class="btn btn-outline-primary">search</button>

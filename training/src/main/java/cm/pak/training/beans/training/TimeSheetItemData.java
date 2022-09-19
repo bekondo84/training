@@ -5,31 +5,33 @@ import cm.pak.annotations.Groups;
 import cm.pak.annotations.Widget;
 import cm.pak.models.training.TimeSheetItemModel;
 import cm.pak.training.beans.AbstractItemData;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Groups({
         @Group(name = "general", label = "general.group")
 })
 public class TimeSheetItemData extends AbstractItemData implements Serializable {
-    @Widget(value = "date", group = "general", column = true)
-    private Date day ;
-    @Widget(value = "time", group = "general", column = true)
+    @Widget(value = "date", group = "general", column = true, nullable = false)
+    private String day ;
+    @Widget(value = "time", group = "general", column = true, nullable = false)
     private String startAt;
-    @Widget(value = "time", group = "general", column = true)
+    @Widget(value = "time", group = "general", column = true, nullable = false)
     private String endAt;
-    @Widget(value = "text", group = "general", column = true)
+    @Widget(value = "text", group = "general", column = true, nullable = false)
     private String subject;
 
     public TimeSheetItemData() {
     }
 
-    public Date getDay() {
+    public String getDay() {
         return day;
     }
 
-    public void setDay(Date day) {
+    public void setDay(String day) {
         this.day = day;
     }
 
@@ -55,6 +57,19 @@ public class TimeSheetItemData extends AbstractItemData implements Serializable 
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimeSheetItemData data = (TimeSheetItemData) o;
+        return Objects.equals(day, data.day) && Objects.equals(startAt, data.startAt) && Objects.equals(endAt, data.endAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(day, startAt, endAt);
     }
 
     @Override

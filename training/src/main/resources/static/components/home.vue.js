@@ -27,13 +27,13 @@ var home = Vue.component("t-home", {
                let response = await axios.get("/api/v1/meta/".concat(this.menu.metadata));
                this.meta = response.data ;
               if (this.viewMode == 'list') {
-                    this.container = menu.listComponent ;
                     response = await axios.get(menu.source);
                     this.data = response.data;
+                    this.container = menu.listComponent ;
               } else {
-                 this.container = menu.viewComponent ;
                  response = await axios.get(menu.source);
                  this.data = response.data;
+                 this.container = menu.viewComponent ;
               }
            }
        }, createdMomento() {
@@ -81,9 +81,12 @@ var home = Vue.component("t-home", {
              let action = obj.action;
              let response = await axios.get("/api/v1/meta/".concat(action.metadata));
              this.meta = response.data ;
-             action.source = action.source.concat("/").concat(item.pk);
-             response = await axios.get(action.source);
-             this.data = response.data ;
+             this.data = item;
+             if (item != null && item.pk != null) {
+                 action.source = action.source.concat("/").concat(item.pk);
+                 response = await axios.get(action.source);
+                 this.data = response.data ;
+             }
              this.menu = action ;
              let viewModes = action.scope.split(",");
              this.viewMode = viewModes[0];

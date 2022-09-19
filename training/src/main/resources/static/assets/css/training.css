@@ -74,3 +74,22 @@ html,body
  .nav-item-button-margin-rigth {
     margin: 5px;
  }
+.title {
+   font-size: .875rem;
+   font-weight: 500;
+   text-transform: uppercase;
+   color: rgba(0,0,0,.54);
+}
+.card-container-width {
+    width: 80%
+}
+.card-container {
+	max-width: inherit ;
+   display: flex ;
+   flex-flow: row wrap;
+   justify-content : flex-start;
+   align-items: stretch;
+}
+.card-margin {
+	margin: 10px
+}
