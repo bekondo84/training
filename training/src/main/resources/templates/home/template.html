@@ -2,11 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="crn" th:attr="content=${token}" />
     <link th:href="@{/assets/css/vuetify.min.css}" rel="stylesheet">
     <link th:rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}"/>
     <link th:rel="stylesheet" th:href="@{/assets/css/training.css}">
     <link th:rel="icon" type="image/x-icon" th:href="@{/images/faviconpac.png}">
-    <title>myLearning</title>
+    <title>My Learning</title>
 </head>
 <body>
   <div id="app" class="parent">
@@ -23,6 +24,7 @@
     <!-- router import
     <script th:src="@{/assets/js/vuetify.js}"></script>-->
     <script th:src="@{/assets/js/babel.min.js}"></script>
+    <script th:src="@{/components/widgets/pagination.vue.js}"></script>
     <script th:src="@{/components/widgets/card.vue.js}"></script>
     <script th:src="@{/components/widgets/combobox.vue.js}"></script>
     <script th:src="@{/components/widgets/input.vue.js}"></script>
@@ -55,6 +57,19 @@
                 vuetify: new Vuetify(),
                 data: {
                    name : "POPOPOPOP"
+                }, methods : {
+                    getMeta(metaName) {
+                        const metas = document.getElementsByTagName('meta');
+                        for (let i = 0; i < metas.length; i++) {
+                          if (metas[i].getAttribute('name') === metaName) {
+                            return metas[i].getAttribute('content');
+                          }
+                        }
+
+                        return '';
+                    }
+                }, created() {
+                     axios.defaults.headers.common['Authorization'] = "Bearer ".concat(this.getMeta("crn"));
                 }
             });
       </script>

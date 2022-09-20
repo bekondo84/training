@@ -94,4 +94,16 @@ public class AccesRigthData extends AbstractItemData implements Serializable {
     public void setLabel(String label) {
         this.label = label;
     }
+
+    @Override
+    public String toString() {
+        return "AccesRigthData{" +
+                "label='" + label + '\'' +
+                ", name='" + name + '\'' +
+                ", read=" + read +
+                ", write=" + write +
+                ", cancreate=" + cancreate +
+                ", delete=" + delete +
+                '}';
+    }
 }

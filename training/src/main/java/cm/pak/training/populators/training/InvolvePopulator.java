@@ -8,15 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 @Component
 public class InvolvePopulator implements Populator<InvolvedModel, InvolvedData> {
-
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("dd-MM-yyyy");
     @Autowired
     private UserPopulator userPopulator;
     @Autowired
     private TrainingSessionPopulator sessionPopulator;
+    @Autowired
+    private TrainingGroupPopulator groupPopulator ;
 
 
     @Override
@@ -33,6 +36,14 @@ public class InvolvePopulator implements Populator<InvolvedModel, InvolvedData> 
         data.setRole(source.getRole());
         data.setPk(source.getPk());
         data.setRegistered(source.isRegistred());
+
+        if (Objects.nonNull(source.getRegistredDate())) {
+            data.setRegistredDate(SDF.format(source.getRegistredDate()));
+        }
+
+        if (Objects.nonNull(source.getGroup())) {
+            data.setGroup(groupPopulator.populate(source.getGroup()));
+        }
         return data;
     }
 
@@ -49,6 +60,13 @@ public class InvolvePopulator implements Populator<InvolvedModel, InvolvedData> 
         data.setRole(source.getRole());
         data.setPk(source.getPk());
         data.setRegistred(source.isRegistered());
+        if (Objects.nonNull(source.getRegistredDate())) {
+            data.setRegistredDate(SDF.parse(source.getRegistredDate()));
+        }
+
+        if (Objects.nonNull(source.getGroup())) {
+            data.setGroup(groupPopulator.revert(source.getGroup()));
+        }
         return data;
     }
 }

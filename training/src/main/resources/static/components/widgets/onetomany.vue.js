@@ -1,19 +1,36 @@
 var onetomany = Vue.component("v-onetomany", {
-     props: ["field", "data"],
+     props: ["field", "data", "disabled"],
      data() {
         return {
            meta : null,
            instance : null,
            dialog : null,
-           keyValue: 12
+           keyValue: 12,
+           type : "view"
         }
      },computed : {
         columns() { return this.meta != null ? this.meta.columns : []},
         datas() {  return this.data == null ? [] : this.data[this.field.name]},
         id() { return "d-".concat(this.field.name) ;},
-        editable() { return this.field.editable } ,
-        deletable() { return this.field.deletable },
-        updatable() { return this.field.updatable;},
+        editable() {
+           console.log("---------------------------------"+this.desabled)
+           if (this.disabled) {
+              return false;
+           }
+           return  this.field.editable
+        } ,
+        deletable() {
+           if (this.disabled) {
+             return false;
+           }
+           return this.field.deletable
+        },
+        updatable() {
+           if (this.disabled) {
+            return false;
+           }
+           return this.field.updatable;
+        },
         key() { return new Date().getTime();}
      },methods : {
         fieldValue(item, col) {
@@ -24,33 +41,46 @@ var onetomany = Vue.component("v-onetomany", {
           return item[col.name];
         }, async add() {
              try {
+                this.type = "view";
                 let response = await axios.get("/api/v1/instance/".concat(this.field.metadata));
                 this.instance = response.data ;
+                this.showDialog();
+             } catch (error) {
+                 console.log(error);
+              }
+         },showDialog() {
+            try {
                 this.dialog = "t-dialog";
                 this.keyValue = new Date().getTime();
                 var modal = new bootstrap.Modal(document.getElementById(this.id), {
                   keyboard: false
                 });
                 modal.show();
-             } catch (error) {
-                 console.log(error);
-              }
+            } catch(error) {}
          },itemSelected(item) {
-            this.instance = item ;
+            this.instance = Object.assign({}, item) ;
          },update() {
+            this.type = "view";
             if (this.instance != null) {
-              this.dialog = "t-dialog";
-              this.keyValue = new Date().getTime();
-               var modal = new bootstrap.Modal(document.getElementById(this.id), {
-                 keyboard: false
-               });
-               modal.show();
+              this.showDialog();
             } else {
                alert("Veuillez selectionner une ligne");
             }
+         },view() {
+             this.type = "view-only";
+             if (this.instance != null) {
+               this.showDialog();
+             } else {
+                alert("Veuillez selectionner une ligne");
+             }
          },refreshList(item) {
               if (this.data[this.field.name] != null) {
-                  this.data[this.field.name].push(item);
+                 if (item.pk == null) {
+                    this.data[this.field.name].push(item);
+                 } else {
+                      const index = this.data[this.field.name].findIndex((val) => val.pk==item.pk);
+                      this.data[this.field.name].splice(index, 1, item);
+                 }
               }
           }
      },async created() {
@@ -70,7 +100,7 @@ var onetomany = Vue.component("v-onetomany", {
                              <a class="nav-link data-button" href="#"  @click="update()" v-if="updatable">
                                  <img src="../../images/upda.gif" class="rounded">
                              </a>
-                             <a class="nav-link data-button" href="#">
+                             <a class="nav-link data-button" href="#" @click="view()">
                                 <img src="../../images/view.gif" class="rounded">
                              </a>
                              <a class="nav-link data-button" href="#" v-if="deletable">
@@ -81,7 +111,7 @@ var onetomany = Vue.component("v-onetomany", {
                                :field="field"
                                :meta="meta"
                                :data="instance"
-                               type="view"
+                               :type="type"
                                :key="key"
                                @dialog-save="refreshList"></component>
                         </div>

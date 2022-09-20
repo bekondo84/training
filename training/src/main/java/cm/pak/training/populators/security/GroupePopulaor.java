@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class GroupePopulaor implements Populator<GroupeModel, GroupeData> {
@@ -51,7 +52,10 @@ public class GroupePopulaor implements Populator<GroupeModel, GroupeData> {
             model.setPlugin(populator.revert(source.getPlugin()));
         }
         if (!CollectionUtils.isEmpty(source.getRigths())) {
-            source.getRigths().forEach(grp -> rigthPopulator.revert(grp));
+            model.setRigths(source.getRigths()
+                    .stream()
+                    .map(g -> rigthPopulator.revert(g))
+                    .collect(Collectors.toSet()));
         }
         return model;
     }

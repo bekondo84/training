@@ -2,9 +2,11 @@ package cm.pak.models.training;
 
 import cm.pak.models.security.UserModel;
 import cm.pak.models.security.base.ItemModel;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,7 +28,7 @@ public class TrainingGroupModel extends ItemModel implements Serializable {
     private Integer availablePlaces;
     @Column(name = "t_repl")
     private Integer reservePlaces;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "regis_user_tb"
             , joinColumns = @JoinColumn(name = "t_grou")
             ,inverseJoinColumns = @JoinColumn(name = "t_user"))
@@ -95,7 +97,7 @@ public class TrainingGroupModel extends ItemModel implements Serializable {
     }
 
     public Set<UserModel> getRegistered() {
-        return registered;
+        return Collections.unmodifiableSet(registered);
     }
 
     public void setRegistered(Set<UserModel> registered) {
@@ -124,5 +126,11 @@ public class TrainingGroupModel extends ItemModel implements Serializable {
 
     public void setTimeSheet(Set<TimeSheetItemModel> timeSheet) {
         this.timeSheet = timeSheet;
+    }
+
+    public void register(final UserModel user) {
+        this.reservePlaces++;
+        this.availablePlaces--;
+        this.registered.add(user);
     }
 }

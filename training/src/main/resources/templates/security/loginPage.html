@@ -7,25 +7,25 @@
     <link th:rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}"/>
     <link th:rel="stylesheet" th:href="@{/assets/css/login.css}">
     <link th:rel="icon" type="image/x-icon" th:href="@{/images/faviconpac.png}">
-    <title>myLearning</title>
+    <title>My Learning</title>
 </head>
 <body class="login-page">
-<div class="login-box">
+<div class="login-box" id="app">
     <div class="login-logo">
         <a href="index2.html"><b><img th:src="@{/images/logo1.jpg}" height="100" class="rounded-circle" alt="Port Autonome de Kribi"/> </a>
     </div><!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">Connectez vous pour ouvrir votre session  Sign in to start your session</p>
-        <form th:action="@{/login}" method="post">
+        <form th:action="@{/login}" method="post" th:object="${user}">
             <div th:if="${param.error}">
                 <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
             </div>
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" placeholder="Email" id="username" name="username" required autofocus/>
+                <input type="text" class="form-control" placeholder="Email" id="username" name="username" th:field="*{username}" required autofocus/>
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" class="form-control" placeholder="Password" id="password" name="password" required/>
+                <input type="password" class="form-control" placeholder="Password" id="password" name="password" th:field="*{password}" required/>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="row">
@@ -42,15 +42,6 @@
         <a href="index2.html">Mot de passe oublier </a><br>
 
     </div><!-- /.login-box-body -->
-</div><!-- /.login-box -->
-<script>
-      $(function () {
-        $('input').iCheck({
-          checkboxClass: 'icheckbox_square-blue',
-          radioClass: 'iradio_square-blue',
-          increaseArea: '20%' // optional
-        });
-      });
-    </script>
+ </div><!-- /.login-box -->
 </body>
 </html>

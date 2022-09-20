@@ -1,4 +1,4 @@
-var mylearningD = Vue.component("my-dialog", {
+var myDialog = Vue.component("myDialog", {
     props: ["data"],
     data() {
        return {
@@ -10,7 +10,7 @@ var mylearningD = Vue.component("my-dialog", {
           collapse(group) { return "collapse".concat(group.pk);},
           dataBs(group) { return "#collapse"+group.pk;},
           register(group) {
-              this.$emit("register-action", group);
+             this.$emit("register-action", group);
           }
     }, computed : {
           dialogId() { return "my-dialog";},
@@ -40,7 +40,8 @@ var mylearningD = Vue.component("my-dialog", {
                            <div class="accordion" id="accordionGroups">
                              <div class="accordion-item" v-for="group in groups">
                                <h2 class="accordion-header" :id="group.pk">
-                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="dataBs(group)" aria-expanded="true" :aria-controls="collapse(group)">
+                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="dataBs(group)"
+                                         aria-expanded="true" :aria-controls="collapse(group)">
                                    {{group.value}}
                                  </button>
                                </h2>
@@ -48,7 +49,7 @@ var mylearningD = Vue.component("my-dialog", {
                                  <div class="accordion-body">
                                      <div class="title-bar">
                                         <nav class="nav">
-                                          <a class="btn btn-danger btn-sm" aria-current="page" href="#">Register</a>
+                                          <a class="btn btn-danger btn-sm" aria-current="page" href="#" @click.self="register(group)">Register</a>
                                         </nav>
                                      </div>
                                      <div class="table-responsive">

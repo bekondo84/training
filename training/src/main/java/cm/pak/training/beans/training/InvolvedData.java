@@ -7,6 +7,7 @@ import cm.pak.training.beans.security.UserData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Groups({
@@ -21,8 +22,10 @@ public class InvolvedData extends AbstractItemData implements Serializable {
             @SelectItem(value = "T",name = "teacher"),@SelectItem(value = "L", name = "learner")
     }, column = true)
     private String role ;
-    @Manytoone(group = "general", column = true, sequence = 10, source = "/api/v1/classrooms")
-    private ClassRoomData classRoom;
+    @Manytoone(group = "general", column = true, sequence = 10, source = "/api/v1/groups")
+    private TrainingGroupData group;
+    @Widget(value = "date", group = "general", column = true)
+    private String registredDate ;
     @Widget(value = "checkbox", column = true,group = "general", editable = false)
     private boolean registered ;
 
@@ -38,12 +41,12 @@ public class InvolvedData extends AbstractItemData implements Serializable {
         this.session = session;
     }
 
-    public ClassRoomData getClassRoom() {
-        return classRoom;
+    public TrainingGroupData getGroup() {
+        return group;
     }
 
-    public void setClassRoom(ClassRoomData classRoom) {
-        this.classRoom = classRoom;
+    public void setGroup(TrainingGroupData group) {
+        this.group = group;
     }
 
     public UserData getInvolve() {
@@ -81,5 +84,13 @@ public class InvolvedData extends AbstractItemData implements Serializable {
 
     public void setRegistered(boolean registered) {
         this.registered = registered;
+    }
+
+    public String getRegistredDate() {
+        return registredDate;
+    }
+
+    public void setRegistredDate(String registredDate) {
+        this.registredDate = registredDate;
     }
 }

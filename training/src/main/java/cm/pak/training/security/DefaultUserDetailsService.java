@@ -3,9 +3,11 @@ package cm.pak.training.security;
 import cm.pak.models.security.UserModel;
 import cm.pak.repositories.FlexibleSearch;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class DefaultUserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
@@ -20,6 +22,7 @@ public class DefaultUserDetailsService implements org.springframework.security.c
         if (Objects.isNull(user)) {
             throw new UsernameNotFoundException(String.format("Could not found account with userna"));
         }
-        return new cm.pak.training.security.UserDetails(user);
+        return new cm.pak.training.security.UserDetails(user.getCode(), user.getPassword()
+                , AuthorityUtils.createAuthorityList("ADMIN"));
     }
 }

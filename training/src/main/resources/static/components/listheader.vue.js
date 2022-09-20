@@ -47,7 +47,7 @@ var l_header = Vue.component("l-header", {
                 </ul>
               </li>
           </ul>
-          <div class="margin-left-auto">Pagination Block</div>
+          <div class="margin-left-auto"><v-pagination></v-pagination></div>
        </div>
      </div>`
 

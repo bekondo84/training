@@ -1,5 +1,5 @@
 var manytomany = Vue.component("v-manytomany", {
-     props: ["field", "data"],
+     props: ["field", "data", "desabled"],
      data() {
         return {
            meta : null,
@@ -9,8 +9,8 @@ var manytomany = Vue.component("v-manytomany", {
      },computed : {
         columns() { return this.meta != null ? this.meta.columns : []},
         id() { return this.field != null ?  "#d-".concat(this.field.name) : new Date().getTime();},
-        editable() { return this.field.editable} ,
-        deletable() { return this.field.deletable }
+        editable() { return !this.desabled && this.field.editable} ,
+        deletable() { return !this.desabled && this.field.deletable }
      },methods : {
         fieldValue(item, col) {
             if (item == null) return item;

@@ -5,6 +5,7 @@ import cm.pak.models.security.base.ItemModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "t_invo")
@@ -19,6 +20,12 @@ public class InvolvedModel extends ItemModel implements Serializable {
     private String role ;
     @Column(name = "t_regi")
     private boolean registred ;
+    @Column(name = "t_reda")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registredDate ;
+    @ManyToOne
+    @JoinColumn(name = "t_trgr")
+    private TrainingGroupModel group;
 
     public InvolvedModel() {
     }
@@ -53,5 +60,21 @@ public class InvolvedModel extends ItemModel implements Serializable {
 
     public void setRegistred(boolean registred) {
         this.registred = registred;
+    }
+
+    public TrainingGroupModel getGroup() {
+        return group;
+    }
+
+    public void setGroup(TrainingGroupModel group) {
+        this.group = group;
+    }
+
+    public Date getRegistredDate() {
+        return registredDate;
+    }
+
+    public void setRegistredDate(Date registredDate) {
+        this.registredDate = registredDate;
     }
 }

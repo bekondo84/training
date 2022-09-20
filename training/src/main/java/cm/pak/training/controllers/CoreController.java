@@ -4,17 +4,24 @@ import cm.pak.data.MetaData;
 import cm.pak.repositories.FlexibleSearch;
 import cm.pak.services.MetaService;
 import cm.pak.training.beans.AbstractItemData;
+import cm.pak.training.beans.security.JwtResponse;
+import cm.pak.training.beans.security.UserDTO;
 import cm.pak.training.facades.core.ExtensionFacade;
+import cm.pak.training.security.JwtTokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.NoResultException;
 
@@ -29,6 +36,12 @@ public class CoreController extends AbstractController{
     private MetaService metaService ;
     @Autowired
     private FlexibleSearch flexibleSearch;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtTokenService jwtTokenUtil;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @GetMapping
     public String home(Authentication authentication) {
@@ -60,6 +73,48 @@ public class CoreController extends AbstractController{
             return ResponseEntity.ok(null);
         }
 
+    }
 
+    @GetMapping("/login")
+    public String login(final Model model) {
+            model.addAttribute("user", new UserDTO());
+            return "/security/loginPage";
+    }
+
+    @PostMapping("/login")
+    public String login(@ModelAttribute("user") final UserDTO user, final Model model)  {
+        final Authentication auth;
+        try {
+            auth = authenticate(user.getUsername(), user.getPassword());
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            model.addAttribute("token", jwtTokenUtil.generateToken(auth));
+            return "/home/template";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "/security/loginPage";
+    }
+    @RequestMapping(value = "/auth/token", method = RequestMethod.POST)
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody UserDTO authenticationRequest) throws Exception {
+
+        final Authentication auth = authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        return ResponseEntity.ok(new JwtResponse(jwtTokenUtil.generateToken(auth)));
+    }
+
+    /**
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
+        return ResponseEntity.ok(userDetailsService.save(user));
+    }
+   **/
+    private Authentication authenticate(String username, String password) throws Exception {
+        try {
+            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (DisabledException e) {
+            throw new Exception("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+            throw new Exception("INVALID_CREDENTIALS", e);
+        }
     }
 }

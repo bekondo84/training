@@ -54,11 +54,6 @@ public class DefaultGroupeFacade implements GroupeFacade {
     @Transactional
     public void save(GroupeData grp) throws ModelServiceException, URISyntaxException, IOException {
         final GroupeModel groupe = populator.revert(grp);
-        GroupeModel loadGrp = null ;
-
-        if (grp.getPk() != null) {
-            loadGrp = flexibleSearch.find(GroupeModel.class, grp.getPk());
-        }
         if (Objects.nonNull(groupe.getPlugin()) && CollectionUtils.isEmpty(grp.getRigths())) {
             getAccessRigths(groupe);
         }

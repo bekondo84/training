@@ -25,7 +25,6 @@ var dialog = Vue.component("t-dialog", {
               this.$emit('dialog-save', this.data);
            }
        },validate() {
-           console.log ("Validate  ::::::::::::::::::: "+JSON.stringify(this.meta.groups.length))
            if (this.meta != null) {
                for (var i=0; i < this.meta.groups.length; i++) {
                   let fields = this.meta.groups[i].fields;
@@ -61,7 +60,8 @@ var dialog = Vue.component("t-dialog", {
                         <d-form v-else
                             :meta="meta"
                             :field="field"
-                            :data="data">
+                            :data="data"
+                            :type="type">
                         </d-form>
                       </div>
                       <d-footer :type="type"
