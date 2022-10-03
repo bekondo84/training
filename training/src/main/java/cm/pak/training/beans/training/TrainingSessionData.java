@@ -23,6 +23,11 @@ public class TrainingSessionData extends AbstractItemData implements Serializabl
     private String intitule;
     @Manytoone(group = "general", column = true, source = "/api/v1/trainings")
     private TrainingData training;
+    @Select(group = "general", value = {
+            @SelectItem(value = "P", name = "Publiée"),
+            @SelectItem(value = "C", name = "Masquée")
+    }, editable = false, column = true)
+    private String statut ;
     @Widget(value = "date", group = "general" ,column = true)
     private String startAt;
     @Widget(value = "date", group = "general", column = true)
@@ -34,6 +39,7 @@ public class TrainingSessionData extends AbstractItemData implements Serializabl
 
     public TrainingSessionData() {
         learners = new ArrayList<>();
+        statut ="C";
     }
 
     public String getCode() {
@@ -98,6 +104,14 @@ public class TrainingSessionData extends AbstractItemData implements Serializabl
 
     public void setGroups(List<TrainingGroupData> groups) {
         this.groups = groups;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
     }
 
     @Override

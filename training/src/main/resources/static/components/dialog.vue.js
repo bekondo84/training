@@ -48,7 +48,7 @@ var dialog = Vue.component("t-dialog", {
                   <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                        <div class="modal-header">
-                            <h5 class="modal-title title"">{{title}}</h5>
+                            <h6 class="modal-title title">{{title}}</h6>
                             <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
                        </div>
                        <div class="modal-body">

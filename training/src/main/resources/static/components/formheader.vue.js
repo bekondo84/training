@@ -22,14 +22,15 @@ var formHeader = Vue.component("f-header", {
                   await axios.delete(this.menu.source.concat("/").concat(this.data.pk));
                   this.$emit("refresh-list-form");
                 } catch (error) {
-                  console.log(error);
+                   this.$emit("notify-error", error) ;
                 }
             }
          },async save() {
            try {
               let response = await axios.post(this.menu.source, this.data);
+              this.$emit("notify-success") ;
             }catch (error) {
-               console.log(error);
+               this.$emit("notify-error", error) ;
             }
          },cancel() {
             this.$emit("cancel-event");

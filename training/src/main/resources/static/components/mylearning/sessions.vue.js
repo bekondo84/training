@@ -4,7 +4,8 @@ var session = Vue.component("session", {
       return {
         localdata : Object.assign({}, this.data),
         container : "s-body",
-        item : {}
+        item : {},
+        selectedGroup : {}
       }
    }, computed : {
       dialogId() { return "my-dialog"; }
@@ -17,20 +18,28 @@ var session = Vue.component("session", {
             let response = await axios.get("/api/v1/mylearning/".concat(item.pk));
             this.item = response.data;
      }, async registerGroup(group) {
-        console.log("--------------*************************** registerGroup : "+JSON.stringify(group))
         try {
-           let response = await axios.post("/api/v1/mylearning/".concat(group.pk), this.item);
+           let response = await axios.post("/api/v1/mylearning/register/".concat(group.pk), this.item);
            this.localdata = Object.assign({}, response.data);
-            var modal = new bootstrap.Modal.getInstance(document.getElementById(this.dialogId));
+           var modal = bootstrap.Modal.getInstance(document.getElementById(this.dialogId));
             modal.hide();
          } catch (error) {
              console.log(error);
          }
+     }, async unRegisterGroup(group) {
+          try {
+             let response = await axios.post("/api/v1/mylearning/unregister/".concat(group.pk), this.item);
+             this.localdata = Object.assign({}, response.data);
+             var modal = bootstrap.Modal.getInstance(document.getElementById(this.dialogId));
+              modal.hide();
+           } catch (error) {
+               console.log(error);
+           }
      }
    }, watch: {
       data: function(newVal, oldVal) {
            this.localdata = Object.assign({}, newVal);
-      }
+      },
    }, created() {
 
    }, template : `<div class="editor">
@@ -46,6 +55,7 @@ var session = Vue.component("session", {
            </s-body>
            <myDialog
                 :data="item"
-                @register-action="registerGroup"></myDialog>
+                @register-action="registerGroup"
+                @unregister-action="unRegisterGroup"></myDialog>
    </div>`
 });

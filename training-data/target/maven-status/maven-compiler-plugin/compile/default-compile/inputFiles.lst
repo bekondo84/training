@@ -1,3 +1,4 @@
+C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\models\MailTemplateModel.java
 C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\annotations\Tab.java
 C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\annotations\Group.java
 C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\models\training\TrainingModel.java
@@ -17,6 +18,8 @@ C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\jav
 C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\models\training\TrainingThemeModel.java
 C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\models\core\AbstractMenu.java
 C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\repositories\impl\DefaultFlexibleSearch.java
+C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\annotations\Filters.java
+C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\annotations\Filter.java
 C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\exceptions\ModelServiceException.java
 C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\models\core\MenuItemModel.java
 C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\models\security\GroupeModel.java
@@ -29,6 +32,7 @@ C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\jav
 C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\repositories\FlexibleSearch.java
 C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\models\training\TimeSheetItemModel.java
 C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\models\training\TrainingSessionModel.java
+C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\models\core\MailModel.java
 C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\annotations\Manytomany.java
 C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\repositories\impl\DefaultModelService.java
 C:\Users\dieunedort.bekondo\IdeaProjects\pak-training\training-data\src\main\java\cm\pak\annotations\Manytoone.java

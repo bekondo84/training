@@ -57,7 +57,7 @@ public class DefaultGroupeFacade implements GroupeFacade {
         if (Objects.nonNull(groupe.getPlugin()) && CollectionUtils.isEmpty(grp.getRigths())) {
             getAccessRigths(groupe);
         }
-
+        LOG.info(String.format("++++++++++++++++++++++++++++++++++ %s", groupe));
         modelService.createOrUpdate(groupe);
     }
 

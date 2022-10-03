@@ -81,4 +81,14 @@ public class GroupeModel extends ItemModel implements Serializable {
     public int hashCode() {
         return Objects.hash(super.hashCode(), code);
     }
+
+    @Override
+    public String toString() {
+        return "GroupeModel{" +
+                "code='" + code + '\'' +
+                ", intitule='" + intitule + '\'' +
+                ", plugin=" + plugin +
+                ", rigths=" + rigths +
+                '}';
+    }
 }

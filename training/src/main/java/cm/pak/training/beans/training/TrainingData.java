@@ -20,7 +20,7 @@ public class TrainingData extends AbstractItemData implements Serializable {
     private TrainingThemeData theme ;
     @Widget(value = "text", group = "general", column = true)
     private String description;
-    @Widget(value = "text", group = "description")
+    @Widget(value = "textarea", group = "description")
     private String fullDescription;
     @Widget(value = "number", group = "general", column = true)
     private Integer sequence;

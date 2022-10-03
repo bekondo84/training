@@ -21,8 +21,11 @@ var sessionbody = Vue.component("s-body", {
                    <h5 class="card-title">{{d.training.name}}</h5>
                    <p class="card-text">{{d.training.fullDescription}}</p>
                    <p class="card-text"><small class="text-muted">date limite inscription : {{d.startAt}}</small></p>
-                   <a href="#" class="btn btn-danger btn-sm" @click="register(d)">
+                   <a href="#" class="btn btn-success btn-sm" @click="register(d)" v-if="!d.registered">
                      register
+                   </a>
+                   <a href="#" class="btn btn-danger btn-sm" @click="register(d)" v-if="d.registered">
+                     unregister
                    </a>
                  </div>
                </div>

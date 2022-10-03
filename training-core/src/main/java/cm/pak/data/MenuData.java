@@ -20,9 +20,11 @@ public class MenuData implements Serializable {
     private String viewMode ;
     private List<MenuData> children ;
     private List<ActionData> actions ;
+    private boolean show ;
 
     public MenuData() {
         this.children = new ArrayList<>();
+        this.show = false;
     }
 
     public String getName() {
@@ -105,5 +107,11 @@ public class MenuData implements Serializable {
         this.viewMode = viewMode;
     }
 
+    public boolean isShow() {
+        return show;
+    }
 
+    public void setShow(boolean show) {
+        this.show = show;
+    }
 }

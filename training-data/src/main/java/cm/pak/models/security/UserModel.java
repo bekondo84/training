@@ -4,10 +4,7 @@ import cm.pak.models.security.base.ItemModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "T_USER")
@@ -28,7 +25,10 @@ public class UserModel extends ItemModel implements Serializable {
     @Column(name = "t_pwd")
     private String password ;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @Column(name = "t_email")
+    private String email;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "t_user_grou", joinColumns = @JoinColumn(name = "t_user"), inverseJoinColumns = @JoinColumn(name = "t_grou"))
     private Set<GroupeModel> profils;
 
@@ -86,5 +86,27 @@ public class UserModel extends ItemModel implements Serializable {
     }
     public void addProfil(final GroupeModel profil) {
          profils.add(profil);
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        UserModel userModel = (UserModel) o;
+        return code.equals(userModel.code);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), code);
     }
 }

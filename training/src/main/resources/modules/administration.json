@@ -70,6 +70,17 @@
           "children": null,
           "actions": [
             {
+              "name": "user.modifpassword.action",
+              "label": "user.modifpassword.action",
+              "source" : "/api/v1/users/setPassword",
+              "method": "get",
+              "listComponent": "list-component",
+              "viewComponent": "view-component",
+              "metadata": "cm.pak.training.beans.security.SetPasswordData",
+              "icon": null,
+              "scope" : "view",
+              "type":"list"
+            },{
               "name": "user.import.action",
               "label": "user.import.action",
               "source" : "/api/v1/users/import",
@@ -84,7 +95,7 @@
           ]
         }]
     },{
-      "name": "settings_menu",
+      "name": "settings.menu",
       "label": "settings_menu_label",
       "order": "3",
       "listComponent": null,
@@ -104,46 +115,34 @@
         "children": null
       },{
           "name": "mailling",
-          "label": "mailling_menu_label",
+          "label": "mailling.menu.label",
           "order" : "1",
-          "listComponent": "list-component",
-          "viewComponent": "view-component",
-          "metadata": "cm.pak.training.beans.core.ExtensionData",
+          "listComponent": null,
+          "viewComponent": null,
+          "metadata": null,
           "source": "#",
           "children": [
             {
-              "name": "mailling_config",
-              "label": "mailling_config_label",
+              "name": "mail.template",
+              "label": "mail.template.label",
               "order" : "1",
               "listComponent": "list-component",
               "viewComponent": "view-component",
-              "metadata": "cm.pak.training.beans.core.ExtensionData",
-              "source": "/api/v1/plugins",
+              "metadata": "cm.pak.training.beans.core.MailTemplateData",
+              "source": "/api/v1/mail-templates",
               "viewMode": "list,view",
               "children": null
             },{
-              "name": "mailling_server",
-              "label": "mailling8server_label",
+              "name": "mail.available",
+              "label": "mail.available.label",
               "order" : "2",
               "listComponent": "list-component",
               "viewComponent": "view-component",
-              "metadata": "cm.pak.training.beans.core.ExtensionData",
-              "source": "/api/v1/plugins",
+              "metadata": "cm.pak.training.beans.core.MailData",
+              "source": "/api/v1/mails",
               "viewMode": "list,view",
               "children": null
-            },
-            {
-              "name": "mailling_template",
-              "label": "mailling_template_label",
-              "order" : "3",
-              "listComponent": "list-component",
-              "viewComponent": "view-component",
-              "metadata": "cm.pak.training.beans.core.ExtensionData",
-              "source": "/api/v1/plugins",
-              "viewMode": "list,view",
-              "children": null
-            }
-          ]
+            }]
         }]
     }]
 }

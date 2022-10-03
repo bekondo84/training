@@ -10,7 +10,8 @@ var formbody = Vue.component("f-body", {
     },methods : {
         isInputField(field) {
               return field.type == "text" || field.type=="number" || field.type=="datetime-local"
-                 || field.type=="file" || field.type =="date" || field.type=="time" || field.type=="email" ;
+                 || field.type=="file" || field.type =="date" || field.type=="time"
+                 || field.type=="email" || field.type=="password";
          },
          isTextareaField(field) {
                return field.type == "textarea";
@@ -58,22 +59,25 @@ var formbody = Vue.component("f-body", {
                                            :disabled="isDisabled(field)"></v-textarea>
                                      <t-checkbox v-if="isCheckboxField(field)"
                                            :data="data"
-                                           :field="field"></t-checkbox>
+                                           :field="field"
+                                           :disabled="isDisabled(field)"></t-checkbox>
                                      <t-manytoone v-if="isManyToOneField(field)"
                                          v-model="data[field.name]"
                                          :field="field"
                                          :data="data"
-                                         :disabled="isDisabled(field)"
-                                         ></t-manytoone>
+                                         :disabled="isDisabled(field)"></t-manytoone>
                                       <v-onetomany v-if="isOneToManyField(field)"
                                           :field="field"
-                                          :data="data"></v-onetomany>
+                                          :data="data"
+                                          :disabled="isDisabled(field)"></v-onetomany>
                                       <v-manytomany v-if="isManyToManyField(field)"
                                           :field="field"
-                                          :data="data"></v-manytomany>
+                                          :data="data"
+                                          :disabled="isDisabled(field)"></v-manytomany>
                                       <v-select v-if="isSelect(field)"
                                               :field="field"
-                                              :data="data"></v-select>
+                                              :data="data"
+                                              :disabled="isDisabled(field)"></v-select>
                                 </v-col>
                              </v-row>
                              <v-row v-else>
@@ -86,13 +90,16 @@ var formbody = Vue.component("f-body", {
                                       <v-textarea v-if="isTextareaField(field)"
                                             :autocomplete="field.label"
                                             :label="field.label"
-                                            v-model="data[field.name]"></v-textarea>
+                                            v-model="data[field.name]"
+                                            :disabled="isDisabled(field)"></v-textarea>
                                       <v-onetomany v-if="isOneToManyField(field)"
                                              :field="field"
-                                             :data="data"></v-onetomany>
+                                             :data="data"
+                                             :disabled="isDisabled(field)"></v-onetomany>
                                       <v-manytomany v-if="isManyToManyField(field)"
                                             :field="field"
-                                            :data="data"></v-manytomany>
+                                            :data="data"
+                                            :disabled="isDisabled(field)"></v-manytomany>
                                  </v-col>
                              </v-row>
                            </v-container>

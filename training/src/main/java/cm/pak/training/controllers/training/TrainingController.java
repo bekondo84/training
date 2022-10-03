@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/trainings")
+@CrossOrigin
 public class TrainingController {
 
     @Autowired

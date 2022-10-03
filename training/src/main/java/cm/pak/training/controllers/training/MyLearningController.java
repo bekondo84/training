@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/mylearning")
+@CrossOrigin
 public class MyLearningController {
     private static final Logger LOG = LoggerFactory.getLogger(CoreController.class);
     @Autowired
@@ -31,7 +32,7 @@ public class MyLearningController {
         return ResponseEntity.ok(facade.getMyLearning(pk));
     }
 
-    @PostMapping("/{pk}")
+    @PostMapping("/register/{pk}")
     public ResponseEntity<List<MyLearningData>> register(@PathVariable("pk")Long groupPk
             , @RequestBody MyLearningData source) throws ModelServiceException {
         final MyLearningGroupData group = source.getGroups()
@@ -39,5 +40,14 @@ public class MyLearningController {
                                                 .filter(gr -> gr.getPk().equals(groupPk))
                                                 .findAny().get();
         return ResponseEntity.ok(facade.register(source, group));
+    }
+    @PostMapping("/unregister/{pk}")
+    public ResponseEntity<List<MyLearningData>> unRegister(@PathVariable("pk")Long groupPk
+            , @RequestBody MyLearningData source) throws ModelServiceException {
+        final MyLearningGroupData group = source.getGroups()
+                .stream()
+                .filter(gr -> gr.getPk().equals(groupPk))
+                .findAny().get();
+        return ResponseEntity.ok(facade.unRegister(source, group));
     }
 }

@@ -24,6 +24,8 @@ public class TrainingSessionModel extends ItemModel implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "t_end")
     private Date endAt ;
+    @Column(name = "t_statu")
+    private String statut ;
     @OneToMany(mappedBy = "session")
     private List<InvolvedModel> learners ;
     @OneToMany(mappedBy = "session")
@@ -32,6 +34,7 @@ public class TrainingSessionModel extends ItemModel implements Serializable {
     public TrainingSessionModel() {
         learners = new ArrayList<>();
         groups = new ArrayList<>();
+        this.statut = "B";
     }
 
     public String getCode() {
@@ -88,5 +91,13 @@ public class TrainingSessionModel extends ItemModel implements Serializable {
 
     public void setGroups(List<TrainingGroupModel> groups) {
         this.groups = groups;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
     }
 }

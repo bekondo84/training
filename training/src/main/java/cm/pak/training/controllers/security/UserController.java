@@ -2,7 +2,9 @@ package cm.pak.training.controllers.security;
 
 import cm.pak.exceptions.ModelServiceException;
 import cm.pak.training.beans.ImportData;
+import cm.pak.training.beans.security.SetPasswordData;
 import cm.pak.training.beans.security.UserData;
+import cm.pak.training.exceptions.TrainingException;
 import cm.pak.training.facades.security.UserFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@CrossOrigin
 public class UserController {
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
     @Autowired
@@ -41,14 +44,24 @@ public class UserController {
         facade.remove(pk);
     }
 
-    @GetMapping("/import")
+    @GetMapping("/import/{pk}")
     public ResponseEntity<ImportData> getImport() {
        return  ResponseEntity.ok(new ImportData());
     }
 
-    @PostMapping("/import")
+    @PostMapping("/import/{pk}")
     public ResponseEntity<ImportData> importData(@RequestBody ImportData source) {
-        LOG.info(String.format("------------------------- %s", source));
         return ResponseEntity.ok(source);
+    }
+
+    @GetMapping("/setPassword/{pk}")
+    public ResponseEntity<SetPasswordData> setPasswordData(@PathVariable("pk")Long pk) {
+        final SetPasswordData data = new SetPasswordData();
+        data.setPk(pk);
+        return ResponseEntity.ok(data);
+    }
+    @PostMapping("/setPassword/{pk}")
+    public ResponseEntity<UserData> setPassword(@PathVariable("pk")Long pk, @RequestBody SetPasswordData source) throws ModelServiceException, TrainingException {
+          return ResponseEntity.ok(facade.setPassword(pk,  source));
     }
 }

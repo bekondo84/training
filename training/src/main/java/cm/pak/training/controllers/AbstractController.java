@@ -19,8 +19,8 @@ public abstract class AbstractController {
     protected MetaService metaService;
 
 
-    @RequestMapping("/search/{searchKey}/{value}")
-    public ResponseEntity getItemBySearchKey(final @PathVariable("searchKey") String seachKey, final @PathVariable("value")  Object value) {
+    @RequestMapping("/search/{page}/{searchKey}")
+    public ResponseEntity getItemBySearchKey(final @PathVariable("page") Integer page, final @PathVariable("searchKey")  String search) {
         return ResponseEntity.ok(null);
     }
 

@@ -28,6 +28,8 @@ public class MyLearningData extends AbstractItemData implements Serializable {
     private String startAt;
     @Widget(value = "date", group = "general", column = true)
     private String endAt ;
+    @Widget(value = "checkbox", group = "general", column = true)
+    private boolean registered ;
     @Onetomany(group = "planing", editable = false, updatable = false, deletable = false, source = "/api/v1/sessionGroups")
     private List<MyLearningGroupData> groups ;
 
@@ -89,6 +91,14 @@ public class MyLearningData extends AbstractItemData implements Serializable {
 
     public void setGroups(List<MyLearningGroupData> groups) {
         this.groups = groups;
+    }
+
+    public boolean isRegistered() {
+        return registered;
+    }
+
+    public void setRegistered(boolean registered) {
+        this.registered = registered;
     }
 
     @Override

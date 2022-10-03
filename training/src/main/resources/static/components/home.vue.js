@@ -12,13 +12,27 @@ var home = Vue.component("t-home", {
            caretaker : []
        }
    },methods : {
-      async onPluginChange(plugin) {
+      showAlert(type, message) {
+         var alertClass = "" ;
+         if (type =="error") {
+             alertClass = "alert alert-danger "; //"
+         } else {
+            alertClass = "alert alert-success ";
+         }
+         alertClass = alertClass.concat("alert-dismissible fade show");
+         innerHtml = "<div class=\"".concat(alertClass).concat("\" role=\"alert\" style=\"position: absolute;margin-left: 30%;\">")
+                     .concat(message)
+                     .concat("<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div>")
+         var domElement = document.getElementById("alert")
+         domElement.innerHTML = innerHtml;
+      },async onPluginChange(plugin) {
           if (this.plugin == null || this.plugin.code != plugin.code ) {
               this.plugin = plugin ;
               this.menus = plugin.menus ;
               this.caretaker = [];
            }
        },async onMenuChange(menu) {
+         try {
            this.menu = menu ;
            this.caretaker = [];
            if (menu != null) {
@@ -36,6 +50,9 @@ var home = Vue.component("t-home", {
                  this.container = menu.viewComponent ;
               }
            }
+         } catch(error) {
+            this.notifyError(error);
+         }
        }, createdMomento() {
            let momento = new Object();
            momento.menu = this.menu ;
@@ -59,7 +76,7 @@ var home = Vue.component("t-home", {
              this.container = this.menu.viewComponent ;
              this.viewMode = "view";
            }catch(error){
-             console.log(error);
+             this.notifyError(error);
            }
        },async createdAction(data) {
           this.createdMomento();
@@ -72,8 +89,12 @@ var home = Vue.component("t-home", {
            if (!Array.isArray(this.data)) {
                source = source.concat("/").concat(this.data.pk);
            }
-           let response = await axios.get(source);
-           this.data = response.data;
+           try {
+               let response = await axios.get(source);
+               this.data = response.data;
+           } catch (error) {
+              this.notifyError(error);
+           }
         },async processAction(obj) {
            try {
              this.createdMomento();
@@ -95,8 +116,20 @@ var home = Vue.component("t-home", {
              } else {
                  this.container = action.viewComponent;
              }
+             //this.showAlert("success", "L'operation s'est déroulé avec succès")
            } catch (error) {
-              console.log(error);
+              this.notifyError(error);
+           }
+        }, onPasswordChangeEvent() {
+           this.container = "v-change-password";
+        },notifySusscess() {
+          this.showAlert("success", "L'operation s'est déroulé avec succès");
+        }, notifyError(error) {
+           if (error.response.status=="401") {
+               window.location.href="/logout"
+           } else {
+                console.log("---- "+JSON.stringify(error));
+                this.showAlert("error", "Ouff une erreur s'est produite.".concat("\n").concat(error.message));
            }
         }
    },computed : {
@@ -117,13 +150,17 @@ var home = Vue.component("t-home", {
           }
           //console.log(JSON.stringify(this.menus))
        } catch (error) {
-          console.log(err)
+          this.notifyError(error);
        }
    },
    template:`<div class="parent">
-                   <t-header :plugins ="plugins" @plugin-select="onPluginChange" />
+                   <v-menus-bar :menus ="menus" @menu-change="onMenuChange"/>
                    <main class="container" role="main">
-                       <v-menus-bar :menus ="menus" @menu-change="onMenuChange"/>
+                       <t-header :plugins ="plugins"
+                                          @plugin-select="onPluginChange"
+                                          @password-change-action="onPasswordChangeEvent">
+                                      </t-header>
+                       <div id="alert"></div>
                        <component v-bind:is="container"
                             :menu="menu"
                             :data="data"
@@ -133,7 +170,9 @@ var home = Vue.component("t-home", {
                             @created-action="createdAction"
                             @cancel-event="onCancelEvent"
                             @refresh-list-form="onCancelEvent"
-                            @process-action="processAction"></component>
+                            @process-action="processAction"
+                            @notify-success="notifySusscess"
+                            @notify-error="notifyError"></component>
                    </main>
              </div>`
 });

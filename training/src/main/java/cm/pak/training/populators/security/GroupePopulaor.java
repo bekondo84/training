@@ -42,9 +42,6 @@ public class GroupePopulaor implements Populator<GroupeModel, GroupeData> {
     public GroupeModel revert(GroupeData source) {
         GroupeModel model = new GroupeModel();
         revert(source, model);
-        if (Objects.nonNull(source.getPk())) {
-            model = modelService.find(GroupeModel.class, source.getPk());
-        }
         model.setCode(source.getCode());
         model.setIntitule(source.getIntitule());
 

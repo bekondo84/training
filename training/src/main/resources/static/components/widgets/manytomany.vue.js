@@ -4,13 +4,15 @@ var manytomany = Vue.component("v-manytomany", {
         return {
            meta : null,
            dialog : "t-dialog",
-           selectItem : null
+           selectItem : null,
+           type : "list"
         }
      },computed : {
         columns() { return this.meta != null ? this.meta.columns : []},
-        id() { return this.field != null ?  "#d-".concat(this.field.name) : new Date().getTime();},
+        id() { return "d-".concat(this.field.name) ;},
         editable() { return !this.desabled && this.field.editable} ,
-        deletable() { return !this.desabled && this.field.deletable }
+        deletable() { return !this.desabled && this.field.deletable },
+        key() { return new Date().getTime();}
      },methods : {
         fieldValue(item, col) {
             if (item == null) return item;
@@ -21,13 +23,36 @@ var manytomany = Vue.component("v-manytomany", {
         }, itemSelected(item) {
               this.selectItem = item ;
         }, remove() {
+            console.log("-----------------------------Selected Intem --------")
             if (this.selectItem != null) {
                const index =  this.data[this.field.name].indexOf(this.selectItem);
 
                if (index > -1) {
                    this.data[this.field.name].splice(index, 1);
                }
+            } else {
+                alert("Veuillez selectionner une ligne");
             }
+        },showDialog() {
+             try {
+                 this.dialog = "t-dialog";
+                 this.keyValue = new Date().getTime();
+                 var modal = new bootstrap.Modal(document.getElementById(this.id), {
+                   keyboard: false
+                 });
+                 modal.show();
+             } catch(error) {}
+      },view() {
+            this.type = "view-only";
+            if (this.instance != null) {
+
+              this.showDialog();
+            } else {
+               alert("Veuillez selectionner une ligne");
+            }
+        }, add() {
+            this.type = "list";
+            this.showDialog();
         }
      },async created() {
        try {
@@ -43,11 +68,8 @@ var manytomany = Vue.component("v-manytomany", {
                         <div>
                            <nav class="nav">
                              <a class="nav-link data-button" aria-current="page" href="#"
-                                data-bs-toggle="modal" :data-bs-target="id" v-if="editable">
+                              @click="add()" v-if="editable">
                                 <img src="../../images/add.gif" class="rounded">
-                             </a>
-                             <a class="nav-link data-button" href="#">
-                                 <img src="../../images/view.gif" class="rounded">
                              </a>
                              <a class="nav-link data-button" href="#" @click="remove()" v-if="deletable">
                                 <img src="../../images/dele.gif" class="rounded">
@@ -57,7 +79,7 @@ var manytomany = Vue.component("v-manytomany", {
                                       :field="field"
                                       :meta="meta"
                                       :data="data"
-                                      type="list"></component>
+                                      :type="type"></component>
                         </div>
                         <div class="table-responsive">
                                  <table class="table table-striped table-hover table-sm">

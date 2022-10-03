@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/themes")
+@CrossOrigin
 public class TrainingThemeController {
 
     @Autowired

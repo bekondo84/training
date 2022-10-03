@@ -10,7 +10,7 @@ var l_header = Vue.component("l-header", {
                 let response = await axios.get("/api/v1/instance/".concat(this.menu.metadata));
                 this.$emit("created-action", response.data);
            }catch (error) {
-             console.log(error);
+              this.$emit("notify-error", error) ;
            }
          },cancel() {
            this.$emit("cancel-event");
@@ -22,12 +22,12 @@ var l_header = Vue.component("l-header", {
          actions() {
              return this.menu.actions != null ? this.menu.actions.filter(act => act.type=="list") : [];
          },title() { return this.meta != null ? this.meta.listTitle : ""; },
-     },template : `<div>
+     },template : `<div class="title-bloc">
       <div class="title-bar">
           <div class="title"><p>{{title}}</p></div>
           <div class="input-group margin-left-auto width-350">
-            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-            <button type="button" class="btn btn-outline-primary">search</button>
+            <input type="search" class="form-control form-control-sm rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+            <button type="button" class="btn btn-outline-primary btn-sm">search</button>
           </div>
      </div>
        <div class="title-bar">

@@ -56,11 +56,11 @@
             {
               "name": "session.addlearner.action",
               "label": "session.addlearner.action",
-              "source" : "/api/v1/sessionGroups",
+              "source" : "/api/v1/leaners",
               "method": "get",
               "listComponent": "list-component",
               "viewComponent": "view-component",
-              "metadata": "cm.pak.training.beans.training.TrainingGroupData",
+              "metadata": "cm.pak.training.beans.training.InvolvedData",
               "icon": null,
               "scope" : "list,view",
               "type":"view"
@@ -71,6 +71,28 @@
               "method": "get",
               "listComponent": "list-component",
               "viewComponent": "view-component",
+              "metadata": "cm.pak.training.beans.training.TrainingGroupData",
+              "icon": null,
+              "scope" : "list,view",
+              "type":"view"
+            },{
+              "name": "session.publish.action",
+              "label": "session.publish.action",
+              "source" : "/api/v1/sessions/publish",
+              "method": "post",
+              "listComponent": null,
+              "viewComponent": null,
+              "metadata": "cm.pak.training.beans.training.TrainingGroupData",
+              "icon": null,
+              "scope" : "list,view",
+              "type":"view"
+            },{
+              "name": "session.unpublish.action",
+              "label": "session.unpublish.action",
+              "source" : "/api/v1/sessions/unpublish",
+              "method": "post",
+              "listComponent": null,
+              "viewComponent": null,
               "metadata": "cm.pak.training.beans.training.TrainingGroupData",
               "icon": null,
               "scope" : "list,view",
@@ -103,31 +125,35 @@
               {
                 "name": "training.activate.action",
                 "label": "training.activate",
-                "source" : "/activate",
+                "source" : "/api/v1/trainings/activate",
                 "method": "post",
                 "icon": null,
-                "scope" : "view"
+                "scope" : "view",
+                "type":"view"
               },{
                 "name": "training.desactivate.action",
                 "label": "training.desactivate",
-                "source" : "/desactivate",
+                "source" : "/api/v1/trainings/desactivate",
                 "method": "post",
                 "icon": null,
-                "scope" : "view"
+                "scope" : "view",
+                "type":"view"
             },{
               "name": "training.activate.acion",
               "label": "training.activate",
-              "source" : "/activate",
+              "source" : "/api/v1/trainings/activate",
               "method": "post",
               "icon": null,
-              "scope" : "list"
+              "scope" : "list",
+              "type":"list"
             },{
               "name": "training.desactivate.acion",
               "label": "training.desactivate",
-              "source" : "/desactivate",
+              "source" : "/api/v1/trainings/desactivate",
               "method": "post",
               "icon": null,
-              "scope" : "list"
+              "scope" : "list",
+              "type":"list"
             }
           ]
         },{

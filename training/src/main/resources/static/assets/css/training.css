@@ -6,8 +6,9 @@ html,body
 
 .parent {
    display: flex;
-   flex-flow: column;
+   flex-flow: row;
    height:100%;
+   width : 100%;
 }
 .parent .header {
     flex: 1 1 auto;
@@ -21,7 +22,7 @@ html,body
 {
    max-width: inherit ;
    display: flex ;
-   flex-flow: row unwrap;
+   flex-flow: column nowrap;
    justify-content : flex-start;
    align-items: stretch;
    padding: 1px;
@@ -34,9 +35,15 @@ html,body
  margin-left: 0 ;
  overflow: auto ;
 }
-.menu
+.v-menu-bar
 {
+  display: flex;
+  flex-flow: column nowrap;
   border: 1px groove;
+  width : 310px;
+  height: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 .toolbar
 {
@@ -80,8 +87,14 @@ html,body
    text-transform: uppercase;
    color: rgba(0,0,0,.54);
 }
+.field {
+   font-size: .700rem;
+   font-weight: 500;
+   text-transform: uppercase;
+   color: rgba(0,0,0,.54);
+}
 .card-container-width {
-    width: 80%
+    display: contents;
 }
 .card-container {
 	max-width: inherit ;
@@ -93,3 +106,55 @@ html,body
 .card-margin {
 	margin: 10px
 }
+.title-bloc {
+   background-color: rgb(238, 238, 238) ;
+   border-bottom: 1px solid #cacaca;
+}
+.menubar {
+}
+nav ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+nav ul.menus li {
+  /* Sub Menu */
+}
+nav ul.menus li a {
+	display: block;
+	background: #ebebeb;
+	padding: 10px 15px;
+	color: #333;
+	text-decoration: none;
+	-webkit-transition: 0.2s linear;
+	-moz-transition: 0.2s linear;
+	-ms-transition: 0.2s linear;
+	-o-transition: 0.2s linear;
+	transition: 0.2s linear;
+}
+nav ul.menus li a:hover {
+	background: #f8f8f8;
+	color: #515151;
+}
+nav ul.menus li a .fa {
+	width: 16px;
+	text-align: center;
+	margin-right: 5px;
+	float:right;
+}
+nav ul.menus ul {
+	background-color:#ebebeb;
+}
+nav ul.menus li ul li a {
+	background: #f8f8f8;
+	border-left: 4px solid transparent;
+	padding: 10px 20px;
+}
+nav ul li ul li a:hover {
+	background: #ebebeb;
+	border-left: 4px solid #3498db;
+}
+.currentMenu {
+   background: #ebebeb;
+   border-left: 4px solid #3498db;
+ }

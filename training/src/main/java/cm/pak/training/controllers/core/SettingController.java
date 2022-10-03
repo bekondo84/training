@@ -11,6 +11,7 @@ import java.text.ParseException;
 
 @RestController
 @RequestMapping("/api/v1/settings")
+@CrossOrigin
 public class SettingController {
 
     @Autowired

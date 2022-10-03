@@ -133,4 +133,10 @@ public class TrainingGroupModel extends ItemModel implements Serializable {
         this.availablePlaces--;
         this.registered.add(user);
     }
+
+    public void unRegister(final UserModel user) {
+        this.reservePlaces--;
+        this.availablePlaces++;
+        this.registered.remove(user);
+    }
 }

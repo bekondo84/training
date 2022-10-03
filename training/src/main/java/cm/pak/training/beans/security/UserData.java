@@ -4,6 +4,7 @@ import cm.pak.annotations.*;
 import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.Column;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +31,8 @@ public class UserData extends AbstractItemData implements Serializable {
     })
     private String category ;
 
+    @Widget(value = "email", group = "general")
+    private String email;
     @Manytomany(group ="security", source = "/api/v1/groups")
     private List<GroupeData> profils ;
 
@@ -81,6 +84,14 @@ public class UserData extends AbstractItemData implements Serializable {
         this.genre = genre;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public List<GroupeData> getProfils() {
         return profils;
     }
@@ -100,5 +111,17 @@ public class UserData extends AbstractItemData implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(pk);
+    }
+
+    @Override
+    public String toString() {
+        return "UserData{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", genre='" + genre + '\'' +
+                ", category='" + category + '\'' +
+                ", email='" + email + '\'' +
+                ", profils=" + profils +
+                '}';
     }
 }

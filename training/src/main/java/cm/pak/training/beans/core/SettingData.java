@@ -7,6 +7,7 @@ import cm.pak.models.core.SettingModel;
 import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.Column;
 import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -17,47 +18,97 @@ import java.io.Serializable;
 public class SettingData extends AbstractItemData implements Serializable {
 
     @Widget(value = "text", group = "email.settings")
-    private String smtp ;
-    @Widget(value = "email", group = "email.settings")
-    private String email ;
+    private String mailHost;
     @Widget(value = "number", group = "email.settings")
-    private Integer emailRetry ;
+    private Integer mailPort ;
     @Widget(value = "email", group = "email.settings")
-    private String notifEmail;
+    private String mailUsername;
+    @Widget(value = "password", group = "email.settings")
+    private String mailPassword ;
+    @Widget(value = "text", group = "email.settings")
+    private String mailTransportProtocol;
+    @Widget(value = "checkbox", group = "email.settings")
+    private boolean mailSmtpAuth;
+    @Widget(value = "checkbox", group = "email.settings")
+    private boolean mailSmtpStartTtls;
+    @Widget(value = "checkbox", group = "email.settings")
+    private boolean mailDebug ;
+    @Widget(value = "number", group = "general")
+    private Integer pageSize ;
 
     public SettingData() {
     }
 
-    public String getSmtp() {
-        return smtp;
+    public String getMailHost() {
+        return mailHost;
     }
 
-    public void setSmtp(String smtp) {
-        this.smtp = smtp;
+    public void setMailHost(String mailHost) {
+        this.mailHost = mailHost;
     }
 
-    public String getEmail() {
-        return email;
+    public Integer getMailPort() {
+        return mailPort;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setMailPort(Integer mailPort) {
+        this.mailPort = mailPort;
     }
 
-    public Integer getEmailRetry() {
-        return emailRetry;
+    public String getMailUsername() {
+        return mailUsername;
     }
 
-    public void setEmailRetry(Integer emailRetry) {
-        this.emailRetry = emailRetry;
+    public void setMailUsername(String mailUsername) {
+        this.mailUsername = mailUsername;
     }
 
-    public String getNotifEmail() {
-        return notifEmail;
+    public String getMailPassword() {
+        return mailPassword;
     }
 
-    public void setNotifEmail(String notifEmail) {
-        this.notifEmail = notifEmail;
+    public void setMailPassword(String mailPassword) {
+        this.mailPassword = mailPassword;
+    }
+
+    public String getMailTransportProtocol() {
+        return mailTransportProtocol;
+    }
+
+    public void setMailTransportProtocol(String mailTransportProtocol) {
+        this.mailTransportProtocol = mailTransportProtocol;
+    }
+
+    public boolean isMailSmtpAuth() {
+        return mailSmtpAuth;
+    }
+
+    public void setMailSmtpAuth(boolean mailSmtpAuth) {
+        this.mailSmtpAuth = mailSmtpAuth;
+    }
+
+    public boolean isMailSmtpStartTtls() {
+        return mailSmtpStartTtls;
+    }
+
+    public void setMailSmtpStartTtls(boolean mailSmtpStartTtls) {
+        this.mailSmtpStartTtls = mailSmtpStartTtls;
+    }
+
+    public boolean isMailDebug() {
+        return mailDebug;
+    }
+
+    public void setMailDebug(boolean mailDebug) {
+        this.mailDebug = mailDebug;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
     @Override

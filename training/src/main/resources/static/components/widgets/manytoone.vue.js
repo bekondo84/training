@@ -45,7 +45,7 @@ var manytoone = Vue.component("t-manytoone", {
              console.log(error);
          }
      },template: `<div>
-                          <label for="key" class="form-label">{{field.label}}</label>
+                          <label for="key" class="form-label field">{{field.label}}</label>
                           <div class="manytoone-box">
                              <input type="text"
                                    class="form-control form-control-sm"

@@ -11,6 +11,8 @@ var myDialog = Vue.component("myDialog", {
           dataBs(group) { return "#collapse"+group.pk;},
           register(group) {
              this.$emit("register-action", group);
+          },unRegister(group) {
+              this.$emit("unregister-action", group);
           }
     }, computed : {
           dialogId() { return "my-dialog";},
@@ -33,14 +35,14 @@ var myDialog = Vue.component("myDialog", {
                      <div class="modal-dialog modal-lg modal-dialog-centered">
                        <div class="modal-content">
                          <div class="modal-header">
-                           <h5 class="modal-title" :id="dialogTitleId">{{title}}</h5>
+                           <h6 class="modal-title" :id="dialogTitleId">{{title}}</h6>
                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                          </div>
                          <div class="modal-body">
                            <div class="accordion" id="accordionGroups">
                              <div class="accordion-item" v-for="group in groups">
                                <h2 class="accordion-header" :id="group.pk">
-                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="dataBs(group)"
+                                 <button class="accordion-button btn-sm" type="button" data-bs-toggle="collapse" :data-bs-target="dataBs(group)"
                                          aria-expanded="true" :aria-controls="collapse(group)">
                                    {{group.value}}
                                  </button>
@@ -49,7 +51,8 @@ var myDialog = Vue.component("myDialog", {
                                  <div class="accordion-body">
                                      <div class="title-bar">
                                         <nav class="nav">
-                                          <a class="btn btn-danger btn-sm" aria-current="page" href="#" @click.self="register(group)">Register</a>
+                                          <a class="btn btn-danger btn-sm" aria-current="page" href="#" @click.self="register(group)" v-if="!data.registered">Register</a>
+                                          <a class="btn btn-danger btn-sm" aria-current="page" href="#" @click.self="unRegister(group)" v-if="data.registered">UnRegister</a>
                                         </nav>
                                      </div>
                                      <div class="table-responsive">

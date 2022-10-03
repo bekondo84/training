@@ -19,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/groups")
+@CrossOrigin
 public class GroupeController extends AbstractController {
     private static final Logger LOG = LoggerFactory.getLogger(GroupeController.class);
 

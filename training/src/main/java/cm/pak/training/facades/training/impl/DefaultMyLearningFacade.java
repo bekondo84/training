@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class DefaultMyLearningFacade implements MyLearningFacade {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultMyLearningFacade.class);
     public static final String SESSION_GROUPS = "SELECT d FROM TrainingGroupModel AS d WHERE d.session.pk=%s";
-    public static final String CURRENT_USER_TRAINING = "SELECT i FROM InvolvedModel AS i WHERE i.involve.code='%s'";
+    public static final String CURRENT_USER_TRAINING = "SELECT i FROM InvolvedModel AS i WHERE i.involve.code='%s' AND i.session.statut='%s'";
     @Autowired
     private MyLearningPopulator populator;
     @Autowired
@@ -40,7 +40,7 @@ public class DefaultMyLearningFacade implements MyLearningFacade {
 
     @Override
     public List<MyLearningData> getMyLearning(final String username) {
-        final List<InvolvedModel> data = flexibleSearch.find(String.format(CURRENT_USER_TRAINING, username));
+        final List<InvolvedModel> data = flexibleSearch.find(String.format(CURRENT_USER_TRAINING, username, "P"));
         if (!CollectionUtils.isEmpty(data)) {
            return data
                    .stream()
@@ -79,7 +79,21 @@ public class DefaultMyLearningFacade implements MyLearningFacade {
         //Group
         trainingGroup.register(involve.getInvolve());
         modelService.createOrUpdate(trainingGroup);
-        LOG.info("**************************** INSIDE register");
+        return getMyLearning(involve.getInvolve().getCode());
+    }
+
+    @Override
+    @Transactional
+    public List<MyLearningData> unRegister(MyLearningData myLearning, MyLearningGroupData group) throws ModelServiceException {
+        final TrainingGroupModel trainingGroup = flexibleSearch.find(TrainingGroupModel.class, group.getPk());
+        final InvolvedModel involve = flexibleSearch.find(InvolvedModel.class, myLearning.getPk());
+        involve.setRegistred(Boolean.FALSE);
+        involve.setGroup(null);
+        involve.setRegistredDate(null);
+        modelService.createOrUpdate(involve);
+        //Group
+        trainingGroup.unRegister(involve.getInvolve());
+        modelService.createOrUpdate(trainingGroup);
         return getMyLearning(involve.getInvolve().getCode());
     }
 }

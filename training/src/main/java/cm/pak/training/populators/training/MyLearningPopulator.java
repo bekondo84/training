@@ -35,6 +35,7 @@ public class MyLearningPopulator implements Populator<InvolvedModel, MyLearningD
         }
         data.setIntitule(source.getSession().getIntitule());
         data.setValue(source.getSession().getIntitule());
+        data.setRegistered(source.isRegistred());
         if (Objects.nonNull(source.getSession().getTraining())) {
             data.setTraining(populator.populate(source.getSession().getTraining()));
         }

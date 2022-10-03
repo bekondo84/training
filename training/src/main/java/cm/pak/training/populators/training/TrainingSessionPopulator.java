@@ -36,6 +36,10 @@ public class TrainingSessionPopulator implements Populator<TrainingSessionModel,
         if (Objects.nonNull(source.getTraining())) {
             data.setTraining(populator.populate(source.getTraining()));
         }
+        data.setStatut(source.getStatut());
+        if (!StringUtils.hasLength(source.getStatut())) {
+            data.setStatut("C");
+        }
         return data;
     }
 
@@ -54,7 +58,7 @@ public class TrainingSessionPopulator implements Populator<TrainingSessionModel,
         if (Objects.nonNull(source.getTraining())) {
             data.setTraining(populator.revert(source.getTraining()));
         }
-
+        data.setStatut(source.getStatut());
         return data;
     }
 }

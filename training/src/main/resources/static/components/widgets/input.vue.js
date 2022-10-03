@@ -27,7 +27,7 @@ var input = Vue.component("t-text-field", {
               //console.log("list of selectd files : "+event.target.files);
            }
         },template: `<div>
-                       <label :for="id" class="form-label">{{field.label}}</label>
+                       <label :for="id" class="form-label field">{{field.label}}</label>
                        <input :type="type" class="form-control form-control-sm" :readonly="readonly" @change="preview"
                                      :required="!field.nullable" v-model="data[field.name]"  :id="id" placeholder="">
                      </div>`

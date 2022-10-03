@@ -14,10 +14,15 @@ public class SettingPopulator implements Populator<SettingModel, SettingData> {
     public SettingData populate(SettingModel source) {
         final SettingData data = new SettingData();
         populate(source, data);
-        data.setEmail(source.getEmail());
-        data.setEmailRetry(source.getEmailRetry());
-        data.setNotifEmail(source.getNotifEmail());
-        data.setSmtp(source.getSmtp());
+        data.setMailDebug(source.isMailDebug());
+        data.setMailHost(source.getMailHost());
+        data.setMailPassword(source.getMailPassword());
+        data.setMailPort(source.getMailPort());
+        data.setMailSmtpAuth(source.isMailSmtpAuth());
+        data.setMailSmtpStartTtls(source.isMailSmtpStartTtls());
+        data.setMailUsername(source.getMailUsername());
+        data.setMailTransportProtocol(source.getMailTransportProtocol());
+        data.setPageSize(source.getPageSize());
         return data;
     }
 
@@ -25,10 +30,15 @@ public class SettingPopulator implements Populator<SettingModel, SettingData> {
     public SettingModel revert(SettingData source) throws ParseException {
         final SettingModel data = new SettingModel();
         revert(source, data);
-        data.setEmail(source.getEmail());
-        data.setEmailRetry(source.getEmailRetry());
-        data.setNotifEmail(source.getNotifEmail());
-        data.setSmtp(source.getSmtp());
+        data.setMailDebug(source.isMailDebug());
+        data.setMailHost(source.getMailHost());
+        data.setMailPassword(source.getMailPassword());
+        data.setMailPort(source.getMailPort());
+        data.setMailSmtpAuth(source.isMailSmtpAuth());
+        data.setMailSmtpStartTtls(source.isMailSmtpStartTtls());
+        data.setMailUsername(source.getMailUsername());
+        data.setMailTransportProtocol(source.getMailTransportProtocol());
+        data.setPageSize(source.getPageSize());
         return data;
     }
 }

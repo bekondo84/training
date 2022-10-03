@@ -10,47 +10,100 @@ import java.io.Serializable;
 @Entity
 @Table(name = "t_sett")
 public class SettingModel extends ItemModel implements Serializable {
-    @Column(name = "t_smtp")
-    private String smtp ;
-    @Column(name = "t_syma")
-    private String email ;
-    @Column(name = "t_emre")
-    private Integer emailRetry ;
-    @Column(name = "t_noem")
-    private String notifEmail;
+    @Column(name = "t_maho")
+    private String mailHost;
+    @Column(name = "t_mapo")
+    private Integer mailPort ;
+    @Column(name = "t_maun")
+    private String mailUsername;
+    @Column(name = "t_mapwd")
+    private String mailPassword ;
+    @Column(name = "t_matrpr")
+    private String mailTransportProtocol;
+    @Column(name = "t_masmau")
+    private boolean mailSmtpAuth;
+    @Column(name = "t_masmls")
+    private boolean mailSmtpStartTtls;
+    @Column(name = "t_made")
+    private boolean mailDebug ;
+    @Column(name = "t_pasi")
+    private Integer pageSize ;
 
     public SettingModel() {
+        mailDebug = true;
+        mailSmtpStartTtls = true;
+        mailSmtpAuth = true;
     }
 
-    public String getSmtp() {
-        return smtp;
+    public String getMailHost() {
+        return mailHost;
     }
 
-    public void setSmtp(String smtp) {
-        this.smtp = smtp;
+    public void setMailHost(String mailHost) {
+        this.mailHost = mailHost;
     }
 
-    public String getEmail() {
-        return email;
+    public Integer getMailPort() {
+        return mailPort;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setMailPort(Integer mailPort) {
+        this.mailPort = mailPort;
     }
 
-    public Integer getEmailRetry() {
-        return emailRetry;
+    public String getMailUsername() {
+        return mailUsername;
     }
 
-    public void setEmailRetry(Integer emailRetry) {
-        this.emailRetry = emailRetry;
+    public void setMailUsername(String mailUsername) {
+        this.mailUsername = mailUsername;
     }
 
-    public String getNotifEmail() {
-        return notifEmail;
+    public String getMailPassword() {
+        return mailPassword;
     }
 
-    public void setNotifEmail(String notifEmail) {
-        this.notifEmail = notifEmail;
+    public void setMailPassword(String mailPassword) {
+        this.mailPassword = mailPassword;
+    }
+
+    public String getMailTransportProtocol() {
+        return mailTransportProtocol;
+    }
+
+    public void setMailTransportProtocol(String mailTransportProtocol) {
+        this.mailTransportProtocol = mailTransportProtocol;
+    }
+
+    public boolean isMailSmtpAuth() {
+        return mailSmtpAuth;
+    }
+
+    public void setMailSmtpAuth(boolean mailSmtpAuth) {
+        this.mailSmtpAuth = mailSmtpAuth;
+    }
+
+    public boolean isMailSmtpStartTtls() {
+        return mailSmtpStartTtls;
+    }
+
+    public void setMailSmtpStartTtls(boolean mailSmtpStartTtls) {
+        this.mailSmtpStartTtls = mailSmtpStartTtls;
+    }
+
+    public boolean isMailDebug() {
+        return mailDebug;
+    }
+
+    public void setMailDebug(boolean mailDebug) {
+        this.mailDebug = mailDebug;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 }

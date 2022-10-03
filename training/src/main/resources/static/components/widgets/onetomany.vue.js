@@ -13,7 +13,6 @@ var onetomany = Vue.component("v-onetomany", {
         datas() {  return this.data == null ? [] : this.data[this.field.name]},
         id() { return "d-".concat(this.field.name) ;},
         editable() {
-           console.log("---------------------------------"+this.desabled)
            if (this.disabled) {
               return false;
            }

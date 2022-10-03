@@ -100,4 +100,17 @@ public class AccesRigth extends ItemModel implements Serializable {
     public int hashCode() {
         return Objects.hash(super.hashCode(), name);
     }
+
+    @Override
+    public String toString() {
+        return "AccesRigth{" +
+                "Pk='"+ pk+ '\''+
+                "name='" + name + '\'' +
+                ", label='" + label + '\'' +
+                ", canread=" + canread +
+                ", canwrite=" + canwrite +
+                ", cancreate=" + cancreate +
+                ", candelete=" + candelete +
+                '}';
+    }
 }

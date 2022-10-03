@@ -3,6 +3,7 @@ package cm.pak.training.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -51,23 +52,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
-    /**
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/assets/**","/images/**")
+        http.csrf().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and().authorizeRequests()
+                .antMatchers("/assets/**","/images/**", "/reset-password")
                 .permitAll()
                  .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .failureUrl("/login?error=true")
                 .permitAll()
                 .and()
                 .logout()
                 .permitAll();
 
-    } **/
+    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -83,6 +89,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    /**
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         // We don't need CSRF for this example
@@ -96,7 +103,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // dont authenticate this particular request
                 .authorizeRequests()
-                .antMatchers("/authenticate", "/register").permitAll()
+                .antMatchers("/login", "/register", "/assets/**","/images/**").permitAll()
+                //.and().authorizeRequests().anyRequest().authenticated()
         // all other requests need to be authenticated
         // anyRequest().authenticated()
         ;
@@ -105,4 +113,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
+    **/
 }
