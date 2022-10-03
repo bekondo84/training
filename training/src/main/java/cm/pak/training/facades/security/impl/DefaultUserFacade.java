@@ -14,12 +14,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -110,5 +112,19 @@ public class DefaultUserFacade implements UserFacade {
         user.setPassword(encoder.encode(password.trim()));
         modelService.createOrUpdate(user);
         return userPopulator.populate(user);
+    }
+
+    @Transactional
+    @Override
+    public void createAdminUser() throws ModelServiceException {
+        try {
+            final UserModel user = flexibleSearch.find(UserModel.class, "code", "admin");
+        } catch (EmptyResultDataAccessException | NoResultException ex) {
+            final UserModel user = new UserModel();
+            user.setName("System Administrator");
+            user.setCode("admin");
+            user.setPassword(encoder.encode("nimda"));
+            modelService.createOrUpdate(user);
+        }
     }
 }

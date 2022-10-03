@@ -1,14 +1,18 @@
 package cm.pak.training.populators.security;
 
+import cm.pak.models.security.AccesRigth;
 import cm.pak.models.security.GroupeModel;
 import cm.pak.populators.Populator;
 import cm.pak.repositories.ModelService;
+import cm.pak.training.beans.security.AccesRigthData;
 import cm.pak.training.beans.security.GroupeData;
 import cm.pak.training.populators.core.ExtensionPopulator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -35,6 +39,12 @@ public class GroupePopulaor implements Populator<GroupeModel, GroupeData> {
         if (!CollectionUtils.isEmpty(source.getRigths())) {
              source.getRigths().forEach(rg -> groupe.addRigth(rigthPopulator.populate(rg)));
         }
+        Collections.sort(groupe.getRigths(), new Comparator<AccesRigthData>() {
+            @Override
+            public int compare(AccesRigthData o1, AccesRigthData o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
         return groupe;
     }
 

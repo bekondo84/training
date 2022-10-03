@@ -14,6 +14,7 @@ import cm.pak.training.populators.security.GroupePopulaor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -36,6 +38,8 @@ public class DefaultGroupeFacade implements GroupeFacade {
     private GroupePopulaor populator ;
     @Autowired
     private JsonService jsonService;
+    @Autowired
+    private MessageSource messageSource;
 
 
     @Override
@@ -57,7 +61,6 @@ public class DefaultGroupeFacade implements GroupeFacade {
         if (Objects.nonNull(groupe.getPlugin()) && CollectionUtils.isEmpty(grp.getRigths())) {
             getAccessRigths(groupe);
         }
-        LOG.info(String.format("++++++++++++++++++++++++++++++++++ %s", groupe));
         modelService.createOrUpdate(groupe);
     }
 
@@ -65,9 +68,26 @@ public class DefaultGroupeFacade implements GroupeFacade {
         final ModuleData module =  jsonService.getModule(groupe.getPlugin().getCode());
         if (!CollectionUtils.isEmpty(module.getMenus())) {
             for (MenuData menu : module.getMenus()) {
-               final AccesRigth access = new AccesRigth(new Date(), menu.getName(), menu.getLabel());
-               groupe.addAccesRigth(access);
+               getAccessRigths(menu, groupe);
             }
+        }
+    }
+
+    private void getAccessRigths(final MenuData menu, final GroupeModel groupe) {
+        if (CollectionUtils.isEmpty(menu.getChildren())) {
+            groupe.addAccesRigth(new AccesRigth(new Date(), menu.getName(), menu.getLabel()));
+
+            if (!CollectionUtils.isEmpty(menu.getActions())) {
+                menu.getActions().forEach(act -> {
+                    final AccesRigth access = new AccesRigth(new Date(), act.getName(), messageSource.getMessage(act.getLabel(), null, Locale.getDefault()));
+                    groupe.addAccesRigth(access);
+                });
+            }
+            return;
+        } else {
+            menu.getChildren().forEach(me ->{
+                getAccessRigths(me, groupe);
+            });
         }
     }
 }

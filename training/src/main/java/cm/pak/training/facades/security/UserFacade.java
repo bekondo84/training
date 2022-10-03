@@ -15,4 +15,5 @@ public interface UserFacade {
      void remove(final Long pk);
      UserData setPassword(final Long pk, final SetPasswordData data) throws TrainingException, ModelServiceException;
      UserData setPassword(final Long pk, final String password) throws ModelServiceException;
+     void createAdminUser() throws ModelServiceException;
 }

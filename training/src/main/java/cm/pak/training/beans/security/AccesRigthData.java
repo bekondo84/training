@@ -14,7 +14,7 @@ import java.io.Serializable;
         @Group(name = "general", label = "general.group", sequence = 2)
 })
 public class AccesRigthData extends AbstractItemData implements Serializable {
-    @Widget(value = "date", group = "admin", editable = false)
+    @Widget(value = "date", group = "admin", column = true, editable = false)
     private String label ;
     @Widget(value = "text", group = "general", column = true)
     private String name ;

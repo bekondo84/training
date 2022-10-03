@@ -7,7 +7,9 @@ import cm.pak.training.beans.core.ExtensionData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -24,11 +26,11 @@ public class GroupeData extends AbstractItemData implements Serializable {
     @Manytoone(updatable = false, group = "general", source = "/api/v1/plugins", column = true)
     private ExtensionData plugin ;
     @Onetomany(group = "profil", editable = false, deletable = false , source = "/api/v1/plugins")
-    private Set<AccesRigthData> rigths ;
+    private List<AccesRigthData> rigths ;
 
     public GroupeData() {
         super();
-        this.rigths = new HashSet<>();
+        this.rigths = new ArrayList<>();
     }
 
     @Override
@@ -68,11 +70,11 @@ public class GroupeData extends AbstractItemData implements Serializable {
         this.plugin = plugin;
     }
 
-    public Set<AccesRigthData> getRigths() {
+    public List<AccesRigthData> getRigths() {
         return rigths;
     }
 
-    public void setRigths(Set<AccesRigthData> rigths) {
+    public void setRigths(List<AccesRigthData> rigths) {
         this.rigths = rigths;
     }
 
