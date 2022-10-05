@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,18 +27,18 @@ public class ExtensionControlleur  {
 
     @GetMapping
     @CrossOrigin
-    public ResponseEntity<List<ExtensionData>> getInstalPlugins(final Model model) throws URISyntaxException, IOException {
-        return ResponseEntity.ok(facade.getInstallExtensions()) ;
+    public ResponseEntity<List<ExtensionData>> getInstalPlugins(final Model model, Authentication auth) throws URISyntaxException, IOException {
+        return ResponseEntity.ok(facade.getInstallExtensions(auth.getName())) ;
     }
 
     @GetMapping(value = "/{pk}")
-    public ResponseEntity<ExtensionData> getPlugin(@PathVariable("pk") Long pk) throws URISyntaxException, IOException {
-         return  ResponseEntity.ok(facade.getExtension(pk));
+    public ResponseEntity<ExtensionData> getPlugin(@PathVariable("pk") Long pk, final Authentication auth) throws URISyntaxException, IOException {
+         return  ResponseEntity.ok(facade.getExtension(pk, auth.getName()));
     }
     @GetMapping("/menus/{name}")
     @CrossOrigin
-    public ResponseEntity<List<MenuData>> getMenus(final Model model, @PathVariable("name") String name) throws URISyntaxException, IOException {
-        return ResponseEntity.ok(facade.getActions(name)) ;
+    public ResponseEntity<List<MenuData>> getMenus(final Model model, @PathVariable("name") String name, final Authentication auth) throws URISyntaxException, IOException {
+        return ResponseEntity.ok(facade.getActions(name, auth.getName())) ;
     }
 
     @PostMapping

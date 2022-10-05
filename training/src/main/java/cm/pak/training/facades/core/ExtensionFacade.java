@@ -16,15 +16,15 @@ import java.util.Set;
 
 public interface ExtensionFacade {
 
-    ExtensionData getExtension(final Long pk) throws URISyntaxException, IOException;
+    ExtensionData getExtension(final Long pk, final String username) throws URISyntaxException, IOException;
 
-    List<ExtensionData> getInstallExtensions() throws URISyntaxException, IOException;
+    List<ExtensionData> getInstallExtensions(final String username) throws URISyntaxException, IOException;
 
-    List<MenuData> getActions(final ExtensionData extension) throws URISyntaxException, IOException;
+    List<MenuData> getActions(final ExtensionData extension, final String username) throws URISyntaxException, IOException;
 
-    List<MenuData> getActions(final String name) throws URISyntaxException, IOException;
+    List<MenuData> getActions(final String name, final String username) throws URISyntaxException, IOException;
 
-    List<ExtensionData> getExtensions();
+    List<ExtensionData> getExtensions(final String username);
 
     void save(final ExtensionData data) throws ModelServiceException;
 

@@ -4,6 +4,10 @@ import cm.pak.data.MenuData;
 import cm.pak.data.ModuleData;
 import cm.pak.exceptions.ModelServiceException;
 import cm.pak.models.core.ExtensionModel;
+import cm.pak.models.security.AccesRigth;
+import cm.pak.models.security.GroupeModel;
+import cm.pak.models.security.UserModel;
+import cm.pak.repositories.FlexibleSearch;
 import cm.pak.repositories.ModelService;
 import cm.pak.services.ExtensionService;
 import cm.pak.services.JsonService;
@@ -20,9 +24,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -38,17 +40,22 @@ public class DefaultExtensionFacade implements ExtensionFacade {
     private ModelService modelService;
     @Autowired
     private MessageSource messageSource;
+    @Autowired
+    private FlexibleSearch flexibleSearch;
 
     @Override
-    public ExtensionData getExtension(Long pk) throws URISyntaxException, IOException {
+    public ExtensionData getExtension(Long pk, final String username) throws URISyntaxException, IOException {
         final ExtensionData data = populator.populate(extensionService.get(pk));
-        data.setMenus(getActions(data));
+        data.setMenus(getActions(data, username));
         return data;
     }
 
     @Override
-    public List<ExtensionData> getInstallExtensions() throws URISyntaxException, IOException {
+    public List<ExtensionData> getInstallExtensions(final String username) throws URISyntaxException, IOException {
         final List<ExtensionModel> extensions = extensionService.getInstallExtensions();
+        if (!username.equalsIgnoreCase("admin")) {
+            return getUserPlugins(username, extensions);
+        }
         extensions.sort(new Comparator<ExtensionModel>() {
             @Override
             public int compare(ExtensionModel o1, ExtensionModel o2) {
@@ -60,19 +67,34 @@ public class DefaultExtensionFacade implements ExtensionFacade {
                 .collect(Collectors.toList());
 
         for (ExtensionData ext : extensionss ) {
-            ext.setMenus(getActions(ext));
+            ext.setMenus(getActions(ext, username));
         }
         return extensionss;
     }
 
     @Override
-    public List<MenuData> getActions(ExtensionData extension) throws URISyntaxException, IOException {
-       return  getActions(extension.getCode());
+    public List<MenuData> getActions(ExtensionData extension, final String username) throws URISyntaxException, IOException {
+       return  getActions(extension.getCode(), username);
     }
 
     @Override
-    public List<MenuData> getActions(String name) throws URISyntaxException, IOException {
+    public List<MenuData> getActions(String name, final String username) throws URISyntaxException, IOException {
         final ModuleData module = jsonService.getModule(name) ;
+        final Map<String, AccesRigth> rigthMatrix = new HashMap<>();
+        if (!username.equalsIgnoreCase("admin")) {
+            final UserModel user = flexibleSearch.find(UserModel.class, "code", username);
+            final Optional<GroupeModel> profil = CollectionUtils.isEmpty(user.getProfils()) ? Optional.empty() : user.getProfils().stream().filter(gr -> gr.getPlugin().getCode().equals(name)).findAny();
+
+            if (!profil.isPresent()) {
+                module.setMenus(new HashSet<>());
+            } else {
+               profil.get().getRigths().forEach(rigth -> rigthMatrix.put(rigth.getName(), rigth));
+
+               for (MenuData menu : module.getMenus()) {
+                   cleanMenu(menu, rigthMatrix);
+               }
+            }
+        }
         if (!CollectionUtils.isEmpty(module.getMenus())) {
             module.getMenus().forEach(m -> translate(m));
         }
@@ -82,6 +104,15 @@ public class DefaultExtensionFacade implements ExtensionFacade {
                 return Integer.valueOf(o1.getOrder()).compareTo(Integer.valueOf(o2.getOrder()));
             }
         }) .collect(Collectors.toList());
+    }
+
+    private void cleanMenu(MenuData menu, Map<String, AccesRigth> rigthMatrix) {
+        if (!CollectionUtils.isEmpty(menu.getChildren())) {
+            for (MenuData m : menu.getChildren()) {
+                final AccesRigth access = rigthMatrix.get(m.getName());
+
+            }
+        }
     }
 
     private void translate(final MenuData menu) {
@@ -96,8 +127,21 @@ public class DefaultExtensionFacade implements ExtensionFacade {
     }
 
     @Override
-    public List<ExtensionData> getExtensions() {
-        return extensionService.getExtensions().stream()
+    public List<ExtensionData> getExtensions(final String username) {
+        final List<ExtensionModel> datas = extensionService.getExtensions() ;
+        if (!username.equalsIgnoreCase("admin")) {
+            return getUserPlugins(username, datas);
+        }
+        return datas.stream()
+                .map(ext -> populator.populate(ext))
+                .collect(Collectors.toList());
+    }
+
+    private List<ExtensionData> getUserPlugins(String username, final List<ExtensionModel> datas) {
+        final UserModel user = flexibleSearch.find(UserModel.class, "code", username);
+        final Set<String> plugins = !CollectionUtils.isEmpty(user.getProfils()) ? user.getProfils().stream().map(gr -> gr.getPlugin().getCode()).collect(Collectors.toSet()): new HashSet<>();
+        return datas.stream()
+                .filter(ext -> plugins.contains(ext.getCode()))
                 .map(ext -> populator.populate(ext))
                 .collect(Collectors.toList());
     }
