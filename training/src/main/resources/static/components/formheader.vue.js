@@ -6,11 +6,25 @@ var formHeader = Vue.component("f-header", {
         }
      }, computed : {
          title() { return this.meta != null ? this.meta.formTitle : ""; },
-         creatable() { return this.meta!= null && this.meta.creatable || this.data !=null && this.data.pk >0 && this.meta!= null && this.meta.updatable ;},
-         deletable() { return this.meta!= null && this.meta.deletable && this.data !=null &&  this.data.pk != null ;},
+         creatable() {
+             if (this.meta != null && this.data != null && this.data.pk ==null && !this.meta.creatable) {
+                return false;
+             } else if (this.meta != null && this.data != null && this.data.pk >0 && !this.meta.updatable) {
+                return false ;
+             }else {
+                return this.menu!= null && this.menu.canWrite ;
+             }
+         },
+         deletable() {
+            if (this.meta== null || !this.meta.deletable || this.data==null || this.data.pk==null){
+                return false;
+            } else {
+               return this.menu!= null && this.menu.canDelete ;
+            }
+         },
          actions() {
-                 return this.meta !=null && this.menu.actions != null ? this.menu.actions.filter(act => act.type=="view") : [] ;
-            },
+             return this.meta !=null && this.menu.actions != null ? this.menu.actions.filter(act => act.type=="view" && act.active) : [] ;
+        },
         hideCancelBtn() {
              return this.menu
         }

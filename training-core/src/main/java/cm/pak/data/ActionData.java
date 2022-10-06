@@ -1,5 +1,6 @@
 package cm.pak.data;
 
+import cm.pak.models.security.AccesRigth;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
@@ -16,9 +17,19 @@ public class ActionData implements Serializable {
     private String scope ;
     private String type;
     private String metadata;
+    private boolean active ;
+    private boolean canRead;
+    private boolean canWrite ;
+    private boolean canCreate ;
+    private boolean canDelete;
 
 
     public ActionData() {
+        this.active = false;
+        this.canCreate= false;
+        this.canWrite = false;
+        this.canDelete = false;
+        this.canRead = false;
     }
 
     public String getName() {
@@ -99,5 +110,55 @@ public class ActionData implements Serializable {
 
     public void setMetadata(String metadata) {
         this.metadata = metadata;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isCanRead() {
+        return canRead;
+    }
+
+    public void setCanRead(boolean canRead) {
+        this.canRead = canRead;
+    }
+
+    public boolean isCanWrite() {
+        return canWrite;
+    }
+
+    public void setCanWrite(boolean canWrite) {
+        this.canWrite = canWrite;
+    }
+
+    public boolean isCanCreate() {
+        return canCreate;
+    }
+
+    public void setCanCreate(boolean canCreate) {
+        this.canCreate = canCreate;
+    }
+
+    public boolean isCanDelete() {
+        return canDelete;
+    }
+
+    public void setCanDelete(boolean canDelete) {
+        this.canDelete = canDelete;
+    }
+
+    public void setRigth(final AccesRigth access) {
+        this.canWrite = access.isCanwrite();
+        this.canCreate = access.isCancreate();
+        this.canRead = access.isCanread();
+        this.canDelete = access.isCandelete();
+    }
+    public void computedActivation() {
+        this.active = this.canCreate||this.canDelete||this.canRead||this.canWrite;
     }
 }

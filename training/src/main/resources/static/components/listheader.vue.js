@@ -18,9 +18,15 @@ var l_header = Vue.component("l-header", {
             this.$emit("process-action", action);
          }
      },computed :{
-         creatable() { return this.meta != null ? this.meta.creatable : false ;},
+         creatable() {
+             if (this.meta != null && !this.meta.creatable) {
+                return false;
+             } else {
+                  return  this.menu != null ? this.menu.canCreate : false ;
+             }
+         },
          actions() {
-             return this.menu.actions != null ? this.menu.actions.filter(act => act.type=="list") : [];
+             return this.menu.actions != null ? this.menu.actions.filter(act => act.type=="list" && act.active) : [];
          },title() { return this.meta != null ? this.meta.listTitle : ""; },
      },template : `<div class="title-bloc">
       <div class="title-bar">

@@ -1,5 +1,6 @@
 package cm.pak.data;
 
+import cm.pak.models.security.AccesRigth;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
@@ -21,10 +22,20 @@ public class MenuData implements Serializable {
     private List<MenuData> children ;
     private List<ActionData> actions ;
     private boolean show ;
+    private boolean canRead;
+    private boolean canWrite ;
+    private boolean canCreate ;
+    private boolean canDelete;
+    private boolean canAccess ;
 
     public MenuData() {
         this.children = new ArrayList<>();
         this.show = false;
+        this.canCreate= false;
+        this.canWrite = false;
+        this.canDelete = false;
+        this.canRead = false;
+        this.canAccess = false;
     }
 
     public String getName() {
@@ -60,7 +71,7 @@ public class MenuData implements Serializable {
     }
 
     public List<MenuData> getChildren() {
-        return Collections.unmodifiableList(Objects.nonNull(children) ? children : new ArrayList<>());
+        return Objects.nonNull(children) ? children : new ArrayList<>();
     }
 
     public void setChildren(List<MenuData> children) {
@@ -113,5 +124,56 @@ public class MenuData implements Serializable {
 
     public void setShow(boolean show) {
         this.show = show;
+    }
+
+    public boolean isCanRead() {
+        return canRead;
+    }
+
+    public void setCanRead(boolean canRead) {
+        this.canRead = canRead;
+    }
+
+    public boolean isCanWrite() {
+        return canWrite;
+    }
+
+    public void setCanWrite(boolean canWrite) {
+        this.canWrite = canWrite;
+    }
+
+    public boolean isCanCreate() {
+        return canCreate;
+    }
+
+    public void setCanCreate(boolean canCreate) {
+        this.canCreate = canCreate;
+    }
+
+    public boolean isCanDelete() {
+        return canDelete;
+    }
+
+    public void setCanDelete(boolean canDelete) {
+        this.canDelete = canDelete;
+    }
+
+    public void computedIfShow() {
+        this.canAccess = canRead || canDelete || canWrite || canCreate;
+    }
+
+    public void setRigth(final AccesRigth acces) {
+        canCreate = acces.isCancreate();
+        canWrite = acces.isCanwrite();
+        canDelete = acces.isCandelete();
+        canRead = acces.isCanread();
+    }
+
+    public boolean isCanAccess() {
+        return canAccess;
+    }
+
+    public void setCanAccess(boolean canAccess) {
+        this.canAccess = canAccess;
     }
 }
