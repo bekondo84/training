@@ -9,10 +9,11 @@ var dialogform = Vue.component("d-form", {
     },methods : {
         isInputField(field) {
               return field.type == "text" || field.type=="number" || field.type=="datetime-local"
-                 || field.type=="file" || field.type =="date" || field.type=="time"
+                 || field.type =="date" || field.type=="time"
                  || field.type=="email"  || field.type=="password";
-         },
-         isTextareaField(field) {
+         },isFileInputField(field) {
+           return field.type=="file" ;
+         },isTextareaField(field) {
                return field.type == "textarea";
          },
          isCheckboxField(field) {
@@ -42,6 +43,9 @@ var dialogform = Vue.component("d-form", {
                                 <t-text-field  v-if="isInputField(field)"
                                   :field="field"
                                   :data="data"></t-text-field>
+                             <t-file-field  v-if="isFileInputField(field)"
+                                   :field="field"
+                                   :data="data"></t-file-field>
                                   <v-textarea v-if="isTextareaField(field)"
                                         :autocomplete="field.label"
                                         :label="field.label"
@@ -81,6 +85,9 @@ var dialogform = Vue.component("d-form", {
                                        :type="field.type"
                                        :disabled="isDisabled(field)">
                                    </v-text-field>
+                                   <t-file-field  v-if="isFileInputField(field)"
+                                     :field="field"
+                                     :data="data"></t-file-field>
                                    <v-textarea v-if="isTextareaField(field)"
                                          :autocomplete="field.label"
                                          :label="field.label"

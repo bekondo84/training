@@ -10,10 +10,11 @@ var formbody = Vue.component("f-body", {
     },methods : {
         isInputField(field) {
               return field.type == "text" || field.type=="number" || field.type=="datetime-local"
-                 || field.type=="file" || field.type =="date" || field.type=="time"
+                 || field.type =="date" || field.type=="time"
                  || field.type=="email" || field.type=="password";
-         },
-         isTextareaField(field) {
+         },isFileInputField(field) {
+            return field.type=="file" ;
+         },isTextareaField(field) {
                return field.type == "textarea";
          },
          isCheckboxField(field) {
@@ -52,6 +53,9 @@ var formbody = Vue.component("f-body", {
                                    <t-text-field  v-if="isInputField(field)"
                                      :field="field"
                                      :data="data"></t-text-field>
+                                   <t-file-field  v-if="isFileInputField(field)"
+                                      :field="field"
+                                      :data="data"></t-file-field>
                                      <v-textarea v-if="isTextareaField(field)"
                                            :autocomplete="field.label"
                                            :label="field.label"
@@ -87,6 +91,9 @@ var formbody = Vue.component("f-body", {
                                       v-model="data[field.name]"
                                       :type="field.type"
                                       :disabled="isDisabled(field)"></v-text-field>
+                                  <t-file-field  v-if="isFileInputField(field)"
+                                      :field="field"
+                                      :data="data"></t-file-field>
                                       <v-textarea v-if="isTextareaField(field)"
                                             :autocomplete="field.label"
                                             :label="field.label"

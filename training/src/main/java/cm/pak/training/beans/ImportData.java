@@ -4,6 +4,8 @@ import cm.pak.annotations.Group;
 import cm.pak.annotations.Groups;
 import cm.pak.annotations.Widget;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.Serializable;
 
@@ -15,18 +17,18 @@ public class ImportData implements Serializable {
     @Widget(value = "datetime-local", group = "general")
     private String date ;
     @Widget(value = "file", group = "general")
-    private String filename ;
+    private CommonsMultipartFile filename ;
 
 
     public ImportData() {
 
     }
 
-    public String getFilename() {
+    public CommonsMultipartFile getFilename() {
         return filename;
     }
 
-    public void setFilename(String filename) {
+    public void setFilename(CommonsMultipartFile filename) {
         this.filename = filename;
     }
 
@@ -38,4 +40,11 @@ public class ImportData implements Serializable {
         this.date = date;
     }
 
+    @Override
+    public String toString() {
+        return "ImportData{" +
+                "date='" + date + '\'' +
+                ", filename=" + filename +
+                '}';
+    }
 }

@@ -49,8 +49,9 @@ public class UserController {
        return  ResponseEntity.ok(new ImportData());
     }
 
-    @PostMapping("/import/{pk}")
+    @PostMapping("/import")
     public ResponseEntity<ImportData> importData(@RequestBody ImportData source) {
+        LOG.info("-----------------------------IMPORT -------------- : %s", source);
         return ResponseEntity.ok(source);
     }
 

@@ -30,6 +30,7 @@ public class ExtensionData extends AbstractItemData implements Serializable {
     private String longDescription ;
     @Widget(value = "text", group = "general", column = true)
     private String owner ;
+    private String name ;
     private List<MenuData> menus ;
 
     public ExtensionData() {
@@ -115,6 +116,13 @@ public class ExtensionData extends AbstractItemData implements Serializable {
         this.install = install;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Override
     public boolean equals(Object o) {
