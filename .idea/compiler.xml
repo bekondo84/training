@@ -8,7 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="training-core" />
-        <module name="training" />
+        <module name="training (1)" />
         <module name="training-data" />
       </profile>
     </annotationProcessing>
@@ -22,6 +22,7 @@
       <module name="pak-core" options="-parameters" />
       <module name="pak-data" options="-parameters" />
       <module name="training" options="-parameters" />
+      <module name="training (1)" options="-parameters" />
       <module name="training-core" options="-parameters" />
       <module name="training-data" options="-parameters" />
     </option>

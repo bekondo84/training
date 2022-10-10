@@ -2,7 +2,8 @@ var listtable = Vue.component("l-table", {
       props : ["data", "meta"],
       data() {
          return {
-            datas: this.data != null ? this.data : []
+            datas: this.data != null ? this.data : [],
+            current : null
          }
       },methods : {
           selectAll() {
@@ -12,7 +13,10 @@ var listtable = Vue.component("l-table", {
                   }
               }
           },itemSelected(item, viewMode) {
+              this.current = item;
               this.$emit("item-selected", {"item" :item, "viewMode":viewMode});
+          }, isSelected(item)  {
+              return item==this.current;
           }
       },computed : {
           columns() {
@@ -20,13 +24,13 @@ var listtable = Vue.component("l-table", {
           }
       },template: ` <div class="table-responsive">
                               <table class="table table-striped table-hover table-sm">
-                                  <thead>
-                                  <tr>
+                                  <thead class="table-header-theme">
+                                  <tr  class="table-header">
                                       <th scope="col" v-for="c of columns">{{c.label}}</th>
                                   </tr>
                                   </thead>
                                   <tbody>
-                                      <tr class="clickable-row" v-for="data of datas">
+                                      <tr class="clickable-row" v-for="data of datas"  :class="{rowSelected : isSelected(data)}">
                                           <td v-for="col of columns" v-on:dblclick="itemSelected(data, 'view')"  v-on:click="itemSelected(data, 'list')">
                                               <span v-if="col.type == 'many-to-one' && data[col.name] != null">{{data[col.name].value}}</span>
                                               <span class="form-check form-switch" v-else-if="col.type == 'checkbox'">

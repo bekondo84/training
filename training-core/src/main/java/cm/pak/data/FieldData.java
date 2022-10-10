@@ -3,6 +3,7 @@ package cm.pak.data;
 import cm.pak.annotations.SelectItem;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +18,7 @@ public class FieldData implements Serializable {
     private String metadata ;
     private String source;
     private Set<SelectItemData> selectItems ;
+    private Set<FilterData> filters;
     private boolean nullable ;
 
 
@@ -24,6 +26,7 @@ public class FieldData implements Serializable {
         editable = true ;
         nullable = true ;
         selectItems = new HashSet<>();
+        filters = new HashSet<>();
     }
 
     public FieldData(String name, String label, int sequence, String type) {
@@ -32,6 +35,7 @@ public class FieldData implements Serializable {
         this.type = type;
         this.label = label ;
         selectItems = new HashSet<>();
+        filters = new HashSet<>();
     }
 
     public String getLabel() {
@@ -125,4 +129,18 @@ public class FieldData implements Serializable {
     public void setNullable(boolean nullable) {
         this.nullable = nullable;
     }
+
+    public Set<FilterData> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(Set<FilterData> filters) {
+        this.filters = Collections.unmodifiableSet(filters);
+    }
+
+    public void addFilter(FilterData filter) {
+        this.filters.add(filter);
+    }
+
+
 }

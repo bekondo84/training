@@ -85,7 +85,8 @@ html,body
    font-size: .875rem;
    font-weight: 500;
    text-transform: uppercase;
-   color: rgba(0,0,0,.54);
+   color: rgba(115,191,10,253);
+   font-family: inherit;
 }
 .field {
    font-size: .700rem;
@@ -157,4 +158,30 @@ nav ul li ul li a:hover {
 .currentMenu {
    background: #ebebeb;
    border-left: 4px solid #3498db;
+ }
+ .rowSelected {
+     background-color:rgb(37, 150, 199);
+     color:rgb(255,245,255);
+ }
+ .table-header {
+    border-bottom: groove 4px;
+ }
+ .table-header-theme {
+    font-style: italic;
+    font-family: inherit;
+    background-color: rgb(37, 150, 190);
+ }
+ .modal-header-background {
+    background-color: rgb(238, 238, 238);
+ }
+ .pag-input{
+    width: 50px;
+    text-align: center;
+    border: none;
+    height: 30px;
+    font-family: fantasy;
+ }
+ .modal-pagination {
+    display: flex;
+    flex-flow: row-reverse;
  }

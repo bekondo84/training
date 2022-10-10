@@ -2,8 +2,11 @@ package cm.pak.training.controllers.core;
 
 import cm.pak.data.MenuData;
 import cm.pak.exceptions.ModelServiceException;
+import cm.pak.repositories.FlexibleSearch;
 import cm.pak.training.beans.core.ExtensionData;
+import cm.pak.training.controllers.AbstractController;
 import cm.pak.training.facades.core.ExtensionFacade;
+import cm.pak.training.facades.core.SettingFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +22,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/plugins")
 @CrossOrigin
-public class ExtensionControlleur  {
+public class ExtensionControlleur  extends AbstractController {
     private static final Logger LOG = LoggerFactory.getLogger(ExtensionControlleur.class);
 
     @Autowired
     private ExtensionFacade facade ;
+    @Autowired
+    private FlexibleSearch flexibleSearch;
 
     @GetMapping
     @CrossOrigin
@@ -45,6 +50,16 @@ public class ExtensionControlleur  {
     public ResponseEntity<ExtensionData> save(@RequestBody ExtensionData data) throws ModelServiceException {
         facade.save(data);
         return ResponseEntity.ok(data);
+    }
+
+    @Override
+    protected FlexibleSearch getFlexibleSearch() {
+        return flexibleSearch;
+    }
+
+    @Override
+    protected SettingFacade getSettingFacade() {
+        return null;
     }
 
     /**

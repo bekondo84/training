@@ -14,6 +14,7 @@ public class TrainingModel extends ItemModel implements Serializable {
     @Column(name = "t_desc")
     private String description;
     @Column(name = "t_fude")
+    @Lob
     private String fullDescription;
     @ManyToOne
     @JoinColumn(name = "th_id")

@@ -23,6 +23,8 @@ public class SettingPopulator implements Populator<SettingModel, SettingData> {
         data.setMailUsername(source.getMailUsername());
         data.setMailTransportProtocol(source.getMailTransportProtocol());
         data.setPageSize(source.getPageSize());
+        data.setPoolName(source.getPoolName());
+        data.setPoolSize(source.getPoolSize());
         return data;
     }
 
@@ -39,6 +41,8 @@ public class SettingPopulator implements Populator<SettingModel, SettingData> {
         data.setMailUsername(source.getMailUsername());
         data.setMailTransportProtocol(source.getMailTransportProtocol());
         data.setPageSize(source.getPageSize());
+        data.setPoolName(source.getPoolName());
+        data.setPoolSize(source.getPoolSize());
         return data;
     }
 }

@@ -14,7 +14,12 @@ import java.util.Objects;
         @Group(name = "general", label = "general.group"),
         @Group(name = "security", label = "security.group", sequence = 2)
 })
-@SearchKey(value = "code", label = "code")
+@SearchKeys({
+        @SearchKey(value = "code", label = "code", primary = true),
+        @SearchKey(value = "name", label = "name"),
+        @SearchKey(value = "genre", label = "genre"),
+        @SearchKey(value = "email", label = "email")
+})
 public class UserData extends AbstractItemData implements Serializable {
     @Widget(value = "text", column = true, group = "general")
     private String code ;

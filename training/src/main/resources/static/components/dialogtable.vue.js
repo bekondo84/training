@@ -2,11 +2,16 @@ var dialogtable = Vue.component("d-table", {
       props : ["field","meta", "data"],
       data() {
          return {
-            datas:  []
+            datas:  [],
+            selectedItem : null
          }
       },methods : {
         isDataArray() {
             return Array.isArray(this.data[this.field.name]) ;
+         },setSelectedItem(data) {
+            this.selectedItem = data;
+         },isSelected(item){
+             return item == this.selectedItem;
          },itemSelected(item) {
             this.isDataArray();
              if (this.data != null) {
@@ -35,22 +40,26 @@ var dialogtable = Vue.component("d-table", {
              console.log(error);
          }
       },template: `<div>
-                     <div class="table-responsive">
-                              <table class="table table-striped table-hover table-sm">
-                                  <thead>
-                                  <tr>
-                                      <th scope="col" v-for="c of columns">{{c.label}}</th>
+                     <div class="title-bar title-bloc modal-header-background">
+                           <v-search></v-search>
+                      </div>
+                      <div class="table-responsive">
+                          <table class="table table-striped table-hover table-sm">
+                              <thead class="table-header-theme">
+                              <tr  class="table-header">
+                                  <th scope="col" v-for="c of columns">{{c.label}}</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                                  <tr class="clickable-row" v-for="data of datas" :click="setSelectedItem(data)" :class="{rowSelected : isSelected(data)}">
+                                      <td v-for="col of columns" v-on:dblclick="itemSelected(data)" >
+                                          <span v-if="col.type == 'many-to-one' && data[col.name] != null">{{data[col.name].value}}</span>
+                                          <span v-else>{{data[col.name]}}</span>
+                                      </td>
                                   </tr>
-                                  </thead>
-                                  <tbody>
-                                      <tr class="clickable-row" v-for="data of datas">
-                                          <td v-for="col of columns" v-on:dblclick="itemSelected(data)">
-                                              <span v-if="col.type == 'many-to-one' && data[col.name] != null">{{data[col.name].value}}</span>
-                                              <span v-else>{{data[col.name]}}</span>
-                                          </td>
-                                      </tr>
-                                  </tbody>
-                              </table>
-                          </div>
+                              </tbody>
+                          </table>
+                      </div>
+                      <div class="margin-left-auto modal-pagination"><v-pagination></v-pagination></div>
                       </div>`
 });

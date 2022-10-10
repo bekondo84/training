@@ -42,7 +42,7 @@ var formHeader = Vue.component("f-header", {
          },async save() {
            try {
               let response = await axios.post(this.menu.source, this.data);
-              this.$emit("notify-success") ;
+              this.$emit("refresh-list-form") ;
             }catch (error) {
                this.$emit("notify-error", error) ;
             }
@@ -52,7 +52,7 @@ var formHeader = Vue.component("f-header", {
             var copy = Object.assign({}, action);
             this.$emit("process-action", copy);
         }
-     },template: ` <div>
+     },template: ` <div class="title-bloc">
                  <div class="title-bar">
                      <div  class="title">{{title}}</div>
                      <div class="input-group margin-left-auto width-350"></div>

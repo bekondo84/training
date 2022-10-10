@@ -16,6 +16,8 @@ var l_header = Vue.component("l-header", {
            this.$emit("cancel-event");
          },processAction(action) {
             this.$emit("process-action", action);
+         }, searchAction(text) {
+             this.$emit("search-action", text);
          }
      },computed :{
          creatable() {
@@ -31,10 +33,7 @@ var l_header = Vue.component("l-header", {
      },template : `<div class="title-bloc">
       <div class="title-bar">
           <div class="title"><p>{{title}}</p></div>
-          <div class="input-group margin-left-auto width-350">
-            <input type="search" class="form-control form-control-sm rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-            <button type="button" class="btn btn-outline-primary btn-sm">search</button>
-          </div>
+          <v-search @search-action="searchAction"></v-search>
      </div>
        <div class="title-bar">
           <ul class="nav">

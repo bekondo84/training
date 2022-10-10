@@ -128,8 +128,16 @@ var home = Vue.component("t-home", {
            if (error.response.status=="401") {
                window.location.href="/logout"
            } else {
-                console.log("---- "+JSON.stringify(error));
                 this.showAlert("error", "Ouff une erreur s'est produite.".concat("\n").concat(error.message));
+           }
+        },async searchAction(text) {
+           try{
+              let response = await axios.get(this.menu.source.concat("/?search="+text));
+              this.data.splice(0, this.data.length);
+              for(i=0; i < response.data.length; i++) {
+                  this.data.push(response.data[i]);
+              }
+           } catch(error){
            }
         }
    },computed : {
@@ -172,7 +180,8 @@ var home = Vue.component("t-home", {
                             @refresh-list-form="onCancelEvent"
                             @process-action="processAction"
                             @notify-success="notifySusscess"
-                            @notify-error="notifyError"></component>
+                            @notify-error="notifyError"
+                            @search-action="searchAction"></component>
                    </main>
              </div>`
 });

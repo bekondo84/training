@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface SearchKey {
     String value() default "pk";
     String label();
+    boolean primary() default  false;
 }

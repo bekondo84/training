@@ -1,9 +1,6 @@
 package cm.pak.training.beans.training;
 
-import cm.pak.annotations.Group;
-import cm.pak.annotations.Groups;
-import cm.pak.annotations.SearchKey;
-import cm.pak.annotations.Widget;
+import cm.pak.annotations.*;
 import cm.pak.models.training.TrainingModel;
 import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -12,7 +9,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Groups({
         @Group(name = "general", label = "general.group", sequence = 2)
 })
-@SearchKey(value = "code", label = "code")
+@SearchKeys({
+        @SearchKey(value = "code", label = "code", primary = true),
+        @SearchKey(value = "name", label = "name"),
+        @SearchKey(value = "description", label = "description")
+})
 public class TrainingThemeData extends AbstractItemData {
     @Widget(value = "text", group = "general", column = true)
     private String code ;

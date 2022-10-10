@@ -28,6 +28,10 @@ public class SettingModel extends ItemModel implements Serializable {
     private boolean mailDebug ;
     @Column(name = "t_pasi")
     private Integer pageSize ;
+    @Column(name = "t_posi")
+    private Integer poolSize ;
+    @Column(name = "t_pona")
+    private String poolName ;
 
     public SettingModel() {
         mailDebug = true;
@@ -105,5 +109,21 @@ public class SettingModel extends ItemModel implements Serializable {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public Integer getPoolSize() {
+        return poolSize;
+    }
+
+    public void setPoolSize(Integer poolSize) {
+        this.poolSize = poolSize;
+    }
+
+    public String getPoolName() {
+        return poolName;
+    }
+
+    public void setPoolName(String poolName) {
+        this.poolName = poolName;
     }
 }

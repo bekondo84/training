@@ -55,7 +55,9 @@ var listComponent = Vue.component("list-component", {
            } catch (error) {
                 this.notifyError(error);
            }
-       }
+       },searchAction(text) {
+          this.$emit("search-action", text);
+      }
      },template: `<div class="editor">
                      <l-header :menu="menu"
                                :meta="meta"
@@ -64,7 +66,8 @@ var listComponent = Vue.component("list-component", {
                                @created-action="createdAction"
                                @process-action="processAction"
                                @cancel-event="onCancelEvent"
-                               @notify-error="notifyError"/>
+                               @notify-error="notifyError"
+                               @search-action="searchAction"/>
                      <l-table  :meta="meta"  :data="data" :key="generateUniqueKey2()"
                                 @item-selected="itemSelected"/>
                   </div>`

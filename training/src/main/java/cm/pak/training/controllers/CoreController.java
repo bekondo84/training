@@ -14,6 +14,7 @@ import cm.pak.training.beans.security.JwtResponse;
 import cm.pak.training.beans.security.UserDTO;
 import cm.pak.training.exceptions.TrainingException;
 import cm.pak.training.facades.core.ExtensionFacade;
+import cm.pak.training.facades.core.SettingFacade;
 import cm.pak.training.facades.security.UserFacade;
 import cm.pak.training.security.JwtTokenService;
 import org.slf4j.Logger;
@@ -219,5 +220,15 @@ public class CoreController extends AbstractController{
         } catch (BadCredentialsException e) {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
+    }
+
+    @Override
+    protected FlexibleSearch getFlexibleSearch() {
+        return flexibleSearch;
+    }
+
+    @Override
+    protected SettingFacade getSettingFacade() {
+        return null;
     }
 }

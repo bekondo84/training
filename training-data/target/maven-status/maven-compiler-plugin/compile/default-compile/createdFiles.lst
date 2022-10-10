@@ -1,11 +1,14 @@
 cm\pak\annotations\Select.class
+cm\pak\data\FilterData.class
 cm\pak\models\training\TrainingSessionModel.class
+cm\pak\annotations\SearchKeys.class
 cm\pak\annotations\Manytomany.class
 cm\pak\models\core\ExtensionModel.class
 cm\pak\models\security\base\ItemModel.class
 cm\pak\repositories\ModelService.class
 cm\pak\annotations\Onetomany.class
 cm\pak\models\security\GroupeModel.class
+cm\pak\data\Connector.class
 cm\pak\models\core\SettingModel.class
 cm\pak\TrainingDataConfig.class
 cm\pak\models\training\InvolvedModel.class

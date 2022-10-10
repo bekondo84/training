@@ -6,7 +6,8 @@ var onetomany = Vue.component("v-onetomany", {
            instance : null,
            dialog : null,
            keyValue: 12,
-           type : "view"
+           type : "view",
+           selectedItem : null
         }
      },computed : {
         columns() { return this.meta != null ? this.meta.columns : []},
@@ -57,7 +58,10 @@ var onetomany = Vue.component("v-onetomany", {
                 modal.show();
             } catch(error) {}
          },itemSelected(item) {
+            this.selectedItem = item;
             this.instance = Object.assign({}, item) ;
+         }, isSelected(item) {
+             return item == this.selectedItem ;
          },update() {
             this.type = "view";
             if (this.instance != null) {
@@ -116,13 +120,13 @@ var onetomany = Vue.component("v-onetomany", {
                         </div>
                         <div class="table-responsive">
                                  <table class="table table-striped table-hover table-sm">
-                                     <thead>
-                                     <tr>
+                                     <thead class="table-header-theme">
+                                     <tr class="table-header">
                                          <th scope="col" v-for="c of columns">{{c.label}}</th>
                                      </tr>
                                      </thead>
                                      <tbody>
-                                         <tr class="clickable-row" v-for="data of datas">
+                                         <tr class="clickable-row" v-for="data of datas"  :class="{rowSelected : isSelected(data)}">
                                              <td v-for="col of columns" v-on:click="itemSelected(data)">
                                                  <span  class="form-check form-switch" v-if="col.type == 'checkbox'">
                                                      <input class="form-check-input" type="checkbox" v-model="data[col.name]" :checked="data[col.name]">

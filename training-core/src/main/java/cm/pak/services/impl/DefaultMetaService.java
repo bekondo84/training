@@ -1,10 +1,7 @@
 package cm.pak.services.impl;
 
 import cm.pak.annotations.*;
-import cm.pak.data.FieldData;
-import cm.pak.data.GroupData;
-import cm.pak.data.MetaData;
-import cm.pak.data.SelectItemData;
+import cm.pak.data.*;
 import cm.pak.services.MetaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,10 +41,15 @@ public class DefaultMetaService implements MetaService {
            meta.setUpdatable(config.updatable());
         }
 
-        final SearchKey searchKey = (SearchKey) data.getDeclaredAnnotation(SearchKey.class);
-        if (Objects.nonNull(searchKey)) {
-            meta.setSearchKey(searchKey.value());
-            meta.setLabel(getMessage(searchKey.label(), locale));
+        final SearchKeys searchKeys = (SearchKeys) data.getDeclaredAnnotation(SearchKeys.class);
+        if (Objects.nonNull(searchKeys)) {
+            Optional<SearchKey> primarySearchKey = Arrays.stream(searchKeys.value())
+                    .filter(se -> se.primary()).findAny();
+            if (primarySearchKey.isPresent()) {
+                final SearchKey searchKey = primarySearchKey.get();
+                meta.setSearchKey(searchKey.value());
+                meta.setLabel(getMessage(searchKey.label(), locale));
+            } 
         }
 
         final Groups annGroups = (Groups) data.getDeclaredAnnotation(Groups.class);
@@ -124,6 +126,7 @@ public class DefaultMetaService implements MetaService {
                 fieldData.setMetadata(field.getType().getName());
                 fieldData.setUpdatable(manytoone.updatable());
                 fieldData.setSource(manytoone.source());
+                processFilterIfExist(field, fieldData);
             }
             final Onetomany onetomany = field.getDeclaredAnnotation(Onetomany.class);
             if (Objects.nonNull(onetomany) && onetomany.group()!= null && onetomany.group().equalsIgnoreCase(annGroup.name())) {
@@ -152,7 +155,7 @@ public class DefaultMetaService implements MetaService {
             }
             final Manytomany manytomany = field.getDeclaredAnnotation(Manytomany.class);
             if (Objects.nonNull(manytomany) && manytomany.group()!= null && manytomany.group().equalsIgnoreCase(annGroup.name())) {
-                FieldData fieldData = new FieldData(field.getName(), getMessage(fieldLabel, locale), manytomany.sequence(), "many-to-many");
+                final FieldData fieldData = new FieldData(field.getName(), getMessage(fieldLabel, locale), manytomany.sequence(), "many-to-many");
                 fieldData.setEditable(manytomany.editable());
                 group.add(fieldData);
                 fieldData.setMetadata(field.getType().getName());
@@ -162,9 +165,24 @@ public class DefaultMetaService implements MetaService {
                     Class type = getParameterType(field);
                     fieldData.setMetadata(type.getName());
                 }
+                processFilterIfExist(field, fieldData);
             }
+            /**
+             * Process filter if existe
+             */
+
         }
         return group;
+    }
+
+    private void processFilterIfExist(Field field, FieldData fieldData) {
+        final Filters filters = field.getAnnotation(Filters.class);
+        if (Objects.nonNull(filters)) {
+            Arrays.stream(filters.value()).forEach(filter -> {
+                final FilterData filterData = new FilterData(filter.field(), filter.operator(), filter.value());
+                fieldData.addFilter(filterData);
+            });
+        }
     }
 
     private void initField(GroupData group, Field field, Widget widget, FieldData fieldData) {

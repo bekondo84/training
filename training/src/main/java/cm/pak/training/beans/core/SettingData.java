@@ -1,5 +1,6 @@
 package cm.pak.training.beans.core;
 
+import cm.pak.annotations.GlobalConfig;
 import cm.pak.annotations.Group;
 import cm.pak.annotations.Groups;
 import cm.pak.annotations.Widget;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Column;
 import java.io.Serializable;
 
+@GlobalConfig(deletable = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Groups({
         @Group(name = "general", label = "general.group"),
@@ -35,6 +37,10 @@ public class SettingData extends AbstractItemData implements Serializable {
     private boolean mailDebug ;
     @Widget(value = "number", group = "general")
     private Integer pageSize ;
+    @Widget(value = "number", group = "general")
+    private Integer poolSize ;
+    @Widget(value = "text", group = "general")
+    private String poolName ;
 
     public SettingData() {
     }
@@ -109,6 +115,22 @@ public class SettingData extends AbstractItemData implements Serializable {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public Integer getPoolSize() {
+        return poolSize;
+    }
+
+    public void setPoolSize(Integer poolSize) {
+        this.poolSize = poolSize;
+    }
+
+    public String getPoolName() {
+        return poolName;
+    }
+
+    public void setPoolName(String poolName) {
+        this.poolName = poolName;
     }
 
     @Override

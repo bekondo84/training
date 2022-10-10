@@ -6,10 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface Filter
-{
-    String field() ;
-    String operator() default "==";
-    String value();
+@Target(ElementType.TYPE)
+public @interface SearchKeys {
+    SearchKey[] value();
 }

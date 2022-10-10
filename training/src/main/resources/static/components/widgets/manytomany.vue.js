@@ -22,8 +22,9 @@ var manytomany = Vue.component("v-manytomany", {
              return item[col.name];
         }, itemSelected(item) {
               this.selectItem = item ;
+        }, isSelected(item) {
+           return item == this.selectItem ;
         }, remove() {
-            console.log("-----------------------------Selected Intem --------")
             if (this.selectItem != null) {
                const index =  this.data[this.field.name].indexOf(this.selectItem);
 
@@ -83,13 +84,13 @@ var manytomany = Vue.component("v-manytomany", {
                         </div>
                         <div class="table-responsive">
                                  <table class="table table-striped table-hover table-sm">
-                                     <thead>
-                                     <tr>
+                                     <thead class="table-header-theme">
+                                     <tr  class="table-header">
                                          <th scope="col" v-for="c of columns">{{c.label}}</th>
                                      </tr>
                                      </thead>
                                      <tbody>
-                                         <tr class="clickable-row" v-for="row of data[field.name]">
+                                         <tr class="clickable-row" v-for="row of data[field.name]"  :class="{rowSelected : isSelected(row)}">
                                              <td v-for="col of columns" @click="itemSelected(row)">
                                                  <span  class="form-check form-switch" v-if="col.type == 'checkbox'">
                                                     <input class="form-check-input" type="checkbox" v-model="row[col.name]" :checked="row[col.name]">

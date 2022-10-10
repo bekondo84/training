@@ -17,7 +17,11 @@ import java.util.Set;
         @Group(name = "general", sequence = 1, label = "general.group"),
         @Group(name = "profil", sequence = 2, label = "profil.group")
 })
-@SearchKey(label = "intitule", value = "code")
+@SearchKeys({
+        @SearchKey(label = "code", value = "code", primary = true),
+        @SearchKey(label = "intitule", value = "intitule"),
+        @SearchKey(label = "Plugin", value = "plugin")
+})
 public class GroupeData extends AbstractItemData implements Serializable {
     @Widget(value = "text", group = "general", column = true)
     private String code ;

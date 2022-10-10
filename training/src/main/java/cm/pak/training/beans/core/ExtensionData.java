@@ -14,7 +14,14 @@ import java.util.*;
 @Groups({
         @Group(name = "general", label ="general.group", sequence = 1),
         @Group(name = "description", label = "description.group", sequence = 2)})
-@SearchKey(value = "pk", label = "code")
+@SearchKeys({
+        @SearchKey(value = "pk", label = "pk", primary = true),
+        @SearchKey(value = "code", label = "code"),
+        @SearchKey(value = "version", label = "version"),
+        @SearchKey(value = "install", label = "install"),
+        @SearchKey(value = "shortDescription", label = "shortDescription"),
+        @SearchKey(value = "longDescription", label = "longDescription")
+})
 public class ExtensionData extends AbstractItemData implements Serializable {
     @Widget(value = "text", group = "general", column = true)
     private String code ;

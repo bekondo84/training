@@ -12,7 +12,13 @@ import java.io.Serializable;
         @Group(name = "general", label = "general.group", sequence = 2),
         @Group(name = "description", label = "description.label", sequence = 3)
 })
-@SearchKey(value = "name", label = "name")
+@SearchKeys({
+        @SearchKey(value = "name", label = "name", primary = true),
+        @SearchKey(value = "description", label = "description"),
+        @SearchKey(value = "fullDescription", label = "fullDescription"),
+        @SearchKey(value = "theme", label = "theme"),
+        @SearchKey(value = "activate", label = "activate")
+})
 public class TrainingData extends AbstractItemData implements Serializable {
     @Widget(value = "text", group = "general", column = true)
     private String name ;

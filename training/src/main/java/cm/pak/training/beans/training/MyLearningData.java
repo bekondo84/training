@@ -16,7 +16,14 @@ import java.util.List;
         @Group(name = "learner", label = "learner.group", sequence = 3),
         @Group(name = "planing", label = "planing.group", sequence = 4)
 })
-@SearchKey(value = "code", label = "code")
+@SearchKeys({
+        @SearchKey(value = "code", label = "code", primary = true),
+        @SearchKey(value = "intitule", label = "intitule"),
+        @SearchKey(value = "training", label = "training"),
+        @SearchKey(value = "startAt", label = "startAt"),
+        @SearchKey(value = "endAt", label = "endAt"),
+        @SearchKey(value = "registered", label = "registered")
+})
 public class MyLearningData extends AbstractItemData implements Serializable {
     @Widget(value = "text", group = "general", column = true, updatable = false)
     private String code ;

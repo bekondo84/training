@@ -10,6 +10,8 @@ import cm.pak.training.facades.training.TrainingSessionFacade;
 import cm.pak.training.populators.training.InvolvePopulator;
 import cm.pak.training.populators.training.TrainingGroupPopulator;
 import cm.pak.training.populators.training.TrainingSessionPopulator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -24,7 +26,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class TrainingSessionFacadeImpl implements TrainingSessionFacade {
-    public static final String SESSION_LEANERS = "SELECT c FROM TrainingSessionModel AS c JOIN FETCH c.learners WHERE c.pk=%s";
+    private static final Logger LOG = LoggerFactory.getLogger(TrainingSessionFacadeImpl.class);
+    public static final String SESSION_LEANERS = "SELECT c FROM TrainingSessionModel AS c  WHERE c.pk=%s";
     public static final String SESSION_GROUPS = "SELECT d FROM TrainingGroupModel AS d WHERE d.session.pk=%s";
     public static final String TRAINING_SESSION_NOTGROUP = "training.session.notgroup";
     public static final String TRAINING_SESSION_NOTLEARNER = "training.session.notlearner";
@@ -58,6 +61,7 @@ public class TrainingSessionFacadeImpl implements TrainingSessionFacade {
 
     @Override
     public TrainingSessionData getSession(Long pk) {
+        LOG.info(String.format(SESSION_LEANERS, pk));
         final List<TrainingSessionModel> data = flexibleSearch.find(String.format(SESSION_LEANERS, pk));
         final TrainingSessionData session =  populator.populate(data.get(0));
         if (!CollectionUtils.isEmpty(data.get(0).getLearners())) {
