@@ -179,7 +179,7 @@ public class DefaultMetaService implements MetaService {
         final Filters filters = field.getAnnotation(Filters.class);
         if (Objects.nonNull(filters)) {
             Arrays.stream(filters.value()).forEach(filter -> {
-                final FilterData filterData = new FilterData(filter.field(), filter.operator(), filter.value());
+                final FilterData filterData = new FilterData(filter.field(), filter.value(), filter.operator());
                 fieldData.addFilter(filterData);
             });
         }

@@ -31,13 +31,28 @@ var dialogtable = Vue.component("d-table", {
           columns() {
               return this.meta != null && this.meta.columns != null ? this.meta.columns : [];
           },
-          id() { return "d-"+this.field.name ;}
+          id() { return "d-"+this.field.name ;},
+          filters() { return Array.isArray(this.field.filters) ? this.field.filters:[] }
       },async created(){
         try {
-             let response = await axios.get(this.field.source);
+             let rules = "";
+             for (var index in this.filters) {
+                  var rule = this.filters[index];
+                  if (rules=="") {
+                      rules= rules.concat(rule.field+"-"+rule.operator+"-"+rule.value)
+                  } else {
+                     rules= "&"+rules.concat(rule.field+"-"+rule.operator+"-"+rule.value)
+                  }
+             }
+             let url = this.field.source;
+             if (rules != "") {
+                url = url.concat("?filter=").concat(rules);
+             }
+             console.log("------------------------------------- : "+JSON.stringify(url));
+             let response = await axios.get(url);
              this.datas = response.data ;
          } catch(error) {
-             console.log(error);
+             this.$emit("notify-error", error);
          }
       },template: `<div>
                      <div class="title-bar title-bloc modal-header-background">

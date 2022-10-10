@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 public @interface Filter
 {
     String field() ;
-    String operator() default "==";
+    String operator() default "eq";
     String value();
 }
