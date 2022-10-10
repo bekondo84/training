@@ -36,11 +36,11 @@ public class TrainingController extends AbstractController {
     private MetaService metaService;
 
     @GetMapping
-    public ResponseEntity<List<TrainingData>> getTrainings(@RequestParam(required = false) List<String> filter) {
-        //LOG.info(String.format("--------------------------------- %s", filter));
+    public ResponseEntity<List<TrainingData>> getTrainings(@RequestParam(required = false) List<String> filter, @RequestParam(required = false)String search) {
+        //LOG.info(String.format("--------------------------------- %s, %s", filter, search));
         final List<FilterData> filters = filtersBuilder(filter);
 
-        final List<TrainingModel> trainings = searchData(TrainingModel.class,null , 0, 50, filters.toArray(new FilterData[filters.size()]));
+        final List<TrainingModel> trainings = searchData(TrainingModel.class, search, 0, 50, filters.toArray(new FilterData[filters.size()]));
         if (!CollectionUtils.isEmpty(trainings)) {
             return ResponseEntity.ok(trainings.stream()
                     .map(training -> populator.populate(training))

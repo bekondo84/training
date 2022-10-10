@@ -15,12 +15,12 @@ var home = Vue.component("t-home", {
       showAlert(type, message) {
          var alertClass = "" ;
          if (type =="error") {
-             alertClass = "alert alert-danger "; //"
+             alertClass = "alert alert-danger alert-position"; //"
          } else {
-            alertClass = "alert alert-success ";
+            alertClass = "alert alert-success alert-position";
          }
          alertClass = alertClass.concat("alert-dismissible fade show");
-         innerHtml = "<div class=\"".concat(alertClass).concat("\" role=\"alert\" style=\"position: absolute;margin-left: 30%;\">")
+         innerHtml = "<div class=\"".concat(alertClass).concat("\" role=\"alert\" style=\"position: absolute;margin-left: 30%;z-index: 100\">")
                      .concat(message)
                      .concat("<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div>")
          var domElement = document.getElementById("alert")

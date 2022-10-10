@@ -185,3 +185,8 @@ nav ul li ul li a:hover {
     display: flex;
     flex-flow: row-reverse;
  }
+ .alert-position {
+     position: absolute ;
+     margin-left: 30%;
+     z-index : 1000 ;
+ }

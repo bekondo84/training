@@ -26,37 +26,54 @@ var dialogtable = Vue.component("d-table", {
                   var modal = bootstrap.Modal.getInstance(modalEl)
                   modal.hide();
               }
+          }, async searchAction(text) {
+              try {
+                 let searchUrl =this.url ;
+                 if (text) {
+                    if (searchUrl.includes("filter")) {
+                       searchUrl = searchUrl.concat("&search=").concat(text);
+                    } else {
+                       searchUrl = searchUrl.concat("search=").concat(text);
+                    }
+                 }
+                 let response = await axios.get(searchUrl);
+                 console.log("Search Action result  ::: "+JSON.stringify(response.data));
+              } catch(error) {
+
+              }
           }
       },computed : {
           columns() {
               return this.meta != null && this.meta.columns != null ? this.meta.columns : [];
           },
           id() { return "d-"+this.field.name ;},
-          filters() { return Array.isArray(this.field.filters) ? this.field.filters:[] }
+          filters() { return Array.isArray(this.field.filters) ? this.field.filters:[] },
+          url() {
+                let rules = "";
+                for (var index in this.filters) {
+                     var rule = this.filters[index];
+                     if (rules=="") {
+                         rules= rules.concat(rule.field+"-"+rule.operator+"-"+rule.value)
+                     } else {
+                        rules= "&"+rules.concat(rule.field+"-"+rule.operator+"-"+rule.value)
+                     }
+                }
+                let url = this.field.source;
+                if (rules != "") {
+                   url = url.concat("?filter=").concat(rules);
+                }
+                return url;
+          }
       },async created(){
         try {
-             let rules = "";
-             for (var index in this.filters) {
-                  var rule = this.filters[index];
-                  if (rules=="") {
-                      rules= rules.concat(rule.field+"-"+rule.operator+"-"+rule.value)
-                  } else {
-                     rules= "&"+rules.concat(rule.field+"-"+rule.operator+"-"+rule.value)
-                  }
-             }
-             let url = this.field.source;
-             if (rules != "") {
-                url = url.concat("?filter=").concat(rules);
-             }
-             console.log("------------------------------------- : "+JSON.stringify(url));
-             let response = await axios.get(url);
+             let response = await axios.get(this.url);
              this.datas = response.data ;
          } catch(error) {
              this.$emit("notify-error", error);
          }
       },template: `<div>
                      <div class="title-bar title-bloc modal-header-background">
-                           <v-search></v-search>
+                           <v-search @search-action="searchAction"></v-search>
                       </div>
                       <div class="table-responsive">
                           <table class="table table-striped table-hover table-sm">
@@ -68,8 +85,11 @@ var dialogtable = Vue.component("d-table", {
                               <tbody>
                                   <tr class="clickable-row" v-for="data of datas" :click="setSelectedItem(data)" :class="{rowSelected : isSelected(data)}">
                                       <td v-for="col of columns" v-on:dblclick="itemSelected(data)" >
-                                          <span v-if="col.type == 'many-to-one' && data[col.name] != null">{{data[col.name].value}}</span>
-                                          <span v-else>{{data[col.name]}}</span>
+                                           <span v-if="col.type == 'many-to-one' && data[col.name] != null">{{data[col.name].value}}</span>
+                                           <span class="form-check form-switch" v-else-if="col.type == 'checkbox'">
+                                            <input class="form-check-input" type="checkbox" v-model="data[col.name]" :checked="data[col.name]" disabled>
+                                           </span>
+                                           <span v-else>{{data[col.name]}}</span>
                                       </td>
                                   </tr>
                               </tbody>
