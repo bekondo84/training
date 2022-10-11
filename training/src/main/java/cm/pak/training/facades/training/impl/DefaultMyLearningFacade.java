@@ -84,9 +84,10 @@ public class DefaultMyLearningFacade implements MyLearningFacade {
 
     @Override
     @Transactional
-    public List<MyLearningData> unRegister(MyLearningData myLearning, MyLearningGroupData group) throws ModelServiceException {
-        final TrainingGroupModel trainingGroup = flexibleSearch.find(TrainingGroupModel.class, group.getPk());
+    public List<MyLearningData> unRegister(MyLearningData myLearning) throws ModelServiceException {
+        LOG.info(String.format("---------------------------------------- %s", myLearning));
         final InvolvedModel involve = flexibleSearch.find(InvolvedModel.class, myLearning.getPk());
+        final TrainingGroupModel trainingGroup = involve.getGroup();
         involve.setRegistred(Boolean.FALSE);
         involve.setGroup(null);
         involve.setRegistredDate(null);

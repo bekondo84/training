@@ -39,6 +39,7 @@ public class MyLearningData extends AbstractItemData implements Serializable {
     private boolean registered ;
     @Onetomany(group = "planing", editable = false, updatable = false, deletable = false, source = "/api/v1/sessionGroups")
     private List<MyLearningGroupData> groups ;
+    private TrainingGroupData registerGroup;
 
     public MyLearningData() {
        groups = new ArrayList<>();
@@ -108,8 +109,31 @@ public class MyLearningData extends AbstractItemData implements Serializable {
         this.registered = registered;
     }
 
+    public TrainingGroupData getRegisterGroup() {
+        return registerGroup;
+    }
+
+    public void setRegisterGroup(TrainingGroupData registerGroup) {
+        this.registerGroup = registerGroup;
+    }
+
     @Override
     public String getTargetEntity() {
         return TrainingSessionModel.class.getName();
+    }
+
+    @Override
+    public String toString() {
+        return "MyLearningData{" +
+                "pK='" + pk + '\'' +
+                "code='" + code + '\'' +
+                ", intitule='" + intitule + '\'' +
+                ", training=" + training +
+                ", startAt='" + startAt + '\'' +
+                ", endAt='" + endAt + '\'' +
+                ", registered=" + registered +
+                ", groups=" + groups +
+                ", registerGroup=" + registerGroup +
+                '}';
     }
 }

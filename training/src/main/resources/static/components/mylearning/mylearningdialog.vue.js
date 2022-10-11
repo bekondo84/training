@@ -2,7 +2,8 @@ var myDialog = Vue.component("myDialog", {
     props: ["data"],
     data() {
        return {
-          meta : null
+          meta : null,
+          i18n: {}
        }
     }, methods : {
           heading(group) { return "heading".concat(group.pk);},
@@ -13,6 +14,8 @@ var myDialog = Vue.component("myDialog", {
              this.$emit("register-action", group);
           },unRegister(group) {
               this.$emit("unregister-action", group);
+          }, getMessage(key) {
+              return this.i18n!= null && this.i18n[key]!=null ? this.i18n[key]: key;
           }
     }, computed : {
           dialogId() { return "my-dialog";},
@@ -28,6 +31,8 @@ var myDialog = Vue.component("myDialog", {
           try {
              let response = await axios.get("/api/v1/meta/cm.pak.training.beans.training.MyLearningGroupData");
              this.meta = response.data ;
+             response = await axios.get("/api/v1/i18n?keys=dcancel.btn,register.btn,unregister.btn,day.label,startAt.label,endAt.label,subject.label");
+             this.i18n = response.data;
           } catch (error) {
              console.log(error);
           }
@@ -51,18 +56,16 @@ var myDialog = Vue.component("myDialog", {
                                  <div class="accordion-body">
                                      <div class="title-bar">
                                         <nav class="nav">
-                                          <a class="btn btn-danger btn-sm" aria-current="page" href="#" @click.self="register(group)" v-if="!data.registered">Register</a>
-                                          <a class="btn btn-danger btn-sm" aria-current="page" href="#" @click.self="unRegister(group)" v-if="data.registered">UnRegister</a>
-                                        </nav>
+                                          <a class="btn btn-success btn-sm" aria-current="page" href="#" @click.self="register(group)">{{getMessage('register.btn')}}</a>                                        </nav>
                                      </div>
                                      <div class="table-responsive">
                                         <table class="table table-striped table-hover table-sm">
                                           <thead>
                                             <tr>
-                                              <th scope="col">day.label</th>
-                                              <th scope="col">startAt.label</th>
-                                              <th scope="col">endAt.label</th>
-                                              <th scope="col">subject.label</th>
+                                              <th scope="col">{{getMessage('day.label')}}</th>
+                                              <th scope="col">{{getMessage('startAt.label')}}</th>
+                                              <th scope="col">{{getMessage('endAt.label')}}</th>
+                                              <th scope="col">{{getMessage('subject.label')}}</th>
                                             </tr>
                                           </thead>
                                           <tbody>
@@ -81,7 +84,7 @@ var myDialog = Vue.component("myDialog", {
                            </div>
                          </div>
                          <div class="modal-footer">
-                           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">{{getMessage('dcancel.btn')}}</button>
                          </div>
                        </div>
                      </div>

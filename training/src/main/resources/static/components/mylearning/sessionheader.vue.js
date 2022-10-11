@@ -2,16 +2,18 @@ var mylearningheader = Vue.component("s-header", {
    props: ["menu", "meta", "backbtn"],
    data() {
       return {
+
       }
+   }, methods: {
+       searchAction(text) {
+         this.$emit("search-action", text);
+       }
    }, computed : {
        title() { return this.meta != null ? this.meta.listTitle : "" }
    }, template: `<div>
                        <div class="title-bar">
                            <div class="title"><p>{{title}}</p></div>
-                           <div class="input-group margin-left-auto width-350">
-                             <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                             <button type="button" class="btn btn-outline-primary">search</button>
-                           </div>
+                           <v-search @search-action="searchAction"></v-search>
                       </div>
                         <div class="title-bar">
                            <ul class="nav">
@@ -22,7 +24,7 @@ var mylearningheader = Vue.component("s-header", {
                                <a class="btn btn-danger btn-sm" aria-current="page" href="#" >Créer</a>
                              </li>
                            </ul>
-                           <div class="margin-left-auto">Pagination Block</div>
+                           <div class="margin-left-auto"><v-pagination></v-pagination></div>
                         </div>
                   </div>`
 });

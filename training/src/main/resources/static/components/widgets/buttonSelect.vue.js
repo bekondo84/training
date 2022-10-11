@@ -12,8 +12,8 @@ var btn = Vue.component("t-btn-select", {
        //console.log("------------------------------------- : "+JSON.stringify(this.field))
     },template: `<!-- Button trigger modal -->
                  <div>
-                 <button type="button" class="btn btn-primary btn-sm" :disabled="disabled" data-bs-toggle="modal" :data-bs-target="id">
-                    ...
+                 <button type="button" class="btn btn-sm" :disabled="disabled" data-bs-toggle="modal" :data-bs-target="id">
+                    <img src="../../images/search.png" class="rounded" width="17px">
                  </button>
                  <t-dialog
                       :field="field"

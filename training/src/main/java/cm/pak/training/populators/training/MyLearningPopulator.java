@@ -21,6 +21,8 @@ public class MyLearningPopulator implements Populator<InvolvedModel, MyLearningD
     private TrainingPopulator populator;
     @Autowired
     private UserPopulator userPopulator;
+    @Autowired
+    private TrainingGroupPopulator groupPopulator;
 
     @Override
     public MyLearningData populate(InvolvedModel source) {
@@ -38,6 +40,9 @@ public class MyLearningPopulator implements Populator<InvolvedModel, MyLearningD
         data.setRegistered(source.isRegistred());
         if (Objects.nonNull(source.getSession().getTraining())) {
             data.setTraining(populator.populate(source.getSession().getTraining()));
+        }
+        if (Objects.nonNull(source.getGroup())) {
+            data.setRegisterGroup(groupPopulator.populate(source.getGroup()));
         }
         return data;
     }

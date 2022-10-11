@@ -13,5 +13,5 @@ public interface MyLearningFacade {
     MyLearningData getMyLearning(final Long pk) ;
 
     List<MyLearningData> register(final MyLearningData myLearning, final MyLearningGroupData group) throws ModelServiceException;
-    List<MyLearningData> unRegister(final MyLearningData myLearning, final MyLearningGroupData group) throws ModelServiceException;
+    List<MyLearningData> unRegister(final MyLearningData myLearning) throws ModelServiceException;
 }

@@ -52,6 +52,7 @@ public class MyLearningController extends AbstractController {
         return ResponseEntity.ok(facade.getMyLearning(pk));
     }
 
+
     @PostMapping("/register/{pk}")
     public ResponseEntity<List<MyLearningData>> register(@PathVariable("pk")Long groupPk
             , @RequestBody MyLearningData source) throws ModelServiceException {
@@ -61,14 +62,9 @@ public class MyLearningController extends AbstractController {
                                                 .findAny().get();
         return ResponseEntity.ok(facade.register(source, group));
     }
-    @PostMapping("/unregister/{pk}")
-    public ResponseEntity<List<MyLearningData>> unRegister(@PathVariable("pk")Long groupPk
-            , @RequestBody MyLearningData source) throws ModelServiceException {
-        final MyLearningGroupData group = source.getGroups()
-                .stream()
-                .filter(gr -> gr.getPk().equals(groupPk))
-                .findAny().get();
-        return ResponseEntity.ok(facade.unRegister(source, group));
+    @PostMapping("/unregister")
+    public ResponseEntity<List<MyLearningData>> unRegister(@RequestBody MyLearningData source) throws ModelServiceException {
+        return ResponseEntity.ok(facade.unRegister(source));
     }
 
     @Override
