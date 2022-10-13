@@ -87,7 +87,7 @@
               "method": "get",
               "listComponent": "list-component",
               "viewComponent": "view-component",
-              "metadata": "cm.pak.training.beans.ImportData",
+              "metadata": "cm.pak.training.beans.ImportUserData",
               "icon": null,
               "scope" : "view",
               "type":"list"

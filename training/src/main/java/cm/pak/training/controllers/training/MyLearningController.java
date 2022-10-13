@@ -36,8 +36,8 @@ public class MyLearningController extends AbstractController {
     private MyLearningPopulator populator;
 
     @GetMapping
-    public ResponseEntity<List<MyLearningData>> getMyLearningForAuthentication(Authentication authentication) {
-       final List<InvolvedModel> involves = searchData(InvolvedModel.class, null, 0, 50, new FilterData("involve.code", authentication.getName(), "eq"), new FilterData("session.statut", "P", "eq"));
+    public ResponseEntity<List<MyLearningData>> getMyLearningForAuthentication(@RequestParam(required = false) String search, Authentication authentication) {
+       final List<InvolvedModel> involves = searchData(InvolvedModel.class, 0, 50, buildSearchFilter(MyLearningData.class, search), new FilterData("involve.code", authentication.getName(), "eq"), new FilterData("session.statut", "P", "eq"));
 
        if (!CollectionUtils.isEmpty(involves)) {
            return ResponseEntity.ok(involves.stream()

@@ -87,21 +87,43 @@ public class DefaultMetaService implements MetaService {
         final Locale locale = Locale.getDefault();
         for (Field field : fields) {
             field.setAccessible(true);
-            final Widget annot = field.getAnnotation(Widget.class);
-            String fieldName = clazz.getSimpleName().concat(".").concat(field.getName());
-            if (Objects.nonNull(annot) && annot.column()) {
-                columns.add(new FieldData(field.getName(), getMessage(fieldName, locale), annot.sequence(), annot.value()));
-            }
-            final Manytoone manytoone = field.getAnnotation(Manytoone.class);
-            if (Objects.nonNull(manytoone) && manytoone.column()) {
-                columns.add(new FieldData(field.getName(), getMessage(fieldName, locale), manytoone.sequence(), "many-to-one"));
-            }
-            final Select select = field.getAnnotation(Select.class);
-            if (Objects.nonNull(select) && select.column()) {
-                columns.add(new FieldData(field.getName(), getMessage(fieldName, locale), select.sequence(), "select"));
-            }
+            Optional.ofNullable(getColumn(clazz, locale, field))
+                            .ifPresent(fieldData -> columns.add(fieldData));
         }
         return columns;
+    }
+
+    private FieldData getColumn(Class clazz, Locale locale, Field field) {
+        final Widget annot = field.getAnnotation(Widget.class);
+        String fieldName = clazz.getSimpleName().concat(".").concat(field.getName());
+        if (Objects.nonNull(annot)) {
+            return  new FieldData(field.getName(), getMessage(fieldName, locale), annot.sequence(), annot.value());
+        }
+        final Manytoone manytoone = field.getAnnotation(Manytoone.class);
+        if (Objects.nonNull(manytoone)) {
+            return new FieldData(field.getName(), getMessage(fieldName, locale), manytoone.sequence(), "many-to-one");
+        }
+        final Select select = field.getAnnotation(Select.class);
+        if (Objects.nonNull(select)) {
+            return new FieldData(field.getName(), getMessage(fieldName, locale), select.sequence(), "select");
+        }
+        return null;
+    }
+
+    @Override
+    public Set<FieldData> getExportedFields(Class clazz) {
+            final Field[] fields = clazz.getDeclaredFields();
+            final Set<FieldData> result = new HashSet<>();
+            long pk = 0 ;
+            for (Field field : fields) {
+                pk++ ;
+                final FieldData data = getColumn(clazz, Locale.getDefault(), field);
+                if (Objects.nonNull(data)) {
+                    data.setPk(pk);
+                    result.add(data);
+                }
+            }
+            return  result;
     }
 
     private GroupData createGroupData(Field[] fields, Group annGroup, Class clazz, Locale locale) {
@@ -117,6 +139,9 @@ public class DefaultMetaService implements MetaService {
                 fieldData.setMetadata(field.getType().getName());
                 fieldData.setUpdatable(widget.updatable());
                 fieldData.setNullable(widget.nullable());
+                if (StringUtils.hasText(widget.pattern())) {
+                    fieldData.setPattern(widget.pattern());
+                }
             }
             final Manytoone manytoone = field.getDeclaredAnnotation(Manytoone.class);
             if (Objects.nonNull(manytoone) && manytoone.group()!= null && manytoone.group().equalsIgnoreCase(annGroup.name())) {
@@ -200,5 +225,10 @@ public class DefaultMetaService implements MetaService {
         final ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
         Class type = (Class) parameterizedType.getActualTypeArguments()[0];
         return type;
+    }
+
+    @Override
+    public MessageSource getMessageSource() {
+        return messageSource;
     }
 }

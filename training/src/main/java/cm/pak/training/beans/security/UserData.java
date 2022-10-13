@@ -38,6 +38,7 @@ public class UserData extends AbstractItemData implements Serializable {
 
     @Widget(value = "email", group = "general")
     private String email;
+
     @Manytomany(group ="security", source = "/api/v1/groups")
     private List<GroupeData> profils ;
 

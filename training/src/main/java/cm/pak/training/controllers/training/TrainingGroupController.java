@@ -32,8 +32,8 @@ public class TrainingGroupController extends AbstractController{
     private TrainingGroupPopulator populator;
 
     @GetMapping("/{session}")
-    public ResponseEntity<List<TrainingGroupData>> groups(@PathVariable("session")Long session) {
-        final List<TrainingGroupModel> groupes = searchData(TrainingGroupModel.class, null, 0, 50, new FilterData("session.pk", session, "eq"));
+    public ResponseEntity<List<TrainingGroupData>> groups(@PathVariable("session")Long session, @RequestParam(required = false) String search) {
+        final List<TrainingGroupModel> groupes = searchData(TrainingGroupModel.class, 0, 50, buildSearchFilter(TrainingGroupData.class, search), new FilterData("session.pk", session, "eq"));
 
         if (!CollectionUtils.isEmpty(groupes)) {
             return ResponseEntity.ok(groupes.stream()

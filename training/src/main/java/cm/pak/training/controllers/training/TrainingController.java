@@ -40,7 +40,7 @@ public class TrainingController extends AbstractController {
         //LOG.info(String.format("--------------------------------- %s, %s", filter, search));
         final List<FilterData> filters = filtersBuilder(filter);
 
-        final List<TrainingModel> trainings = searchData(TrainingModel.class, search, 0, 50, filters.toArray(new FilterData[filters.size()]));
+        final List<TrainingModel> trainings = searchData(TrainingModel.class, 0, 50, buildSearchFilter(TrainingData.class, search), filters.toArray(new FilterData[filters.size()]));
         if (!CollectionUtils.isEmpty(trainings)) {
             return ResponseEntity.ok(trainings.stream()
                     .map(training -> populator.populate(training))

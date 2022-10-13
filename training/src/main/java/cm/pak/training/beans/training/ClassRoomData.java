@@ -1,8 +1,6 @@
 package cm.pak.training.beans.training;
 
-import cm.pak.annotations.Group;
-import cm.pak.annotations.Groups;
-import cm.pak.annotations.Widget;
+import cm.pak.annotations.*;
 import cm.pak.models.training.ClassRoomModel;
 import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -10,6 +8,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@SearchKeys({
+        @SearchKey(value = "code", label = "code", primary = true),
+        @SearchKey(value = "intitule", label = "intitule"),
+        @SearchKey(value = "adresse", label = "adresse"),
+        @SearchKey(value = "localisation", label = "localisation")
+})
 @Groups({
         @Group(name = "general", label = "general.group", sequence = 2)
 })

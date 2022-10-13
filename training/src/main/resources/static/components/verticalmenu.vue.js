@@ -35,9 +35,7 @@ var menu = Vue.component("v-menus-bar", {
      }, mounted() {
 
      },template: `<section class="v-menu-bar title-bloc">
-                      <div>
-                         <img src="./images/logo1.jpg" width="250" height="143">
-                      </div>
+                      <div  class="menu-logo"></div>
                       <nav class="animated bounceInDown" style="overflow: auto;margin-left: 9px;">
                         <div>
                           <ul class="menus">

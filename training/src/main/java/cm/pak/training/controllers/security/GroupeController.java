@@ -40,9 +40,8 @@ public class GroupeController extends AbstractController {
     private SettingFacade settingFacade;
 
     @GetMapping
-    public ResponseEntity<List<GroupeData>> getGroupes() {
-        List<GroupeModel> groupes = searchData(GroupeModel.class, null, 0, 50);
-
+    public ResponseEntity<List<GroupeData>> getGroupes(@RequestParam(required = false) String search) {
+        List<GroupeModel> groupes = searchData(GroupeModel.class, 0, 50, buildSearchFilter(GroupeData.class, search));
         if (!CollectionUtils.isEmpty(groupes)) {
            return ResponseEntity.ok(groupes.stream()
                    .map(grp -> populaor.populate(grp))

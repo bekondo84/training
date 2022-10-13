@@ -37,7 +37,7 @@ public interface FlexibleSearch {
      */
     <T extends ItemModel> List<T> findAll(Class<T> clazz, final Connector connector, final List<FilterData> predicats, int start, int max);
 
-    <T extends ItemModel> List<T> search(Class<T> clazz, final String search, final List<FilterData> rules, int start, int max, final FilterData ...prefilter);
+    <T extends ItemModel> List<T> search(Class<T> clazz, final List<FilterData> rules, int start, int max, final FilterData ...prefilter);
     /**
      *
      * @param query

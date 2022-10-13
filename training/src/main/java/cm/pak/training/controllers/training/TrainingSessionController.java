@@ -33,8 +33,8 @@ public class TrainingSessionController extends AbstractController {
     private TrainingSessionPopulator populator;
 
     @GetMapping
-    public ResponseEntity<List<TrainingSessionData>> getSessions() {
-        final List<TrainingSessionModel> sessions = searchData(TrainingSessionModel.class, null, 0, 50);
+    public ResponseEntity<List<TrainingSessionData>> getSessions(@RequestParam(required = false) String search) {
+        final List<TrainingSessionModel> sessions = searchData(TrainingSessionModel.class, 0, 50, buildSearchFilter(TrainingSessionData.class, search));
 
         if (!CollectionUtils.isEmpty(sessions)) {
             return ResponseEntity.ok(sessions.stream()

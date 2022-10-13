@@ -2,7 +2,7 @@ var input = Vue.component("t-file-field", {
         props: ["field", "data"],
         data() {
            return {
-              value : this.data == null ? {} : this.data
+              value : this.data == null ? {} : this.data,
            }
         },computed : {
            readonly() { return this.disabled == null ? false : this.disabled; },
@@ -11,7 +11,8 @@ var input = Vue.component("t-file-field", {
            type() {
               return this.field.type;
            },
-           isNotNull() { return this.field == null || this.field == undefined }
+           isNotNull() { return this.field == null || this.field == undefined },
+           accept() { return this.field.pattern ;}
         },created() {
             //console.log("********************** "+JSON.stringify(this.field))
         },
@@ -22,14 +23,18 @@ var input = Vue.component("t-file-field", {
               let files = event.target.files ;
 
               if (files != null && files.length >0 ) {
-                 this.data[this.field.name] = files[0];
+                 //this.data[this.field.name] = files[0];
+                 const formData = new FormData();
+                 formData.append('file', files[0]);
+                 let response = axios.post("/api/v1/upload",formData);
               }
-              console.log("list of selectd files : "+event.target.files);
+              //console.log("list of selectd files : "+event.target.files);
            }
         },template: `<div>
                        <label :for="id" class="form-label field">{{field.label}}</label>
-                       <input :type="type" class="form-control form-control-sm" :readonly="readonly" @change="preview"
-                                     :required="!field.nullable"  placeholder=""
+                       <input :type="type" class="form-control form-control-sm"
+                              :readonly="readonly" @change="preview" :accept="accept"
+                              :required="!field.nullable"  placeholder=""
                                      :ref="id">
                      </div>`
 });

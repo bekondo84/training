@@ -1,16 +1,27 @@
 package cm.pak.data;
 
+import cm.pak.annotations.Group;
+import cm.pak.annotations.Groups;
 import cm.pak.annotations.SelectItem;
+import cm.pak.annotations.Widget;
 
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
+@Groups({
+        @Group(name = "general", label = "general.group")
+})
 public class FieldData implements Serializable {
-    private String name ;
+    private Long pk ;
+    @Widget(value = "text", group = "general", column = true)
     private String label ;
+    @Widget(value = "text", group = "general", column = true)
+    private String name ;
     private int sequence ;
+    //@Widget(value = "text", group = "general", column = true)
     private String type ;
     private boolean editable ;
     private boolean updatable ;
@@ -20,6 +31,7 @@ public class FieldData implements Serializable {
     private Set<SelectItemData> selectItems ;
     private Set<FilterData> filters;
     private boolean nullable ;
+    private String pattern;
 
 
     public FieldData() {
@@ -142,5 +154,32 @@ public class FieldData implements Serializable {
         this.filters.add(filter);
     }
 
+    public String getPattern() {
+        return pattern;
+    }
 
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
+    }
+
+    public Long getPk() {
+        return pk;
+    }
+
+    public void setPk(Long pk) {
+        this.pk = pk;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FieldData fieldData = (FieldData) o;
+        return name.equals(fieldData.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }

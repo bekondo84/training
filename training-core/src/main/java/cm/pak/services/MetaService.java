@@ -4,12 +4,18 @@ import cm.pak.data.FieldData;
 import cm.pak.data.MetaData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 public interface MetaService {
     static final Logger LOG = LoggerFactory.getLogger(MetaService.class);
+
+     Set<FieldData> getExportedFields(final Class clazz) ;
    /**
     *
     * @param clazz
@@ -46,4 +52,6 @@ public interface MetaService {
       }
       return value;
    }
+
+   MessageSource getMessageSource() ;
 }

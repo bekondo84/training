@@ -2,13 +2,13 @@ var pagination = Vue.component("v-pagination", {
   props : [],
   data() {
      return {
-
+         visible: false
      }
   }, methods : {
 
   }, computed : {
 
-  }, template : `<nav aria-label="Page navigation example">
+  }, template : `<nav aria-label="Page navigation example" v-if="visible">
                    <ul class="pagination pagination-sm">
                      <li class="page-item">
                        <a class="page-link" href="#" aria-label="Previous">

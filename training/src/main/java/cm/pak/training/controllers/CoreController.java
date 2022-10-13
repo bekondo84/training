@@ -17,13 +17,14 @@ import cm.pak.training.facades.core.ExtensionFacade;
 import cm.pak.training.facades.core.SettingFacade;
 import cm.pak.training.facades.security.UserFacade;
 import cm.pak.training.security.JwtTokenService;
+import cm.pak.training.tools.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -31,18 +32,24 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.persistence.NoResultException;
-import java.util.*;
+import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Random;
 
 @Controller
 @RequestMapping
@@ -86,16 +93,15 @@ public class CoreController extends AbstractController{
           return "/home/template";
     }
 
+    @PostMapping(value = "/api/v1/upload", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ResponseBody
+    public void uploadFile(@RequestPart("file") MultipartFile file, final HttpSession session) throws IOException {
+        session.setAttribute(Constants.SESSION_FILE, file.getInputStream());
+    }
     @PostMapping("/api/v1/changePassord")
     @ResponseBody
     public ResponseEntity changePasword(@RequestBody ChangePasswordData source, Authentication auth) throws TrainingException, ModelServiceException {
         final UserModel user = flexibleSearch.find(UserModel.class, "code", auth.getName());
-        //final String currentPassword = encoder.encode(source.getOldPassword().trim());
-        //LOG.info(String.format("-------------------------------- : %s  ---- %s", source.getOldPassword(), source.getNewPassword()));
-        //LOG.info(String.format("-------------------------------- : %s  ---- %s", currentPassword, user.getPassword()));
-        /*if (!currentPassword.equals(user.getPassword())) {
-            throw  new TrainingException (messageSource.getMessage("password.unkown.exception", null, "password.unkown.exception", Locale.getDefault()));
-        }*/
         if (!source.getNewPassword().trim().equals(source.getConfirmPasswword().trim())) {
             throw  new TrainingException (messageSource.getMessage("password.notmatche.exception", null, "password.notmatche.exception", Locale.getDefault()));
         }

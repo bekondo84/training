@@ -2,7 +2,7 @@ var formPanel = Vue.component("view-component", {
      props : ["menu", "data", "meta"],
      data() {
         return {
-
+           i18n: {}
         }
      },computed: {
 
@@ -16,7 +16,7 @@ var formPanel = Vue.component("view-component", {
            this.$emit("refresh-list-form")
         },async processAction(action) {
            try{
-             var answer = confirm("Voulez vous coninuer ? ");
+             var answer = confirm(this.getMessage('confirm.alert'));
              if (answer == false) {
                  return ;
              }
@@ -32,11 +32,18 @@ var formPanel = Vue.component("view-component", {
            }
          }, notifySuccess() {
              this.$emit("notify-success")
-         }, notifyError(error) {
-               this.$emit("notify-success", error)
-           }
-     },created(){
-        //console.log("view-component created ************** : "+JSON.stringify(this.meta))
+         },notifyError(error) {
+           this.$emit("notify-success", error)
+         },getMessage(key) {
+            return this.i18n!= null && this.i18n[key]!=null ? this.i18n[key]: key;
+         }
+     }, async created() {
+        try {
+             let response = await axios.get("/api/v1/i18n?keys=dcancel.btn,accept.btn");
+             this.i18n = response.data;
+         } catch(error) {
+            console.log(error);
+         }
      },template : `<div class="editor">
                       <f-header :meta="meta"
                                 :data="data"

@@ -6,4 +6,6 @@ import cm.pak.models.security.UserModel;
 public interface UserService {
 
     UserModel createOrUpdate(final UserModel user) throws ModelServiceException;
+
+    boolean exist(final String code );
 }

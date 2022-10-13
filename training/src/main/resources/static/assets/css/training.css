@@ -190,3 +190,9 @@ nav ul li ul li a:hover {
      margin-left: 30%;
      z-index : 1000 ;
  }
+.menu-logo {
+    background-size: cover;
+    background-position: center;
+    background-image: url(../../images/logo1.jpg);
+    height: 200px;
+}

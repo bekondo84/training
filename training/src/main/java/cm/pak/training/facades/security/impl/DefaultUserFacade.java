@@ -4,6 +4,8 @@ import cm.pak.exceptions.ModelServiceException;
 import cm.pak.models.security.UserModel;
 import cm.pak.repositories.FlexibleSearch;
 import cm.pak.repositories.ModelService;
+import cm.pak.services.CsvService;
+import cm.pak.services.UserService;
 import cm.pak.training.beans.security.SetPasswordData;
 import cm.pak.training.beans.security.UserData;
 import cm.pak.training.exceptions.TrainingException;
@@ -22,6 +24,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.NoResultException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -43,6 +47,10 @@ public class DefaultUserFacade implements UserFacade {
     private BCryptPasswordEncoder encoder;
     @Autowired
     private MessageSource messageSource;
+    @Autowired
+    private CsvService csvService;
+    @Autowired
+    private UserService userService;
 
     @Transactional
     @Override
@@ -125,6 +133,19 @@ public class DefaultUserFacade implements UserFacade {
             user.setCode("admin");
             user.setPassword(encoder.encode("nimda"));
             modelService.createOrUpdate(user);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void updateUsersFromInputStream(InputStream is, final String category, List<String> headers) throws ModelServiceException, UnsupportedEncodingException {
+        List<UserData> users = csvService.parseCsv(is, headers.toArray(new String[headers.size()]), UserData.class);
+
+        for (UserData user : users) {
+            if (StringUtils.hasText(user.getCode()) && !userService.exist(user.getCode())) {
+                user.setCategory(category);
+                modelService.createOrUpdate(userPopulator.revert(user));
+            }
         }
     }
 }

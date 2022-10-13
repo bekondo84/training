@@ -33,8 +33,7 @@ public class ClassRoomController extends AbstractController {
 
     @GetMapping
     public ResponseEntity<List<ClassRoomData>> getClassrooms(@RequestParam(required = false)String search) {
-        final List<ClassRoomModel> classRooms = searchData(ClassRoomModel.class, null, 0, 50);
-        LOG.info(String.format("---------------------------- searchParam : %s", search));
+        final List<ClassRoomModel> classRooms = searchData(ClassRoomModel.class, 0, 50, buildSearchFilter(ClassRoomData.class, search));
         if(!CollectionUtils.isEmpty(classRooms)) {
             return ResponseEntity.ok(classRooms
                     .stream()

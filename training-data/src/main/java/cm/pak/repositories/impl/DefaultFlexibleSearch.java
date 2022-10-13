@@ -96,7 +96,7 @@ public class DefaultFlexibleSearch implements FlexibleSearch {
      * @return
      */
     @Override
-    public <T extends ItemModel> List<T> search(Class<T> clazz, String search, List<FilterData> rules, int start, int max, FilterData... prefilter) {
+    public <T extends ItemModel> List<T> search(Class<T> clazz, List<FilterData> rules, int start, int max, FilterData... prefilter) {
         final CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(clazz);
         final Root<T> from = criteriaQuery.from(clazz);

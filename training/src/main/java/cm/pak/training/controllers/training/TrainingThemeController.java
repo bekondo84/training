@@ -31,8 +31,8 @@ public class TrainingThemeController extends AbstractController {
 
 
     @GetMapping
-    public ResponseEntity<List<TrainingThemeData>> getThemes() {
-        final List<TrainingThemeModel> themes = searchData(TrainingThemeModel.class, null, 0, 50);
+    public ResponseEntity<List<TrainingThemeData>> getThemes(@RequestParam(required = false) String search) {
+        final List<TrainingThemeModel> themes = searchData(TrainingThemeModel.class, 0, 50, buildSearchFilter(TrainingThemeData.class, search));
 
         if (!CollectionUtils.isEmpty(themes)) {
             return ResponseEntity.ok(themes.stream()
