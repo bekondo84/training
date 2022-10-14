@@ -5,6 +5,7 @@ import cm.pak.models.training.ClassRoomModel;
 import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -18,14 +19,18 @@ import java.io.Serializable;
         @Group(name = "general", label = "general.group", sequence = 2)
 })
 public class ClassRoomData extends AbstractItemData implements Serializable {
+    @NotNull
     @Widget(value = "text", group = "general", updatable = true, column = true)
     private String code;
     @Widget(value = "text", group = "general", column = true)
     private String intitule;
+    @NotNull
     @Widget(value = "number", group = "general", column = true)
     private Integer ability;
+    @NotNull
     @Widget(value = "text", group = "general", column = true)
     private String adresse;
+    @NotNull
     @Widget(value = "text", group = "general", column = true)
     private String localisation;
 

@@ -10,6 +10,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
@@ -130,10 +131,11 @@ public class DefaultMetaService implements MetaService {
         final GroupData group = new GroupData(annGroup.name(), getMessage(annGroup.label(), locale), annGroup.sequence());
         for (final  Field field : fields) {
             final Widget widget = field.getDeclaredAnnotation(Widget.class) ;
+            FieldData fieldData =null;
             field.setAccessible(true);
             String fieldLabel = clazz.getSimpleName().concat(".").concat(field.getName());
             if (Objects.nonNull(widget) && widget.group()!= null && widget.group().equalsIgnoreCase(annGroup.name())) {
-                FieldData fieldData = new FieldData(field.getName(), getMessage(fieldLabel, locale), widget.sequence(), widget.value());
+                fieldData = new FieldData(field.getName(), getMessage(fieldLabel, locale), widget.sequence(), widget.value());
                 fieldData.setEditable(widget.editable());
                 group.add(fieldData);
                 fieldData.setMetadata(field.getType().getName());
@@ -145,7 +147,7 @@ public class DefaultMetaService implements MetaService {
             }
             final Manytoone manytoone = field.getDeclaredAnnotation(Manytoone.class);
             if (Objects.nonNull(manytoone) && manytoone.group()!= null && manytoone.group().equalsIgnoreCase(annGroup.name())) {
-                FieldData fieldData = new FieldData(field.getName(), getMessage(fieldLabel, locale), manytoone.sequence(), "many-to-one");
+                fieldData = new FieldData(field.getName(), getMessage(fieldLabel, locale), manytoone.sequence(), "many-to-one");
                 fieldData.setEditable(manytoone.editable());
                 group.add(fieldData);
                 fieldData.setMetadata(field.getType().getName());
@@ -155,7 +157,7 @@ public class DefaultMetaService implements MetaService {
             }
             final Onetomany onetomany = field.getDeclaredAnnotation(Onetomany.class);
             if (Objects.nonNull(onetomany) && onetomany.group()!= null && onetomany.group().equalsIgnoreCase(annGroup.name())) {
-                FieldData fieldData = new FieldData(field.getName(), getMessage(fieldLabel, locale), onetomany.sequence(), "one-to-many");
+                fieldData = new FieldData(field.getName(), getMessage(fieldLabel, locale), onetomany.sequence(), "one-to-many");
                 fieldData.setEditable(onetomany.editable());
                 group.add(fieldData);
                 fieldData.setMetadata(field.getType().getName());
@@ -169,7 +171,7 @@ public class DefaultMetaService implements MetaService {
             }
             final Select select = field.getDeclaredAnnotation(Select.class);
             if (Objects.nonNull(select) && select.group()!= null && select.group().equalsIgnoreCase(annGroup.name())) {
-                FieldData fieldData = new FieldData(field.getName(), getMessage(fieldLabel, locale), select.sequence(), "select");
+                fieldData = new FieldData(field.getName(), getMessage(fieldLabel, locale), select.sequence(), "select");
                 fieldData.setEditable(select.editable());
                 group.add(fieldData);
                 fieldData.setMetadata(field.getType().getName());
@@ -180,7 +182,7 @@ public class DefaultMetaService implements MetaService {
             }
             final Manytomany manytomany = field.getDeclaredAnnotation(Manytomany.class);
             if (Objects.nonNull(manytomany) && manytomany.group()!= null && manytomany.group().equalsIgnoreCase(annGroup.name())) {
-                final FieldData fieldData = new FieldData(field.getName(), getMessage(fieldLabel, locale), manytomany.sequence(), "many-to-many");
+                fieldData = new FieldData(field.getName(), getMessage(fieldLabel, locale), manytomany.sequence(), "many-to-many");
                 fieldData.setEditable(manytomany.editable());
                 group.add(fieldData);
                 fieldData.setMetadata(field.getType().getName());
@@ -195,6 +197,10 @@ public class DefaultMetaService implements MetaService {
             /**
              * Process filter if existe
              */
+            final NotNull notNull = field.getDeclaredAnnotation(NotNull.class);
+            if (Objects.nonNull(notNull) && Objects.nonNull(fieldData)) {
+                fieldData.setNullable(false);
+            }
 
         }
         return group;

@@ -6,6 +6,7 @@ import cm.pak.training.beans.AbstractItemData;
 import cm.pak.training.beans.core.ExtensionData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,12 +24,15 @@ import java.util.Set;
         @SearchKey(label = "Plugin", value = "plugin")
 })
 public class GroupeData extends AbstractItemData implements Serializable {
+    @NotNull
     @Widget(value = "text", group = "general", column = true)
     private String code ;
     @Widget(value = "text", group = "general", column = true)
     private String intitule;
+    @NotNull
     @Manytoone(updatable = false, group = "general", source = "/api/v1/plugins", column = true)
     private ExtensionData plugin ;
+    @NotNull
     @Onetomany(group = "profil", editable = false, deletable = false , source = "/api/v1/plugins")
     private List<AccesRigthData> rigths ;
 

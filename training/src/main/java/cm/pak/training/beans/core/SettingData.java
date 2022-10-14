@@ -9,6 +9,7 @@ import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @GlobalConfig(deletable = false)
@@ -18,27 +19,36 @@ import java.io.Serializable;
         @Group(name = "email.settings", label = "email.settings.group")
 })
 public class SettingData extends AbstractItemData implements Serializable {
-
+    @NotNull
     @Widget(value = "text", group = "email.settings")
     private String mailHost;
+    @NotNull
     @Widget(value = "number", group = "email.settings")
     private Integer mailPort ;
+    @NotNull
     @Widget(value = "email", group = "email.settings")
     private String mailUsername;
+    @NotNull
     @Widget(value = "password", group = "email.settings")
     private String mailPassword ;
+    @NotNull
     @Widget(value = "text", group = "email.settings")
     private String mailTransportProtocol;
+    @NotNull
     @Widget(value = "checkbox", group = "email.settings")
     private boolean mailSmtpAuth;
+    @NotNull
     @Widget(value = "checkbox", group = "email.settings")
     private boolean mailSmtpStartTtls;
     @Widget(value = "checkbox", group = "email.settings")
     private boolean mailDebug ;
+    @NotNull
     @Widget(value = "number", group = "general")
     private Integer pageSize ;
+    @NotNull
     @Widget(value = "number", group = "general")
     private Integer poolSize ;
+    @NotNull
     @Widget(value = "text", group = "general")
     private String poolName ;
 

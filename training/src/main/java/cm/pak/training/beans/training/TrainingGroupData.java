@@ -6,6 +6,7 @@ import cm.pak.training.beans.AbstractItemData;
 import cm.pak.training.beans.security.UserData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,18 +22,23 @@ public class TrainingGroupData extends AbstractItemData implements Serializable 
     private String code ;
     @Manytoone(group = "general", editable = false, source = "/api/v1/sessions")
     private TrainingSessionData session;
+    @NotNull
     @Manytoone(group = "general", column = true, source = "/api/v1/classrooms")
     private ClassRoomData classRoom;
+    @NotNull
     @Widget(value = "number", group = "general", column = true, editable = false)
     private Integer numberOfPlaces;
+    @NotNull
     @Widget(value = "date", group = "general", column = true)
     private String startAt;
+    @NotNull
     @Widget(value = "date", group = "general", column = true)
     private String endAt;
     @Widget(value = "number", group = "general", column = true, editable = false)
     private Integer availablePlaces;
     @Widget(value = "number", group = "general", column = true, editable = false)
     private Integer reservePlaces;
+    @NotNull
     @Onetomany(group = "timesheet")
     private Set<TimeSheetItemData> timesheet ;
     @Manytomany(group = "registered", source = "/api/v1/users", editable = false, deletable = false)

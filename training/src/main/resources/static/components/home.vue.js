@@ -125,7 +125,13 @@ var home = Vue.component("t-home", {
         },notifySusscess() {
           this.showAlert("success", "L'operation s'est déroulé avec succès");
         }, notifyError(error) {
-           if (error.response.status=="401") {
+           if (Array.isArray(error)) {
+              var message ="";
+              for (let i=0 ; i < error.length; i++) {
+                 message = message.concat("<p>").concat(error[i].message).concat("</p>")
+              }
+              this.showAlert("error", message);
+           } else if (error.response.status=="401") {
                window.location.href="/logout"
            } else {
                 this.showAlert("error", "Ouff une erreur s'est produite.".concat("\n").concat(error.message));

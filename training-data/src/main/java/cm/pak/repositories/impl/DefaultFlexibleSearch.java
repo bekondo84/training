@@ -75,9 +75,6 @@ public class DefaultFlexibleSearch implements FlexibleSearch {
         final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(clazz);
         final Root<T> from = criteriaQuery.from(clazz);
 
-        if (!CollectionUtils.isEmpty(filters)) {
-
-        }
         Query query = em.createQuery(criteriaQuery);
         query.setFirstResult(start);
         query.setMaxResults(max);
@@ -87,7 +84,6 @@ public class DefaultFlexibleSearch implements FlexibleSearch {
     /**
      *
      * @param clazz
-     * @param search
      * @param rules
      * @param start
      * @param max
@@ -102,20 +98,11 @@ public class DefaultFlexibleSearch implements FlexibleSearch {
         final Root<T> from = criteriaQuery.from(clazz);
         Predicate leftCondition = null;
         if (Objects.nonNull(prefilter)) {
-           final List<Predicate> predicates = new ArrayList<>();
-           for (FilterData filter :  prefilter) {
-               predicates.add(predicatBuilder(criteriaBuilder, from, filter));
-           }
-          //  LOG.info(String.format("....................................... %s ::: %s", prefilter.length, predicates.size()));
-           if (predicates.size()>1) {
-               leftCondition = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-           } else if (predicates.size() == 1){
-               leftCondition = predicates.get(0);
-           }
+            leftCondition = getPreFilterPredicates(criteriaBuilder, from, leftCondition, prefilter);
         }
         Predicate rigthCondition = null ;
         if (!CollectionUtils.isEmpty(rules) ) {
-
+            rigthCondition = getSearchPredicates(rules, criteriaBuilder, from, rigthCondition);
         }
 
         if (Objects.nonNull(rigthCondition) && Objects.nonNull(leftCondition)) {
@@ -132,15 +119,42 @@ public class DefaultFlexibleSearch implements FlexibleSearch {
         return query.getResultList();
     }
 
+    private <T extends ItemModel> Predicate getSearchPredicates(List<FilterData> rules, CriteriaBuilder criteriaBuilder, Root<T> from, Predicate rigthCondition) {
+        final List<Predicate> predicates = new ArrayList<>() ;
+        rules.forEach(rule -> predicates.add(predicatBuilder(criteriaBuilder, from, rule)));
+        if (predicates.size()>1) {
+            rigthCondition = criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
+        } else if (predicates.size() == 1){
+            rigthCondition = predicates.get(0);
+        }
+        return rigthCondition;
+    }
+
+    private <T extends ItemModel> Predicate getPreFilterPredicates(CriteriaBuilder criteriaBuilder, Root<T> from, Predicate leftCondition, FilterData[] prefilter) {
+        final List<Predicate> predicates = new ArrayList<>();
+        for (FilterData filter : prefilter) {
+            predicates.add(predicatBuilder(criteriaBuilder, from, filter));
+        }
+        //  LOG.info(String.format("....................................... %s ::: %s", prefilter.length, predicates.size()));
+        if (predicates.size()>1) {
+            leftCondition = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+        } else if (predicates.size() == 1){
+            leftCondition = predicates.get(0);
+        }
+        return leftCondition;
+    }
+
     private <T extends ItemModel> Predicate predicatBuilder(CriteriaBuilder criteriaBuilder, Root<T> from, FilterData filter) {
         if (filter.getOperator().equals("ne")) {
             return criteriaBuilder.notEqual(getPath(from, filter.getField()), filter.getValue());
+        } else if (filter.getOperator().equals("like")) {
+            return criteriaBuilder.like((Expression<String>) getPath(from, filter.getField()),  (String)filter.getValue());
         }
         return criteriaBuilder.equal(getPath(from, filter.getField()), filter.getValue());
     }
 
-    private <X> Path<X> getPath(Root<X> root, String fieldname){
-        Path<X> path = root;
+    private  Path<String> getPath(Root root, String fieldname){
+        Path<String> path = root;
         for(String part : fieldname.split("\\.")) {
             path = path.get(part);
         }

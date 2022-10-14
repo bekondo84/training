@@ -2,7 +2,7 @@ var search = Vue.component("v-search", {
 
    data() {
       return {
-        text : null,
+        text : "",
          i18n : {}
       }
    }, methods: {

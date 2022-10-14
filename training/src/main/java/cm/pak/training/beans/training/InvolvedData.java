@@ -6,6 +6,7 @@ import cm.pak.training.beans.AbstractItemData;
 import cm.pak.training.beans.security.UserData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,16 +17,20 @@ import java.util.Date;
 public class InvolvedData extends AbstractItemData implements Serializable {
     @Manytoone(group = "general", editable = false, source = "/api/v1/sessions")
     private TrainingSessionData session ;
+    @NotNull
     @Manytoone(group = "general",column = true, source = "/api/v1/users")
     private UserData involve;
+    @NotNull
     @Select(group = "general", value = {
             @SelectItem(value = "T",name = "teacher"),@SelectItem(value = "L", name = "learner")
     }, column = true)
     private String role ;
     @Manytoone(group = "general", column = true, sequence = 10, editable = false, source = "/api/v1/groups")
     private TrainingGroupData group;
+    @NotNull
     @Widget(value = "date", group = "general", column = true, editable = false)
     private String registredDate ;
+    @NotNull
     @Widget(value = "checkbox", column = true,group = "general", editable = false)
     private boolean registered ;
 

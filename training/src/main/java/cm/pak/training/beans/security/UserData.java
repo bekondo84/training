@@ -5,6 +5,9 @@ import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.Column;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -22,20 +25,24 @@ import java.util.Objects;
 })
 public class UserData extends AbstractItemData implements Serializable {
     @Widget(value = "text", column = true, group = "general")
+    @NotNull
     private String code ;
     @Widget(value = "text", column = true, group = "general")
     private String name ;
+
+    @NotNull
     @Select(column = true, group = "general", value = {
             @SelectItem(name = "Masculin", value ="M"),
             @SelectItem(name = "Feminin", value ="F")
     })
+    @NotNull
     private String genre ;
     @Select(column = true, group = "general", value = {
             @SelectItem(name = "Interne", value ="I"),
             @SelectItem(name = "Externe", value ="E")
     })
     private String category ;
-
+    @NotNull
     @Widget(value = "email", group = "general")
     private String email;
 

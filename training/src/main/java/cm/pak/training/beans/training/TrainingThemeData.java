@@ -5,6 +5,8 @@ import cm.pak.models.training.TrainingModel;
 import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.validation.constraints.NotNull;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Groups({
         @Group(name = "general", label = "general.group", sequence = 2)
@@ -15,8 +17,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
         @SearchKey(value = "description", label = "description")
 })
 public class TrainingThemeData extends AbstractItemData {
+    @NotNull
     @Widget(value = "text", group = "general", column = true)
     private String code ;
+    @NotNull
     @Widget(value = "text", group = "general", column = true)
     private String name ;
     @Widget(value = "text", group = "general", column = true)

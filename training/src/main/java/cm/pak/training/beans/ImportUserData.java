@@ -5,6 +5,7 @@ import cm.pak.data.FieldData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,14 +16,17 @@ import java.util.Set;
         @Group(name = "fields", label = "fields.group")
 })
 public class ImportUserData implements Serializable {
+    @NotNull
     @Select(column = true, group = "general", value = {
             @SelectItem(name = "Interne", value ="I"),
             @SelectItem(name = "Externe", value ="E")
     })
     private String type ;
+    @NotNull
     @Widget(value = "file", group = "general", pattern = ".csv")
     private String filename ;
 
+    @NotNull
     @Manytomany(group = "fields", source = "/api/v1/users/fields")
     private Set<FieldData> fields ;
 

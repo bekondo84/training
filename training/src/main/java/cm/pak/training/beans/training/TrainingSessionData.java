@@ -5,6 +5,7 @@ import cm.pak.models.training.TrainingSessionModel;
 import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,20 +25,25 @@ import java.util.List;
         @SearchKey(value = "endAt", label = "endAt")
 })
 public class TrainingSessionData extends AbstractItemData implements Serializable {
+    @NotNull
     @Widget(value = "text", group = "general", column = true, updatable = false)
     private String code ;
     @Widget(value = "text", group = "general", column = true)
     private String intitule;
+    @NotNull
     @Filters(@Filter(field = "activate", value = "true"))
     @Manytoone(group = "general", column = true, source = "/api/v1/trainings")
     private TrainingData training;
+    @NotNull
     @Select(group = "general", value = {
             @SelectItem(value = "P", name = "Publiée"),
             @SelectItem(value = "C", name = "Masquée")
     }, editable = false, column = true)
     private String statut ;
+    @NotNull
     @Widget(value = "date", group = "general" ,column = true)
     private String startAt;
+    @NotNull
     @Widget(value = "date", group = "general", column = true)
     private String endAt ;
     @Onetomany(group = "learner", editable = false, updatable = false, deletable = false, source = "/api/v1/plugins")

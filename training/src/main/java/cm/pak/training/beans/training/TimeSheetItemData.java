@@ -7,6 +7,7 @@ import cm.pak.models.training.TimeSheetItemModel;
 import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -15,12 +16,16 @@ import java.util.Objects;
         @Group(name = "general", label = "general.group")
 })
 public class TimeSheetItemData extends AbstractItemData implements Serializable {
+    @NotNull
     @Widget(value = "date", group = "general", column = true, nullable = false)
     private String day ;
+    @NotNull
     @Widget(value = "time", group = "general", column = true, nullable = false)
     private String startAt;
+    @NotNull
     @Widget(value = "time", group = "general", column = true, nullable = false)
     private String endAt;
+    @NotNull
     @Widget(value = "text", group = "general", column = true, nullable = false)
     private String subject;
 

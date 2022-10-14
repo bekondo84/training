@@ -44,6 +44,7 @@ public class FieldData implements Serializable {
     public FieldData(String name, String label, int sequence, String type) {
         this.name = name;
         this.sequence = sequence;
+        this.nullable = true;
         this.type = type;
         this.label = label ;
         selectItems = new HashSet<>();

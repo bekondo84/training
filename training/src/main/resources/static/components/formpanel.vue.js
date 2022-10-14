@@ -33,7 +33,7 @@ var formPanel = Vue.component("view-component", {
          }, notifySuccess() {
              this.$emit("notify-success")
          },notifyError(error) {
-           this.$emit("notify-success", error)
+           this.$emit("notify-error", error)
          },getMessage(key) {
             return this.i18n!= null && this.i18n[key]!=null ? this.i18n[key]: key;
          }

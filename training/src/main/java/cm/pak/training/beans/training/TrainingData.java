@@ -5,6 +5,7 @@ import cm.pak.models.training.TrainingThemeModel;
 import cm.pak.training.beans.AbstractItemData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -20,10 +21,13 @@ import java.io.Serializable;
         @SearchKey(value = "activate", label = "activate")
 })
 public class TrainingData extends AbstractItemData implements Serializable {
+    @NotNull
     @Widget(value = "text", group = "general", column = true)
     private String name ;
+    @NotNull
     @Manytoone(group = "general", source = "/api/v1/themes", column = true)
     private TrainingThemeData theme ;
+    @NotNull
     @Widget(value = "text", group = "general", column = true)
     private String description;
     @Widget(value = "textarea", group = "description")

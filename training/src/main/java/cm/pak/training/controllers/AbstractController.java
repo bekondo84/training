@@ -50,7 +50,6 @@ public abstract class AbstractController {
 
 
      protected <T extends ItemModel> List<T> searchData(Class<T> clazz, int index, int pageSize, final List<FilterData> searchFilter, FilterData... filters) {
-        LOG.info(String.format("---------------Search-filters  : %s", searchFilter));
         return getFlexibleSearch().search(clazz, searchFilter, index, pageSize, filters);
     }
 
@@ -63,7 +62,8 @@ public abstract class AbstractController {
     protected <T extends AbstractItemData> List<FilterData> buildSearchFilter(Class<T> clazz, final String searchtext) {
         final List<FilterData> searchFilters = new ArrayList<>();
         final SearchKeys searchKeys = clazz.getAnnotation(SearchKeys.class);
-        if (Objects.nonNull(searchKeys) && StringUtils.hasText(searchtext)) {
+
+        if (Objects.nonNull(searchKeys) && StringUtils.hasLength(searchtext)) {
             searchFilters.addAll(Arrays.stream(searchKeys.value())
                     .map(searchKey -> {
                         final FilterData filter =new FilterData(searchKey.value(), searchtext, "eq");
@@ -71,6 +71,7 @@ public abstract class AbstractController {
                             final Field field = clazz.getDeclaredField(filter.getField());
                             if (String.class.isAssignableFrom(field.getType())) {
                                 filter.setOperator("like");
+                                filter.setValue("%".concat(searchtext).concat("%"));
                             } else if(field.getType().isPrimitive()) {
                                 filter.setOperator("eq");
                             }else if (Boolean.class.isAssignableFrom(field.getType())) {

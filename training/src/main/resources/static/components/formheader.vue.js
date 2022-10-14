@@ -5,7 +5,20 @@ var formHeader = Vue.component("f-header", {
           i18n: {}
         }
      }, computed : {
-         title() { return this.meta != null ? this.meta.formTitle : ""; },
+         fields() {
+            var elements = [];
+            if (this.meta != null) {
+                for (let i= 0; i < this.meta.groups.length; i++) {
+                     let group = this.meta.groups[i];
+                     if (group != null) {
+                        for (let j=0 ; j< group.fields.length; j++) {
+                            elements.push(group.fields[j]);
+                        }
+                     }
+                }
+            }
+            return elements;
+         },title() { return this.meta != null ? this.meta.formTitle : ""; },
          creatable() {
              if (this.meta != null && this.data != null && this.data.pk ==null && !this.meta.creatable) {
                 return false;
@@ -29,7 +42,21 @@ var formHeader = Vue.component("f-header", {
              return this.menu
         }
      }, methods : {
-         async remove() {
+         validate() {
+           var errors = [];
+
+           for (let i=0 ; i < this.fields.length; i++) {
+               var field = this.fields[i];
+               if (field.nullable==false && this.data[field.name]==null) {
+                  let error = {};
+                  error.name = field.name ;
+                  error.label = field.label;
+                  error.message = "field ".concat(field.label).concat(" is mandatory") ;
+                  errors.push(error);
+               }
+           }
+           return errors;
+         }, async remove() {
             var answer = confirm(this.getMessage('delete.alert'));
             if (answer) {
                 try {
@@ -41,8 +68,13 @@ var formHeader = Vue.component("f-header", {
             }
          },async save() {
            try {
-              let response = await axios.post(this.menu.source, this.data);
-              this.$emit("refresh-list-form") ;
+              let errors = this.validate() ;
+              if (errors.length == 0) {
+                  let response = await axios.post(this.menu.source, this.data);
+                  this.$emit("refresh-list-form") ;
+              } else {
+                  this.notifyError(errors);
+              }
             }catch (error) {
                this.notifyError(error) ;
             }
@@ -53,6 +85,8 @@ var formHeader = Vue.component("f-header", {
             this.$emit("process-action", copy);
         }, getMessage(key) {
             return this.i18n!= null && this.i18n[key]!=null ? this.i18n[key]: key;
+        },notifyError(error) {
+          this.$emit("notify-error", error)
         }
      }, async created() {
         try {
