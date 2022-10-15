@@ -1,6 +1,7 @@
 package cm.pak.training.controllers.core;
 
 import cm.pak.data.MenuData;
+import cm.pak.data.PaginationData;
 import cm.pak.exceptions.ModelServiceException;
 import cm.pak.repositories.FlexibleSearch;
 import cm.pak.training.beans.core.ExtensionData;
@@ -32,8 +33,12 @@ public class ExtensionControlleur  extends AbstractController {
 
     @GetMapping
     @CrossOrigin
-    public ResponseEntity<List<ExtensionData>> getInstalPlugins(final Model model, Authentication auth) throws URISyntaxException, IOException {
-        return ResponseEntity.ok(facade.getInstallExtensions(auth.getName())) ;
+    public ResponseEntity<PaginationData<ExtensionData>> getInstalPlugins(final Model model, Authentication auth) throws URISyntaxException, IOException {
+        final PaginationData<ExtensionData> result = new PaginationData<>();
+        result.setCurrentPage(1);
+        result.setTotalPages(1);
+        result.setItems(facade.getInstallExtensions(auth.getName()));
+        return ResponseEntity.ok(result) ;
     }
 
     @GetMapping(value = "/{pk}")
@@ -61,31 +66,4 @@ public class ExtensionControlleur  extends AbstractController {
     protected SettingFacade getSettingFacade() {
         return null;
     }
-
-    /**
-    @GetMapping(path = "{action}")
-    public String modules(final Model model, @PathVariable("action") String action) throws URISyntaxException, IOException {
-        init(model, ExtensionData.class,"administration", action, "home/listTemplate.html", "template");
-        model.addAttribute("datas", extensionFacade.getExtensions());
-        return "/home/template";
-    }
-
-    @Override
-    protected String title() {
-        return "extension.list.form";
-    }
-
-    @Override
-    protected String prefix() {
-        return "extension";
-    }
-
-    @Override
-    protected String viewPath(String action) {
-        if (action.equalsIgnoreCase("all")) {
-            return "'/plugins/'+ ${{data.pk}}";
-        }
-        return "#";
-    }
-     **/
 }

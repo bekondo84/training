@@ -14,6 +14,10 @@ import java.util.Date;
 @Groups({
         @Group(name = "general", label = "general.group", sequence = 2)
 })
+@SearchKeys({
+        @SearchKey(value = "session", label = "session"),
+        @SearchKey(value = "involve", label = "involve", primary = true)
+})
 public class InvolvedData extends AbstractItemData implements Serializable {
     @Manytoone(group = "general", editable = false, source = "/api/v1/sessions")
     private TrainingSessionData session ;

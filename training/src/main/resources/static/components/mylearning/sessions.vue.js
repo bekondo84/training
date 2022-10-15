@@ -6,7 +6,8 @@ var session = Vue.component("session", {
         container : "s-body",
         item : {},
         selectedGroup : {},
-        i18n: {}
+        i18n: {},
+        page : {page: 0, size:0, search: ""}
       }
    }, computed : {
       dialogId() { return "my-dialog"; }
@@ -60,6 +61,7 @@ var session = Vue.component("session", {
              :data="localdata"
              :meta="meta"
              :menu="menu"
+             :page="page"
              @search-action="searchAction"
            ></l-header>
            <s-body

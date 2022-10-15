@@ -24,7 +24,7 @@ import java.util.Objects;
         @SearchKey(value = "email", label = "email")
 })
 public class UserData extends AbstractItemData implements Serializable {
-    @Widget(value = "text", column = true, group = "general")
+    @Widget(value = "text", column = true, group = "general", updatable = false)
     @NotNull
     private String code ;
     @Widget(value = "text", column = true, group = "general")

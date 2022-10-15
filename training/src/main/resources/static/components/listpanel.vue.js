@@ -1,5 +1,5 @@
 var listComponent = Vue.component("list-component", {
-     props : ["menu", "data", "meta", "backbtn"],
+     props : ["menu", "data", "meta", "backbtn", "page"],
      data() {
         return {
            welcome : "Form list",
@@ -73,6 +73,7 @@ var listComponent = Vue.component("list-component", {
                                :meta="meta"
                                :key="generateUniqueKey()"
                                :backbtn="backbtn"
+                               :page="page"
                                @created-action="createdAction"
                                @process-action="processAction"
                                @cancel-event="onCancelEvent"

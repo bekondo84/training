@@ -1,7 +1,9 @@
 package cm.pak.training.controllers.training;
 
+import cm.pak.data.PaginationData;
 import cm.pak.exceptions.ModelServiceException;
 import cm.pak.models.training.ClassRoomModel;
+import cm.pak.populators.Populator;
 import cm.pak.repositories.FlexibleSearch;
 import cm.pak.training.beans.training.ClassRoomData;
 import cm.pak.training.controllers.AbstractController;
@@ -30,17 +32,14 @@ public class ClassRoomController extends AbstractController {
     private FlexibleSearch flexibleSearch;
     @Autowired
     private ClassRoomPopulator populator;
+    @Autowired
+    private SettingFacade settingFacade;
 
     @GetMapping
-    public ResponseEntity<List<ClassRoomData>> getClassrooms(@RequestParam(required = false)String search) {
-        final List<ClassRoomModel> classRooms = searchData(ClassRoomModel.class, 0, 50, buildSearchFilter(ClassRoomData.class, search));
-        if(!CollectionUtils.isEmpty(classRooms)) {
-            return ResponseEntity.ok(classRooms
-                    .stream()
-                    .map(room -> populator.populate(room))
-                    .collect(Collectors.toList()));
-        }
-        return ResponseEntity.ok(new ArrayList<>());
+    public ResponseEntity<PaginationData<ClassRoomData>> getClassrooms(@RequestParam(required = false)String search, @RequestParam(required = false) Integer page) {
+        final PaginationData<ClassRoomModel> pagination = searchData(ClassRoomModel.class, page, settingFacade.getSetting().getPageSize(), buildSearchFilter(ClassRoomData.class, search));
+        final PaginationData<ClassRoomData> result = populate(pagination);
+        return ResponseEntity.ok(result);
     }
     @GetMapping("/{pk}")
     public ResponseEntity<ClassRoomData> getClassroom(@PathVariable("pk") final Long pk) {
@@ -63,5 +62,10 @@ public class ClassRoomController extends AbstractController {
     @Override
     protected SettingFacade getSettingFacade() {
         return null;
+    }
+
+    @Override
+    protected Populator getPopulator() {
+        return populator;
     }
 }

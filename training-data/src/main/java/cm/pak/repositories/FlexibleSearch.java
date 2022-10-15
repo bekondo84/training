@@ -2,6 +2,7 @@ package cm.pak.repositories;
 
 import cm.pak.data.Connector;
 import cm.pak.data.FilterData;
+import cm.pak.data.PaginationData;
 import cm.pak.models.security.base.ItemModel;
 
 import java.util.List;
@@ -37,7 +38,8 @@ public interface FlexibleSearch {
      */
     <T extends ItemModel> List<T> findAll(Class<T> clazz, final Connector connector, final List<FilterData> predicats, int start, int max);
 
-    <T extends ItemModel> List<T> search(Class<T> clazz, final List<FilterData> rules, int start, int max, final FilterData ...prefilter);
+    <T extends ItemModel> PaginationData<T> search(Class<T> clazz, final List<FilterData> rules, int start, int max, final FilterData ...prefilter);
+
     /**
      *
      * @param query

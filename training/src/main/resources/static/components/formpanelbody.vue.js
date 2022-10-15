@@ -23,7 +23,7 @@ var formbody = Vue.component("f-body", {
          isDateField(field) {
             return field.type =="date";
          },isDisabled(field) {
-             return !field.editable || !field.updatable && this.data.pk >0 && this.data[field.name] != null ;
+             return !field.editable || !field.updatable && this.data != null && this.data.pk >0 && this.data[field.name] != null ;
          },isSelect(field) {
             return field.type == "select";
          },isManyToOneField(field) {

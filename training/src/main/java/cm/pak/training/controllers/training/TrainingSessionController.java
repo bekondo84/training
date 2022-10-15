@@ -1,7 +1,9 @@
 package cm.pak.training.controllers.training;
 
+import cm.pak.data.PaginationData;
 import cm.pak.exceptions.ModelServiceException;
 import cm.pak.models.training.TrainingSessionModel;
+import cm.pak.populators.Populator;
 import cm.pak.repositories.FlexibleSearch;
 import cm.pak.training.beans.training.InvolvedData;
 import cm.pak.training.beans.training.TrainingSessionData;
@@ -31,17 +33,13 @@ public class TrainingSessionController extends AbstractController {
     private FlexibleSearch flexibleSearch;
     @Autowired
     private TrainingSessionPopulator populator;
+    @Autowired
+    private SettingFacade settingFacade;
 
     @GetMapping
-    public ResponseEntity<List<TrainingSessionData>> getSessions(@RequestParam(required = false) String search) {
-        final List<TrainingSessionModel> sessions = searchData(TrainingSessionModel.class, 0, 50, buildSearchFilter(TrainingSessionData.class, search));
-
-        if (!CollectionUtils.isEmpty(sessions)) {
-            return ResponseEntity.ok(sessions.stream()
-                    .map(session -> populator.populate(session))
-                    .collect(Collectors.toList()));
-        }
-         return ResponseEntity.ok(new ArrayList<>());
+    public ResponseEntity<PaginationData<TrainingSessionData>> getSessions(@RequestParam(required = false) String search, @RequestParam(required = false) Integer page) {
+        final PaginationData<TrainingSessionModel> sessions = searchData(TrainingSessionModel.class, page, settingFacade.getSetting().getPageSize(), buildSearchFilter(TrainingSessionData.class, search));
+        return ResponseEntity.ok(populate(sessions));
     }
     @GetMapping("/{pk}")
     public ResponseEntity<TrainingSessionData> getSession(@PathVariable("pk") Long pk) {
@@ -80,5 +78,10 @@ public class TrainingSessionController extends AbstractController {
     @Override
     protected SettingFacade getSettingFacade() {
         return null;
+    }
+
+    @Override
+    protected Populator getPopulator() {
+        return populator;
     }
 }

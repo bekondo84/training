@@ -2,7 +2,9 @@ package cm.pak.training.controllers;
 
 import cm.pak.annotations.SearchKeys;
 import cm.pak.data.FilterData;
+import cm.pak.data.PaginationData;
 import cm.pak.models.security.base.ItemModel;
+import cm.pak.populators.Populator;
 import cm.pak.repositories.FlexibleSearch;
 import cm.pak.services.MetaService;
 import cm.pak.training.beans.AbstractItemData;
@@ -24,7 +26,6 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractController {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractController.class);
-
     @RequestMapping("/search/{page}/{searchKey}")
     public ResponseEntity getItemBySearchKey(final @PathVariable("page") Integer page, final @PathVariable("searchKey")  String search) {
         return ResponseEntity.ok(null);
@@ -49,8 +50,17 @@ public abstract class AbstractController {
     }
 
 
-     protected <T extends ItemModel> List<T> searchData(Class<T> clazz, int index, int pageSize, final List<FilterData> searchFilter, FilterData... filters) {
-        return getFlexibleSearch().search(clazz, searchFilter, index, pageSize, filters);
+     protected <T extends ItemModel> PaginationData<T> searchData(Class<T> clazz, Integer index, int pageSize, final List<FilterData> searchFilter, FilterData... filters) {
+        return getFlexibleSearch().search(clazz, searchFilter, getStartValue(index), pageSize, filters);
+    }
+
+    private int getStartValue(Integer index) {
+        return Objects.nonNull(index) ? index : 0;
+    }
+
+    private int getPageSize() {
+
+        return 50;
     }
 
     /**
@@ -66,32 +76,57 @@ public abstract class AbstractController {
         if (Objects.nonNull(searchKeys) && StringUtils.hasLength(searchtext)) {
             searchFilters.addAll(Arrays.stream(searchKeys.value())
                     .map(searchKey -> {
-                        final FilterData filter =new FilterData(searchKey.value(), searchtext, "eq");
                         try {
-                            final Field field = clazz.getDeclaredField(filter.getField());
+                            final Field field = clazz.getDeclaredField(searchKey.value());
                             if (String.class.isAssignableFrom(field.getType())) {
-                                filter.setOperator("like");
-                                filter.setValue("%".concat(searchtext).concat("%"));
-                            } else if(field.getType().isPrimitive()) {
-                                filter.setOperator("eq");
-                            }else if (Boolean.class.isAssignableFrom(field.getType())) {
-                                filter.setOperator("eq");
-                            } else if(Number.class.isAssignableFrom(field.getType())) {
-                                filter.setOperator("eq");
+                                return new FilterData(searchKey.value(), "%".concat(searchtext).concat("%"), "like");
+                            } else if (AbstractItemData.class.isAssignableFrom(field.getType())) {
+                                final SearchKeys keys = field.getType().getAnnotation(SearchKeys.class);
+                                if (Objects.nonNull(keys)) {
+                                    searchFilters.addAll(Arrays.stream(keys.value())
+                                            .map(key -> {
+                                                try {
+                                                    final Field field1 = field.getType().getDeclaredField(key.value());
+                                                    if (String.class.isAssignableFrom(field1.getType())) {
+                                                        return new FilterData(searchKey.value().concat(".").concat(key.value()), "%".concat(searchtext).concat("%"), "like");
+                                                    }
+                                                } catch (NoSuchFieldException e) {
+                                                   // e.printStackTrace();
+                                                }
+                                                return null ;
+                                            }).filter(Objects::nonNull)
+                                            .collect(Collectors.toList()));
+                                }
                             }
                         } catch (NoSuchFieldException e) {
                             e.printStackTrace();
                         }
-                        return filter;
+                        return null;
                     })
+                    .filter(Objects::nonNull)
                     .collect(Collectors.toList()));
         }
         return searchFilters;
     }
 
+   protected  <T extends AbstractItemData, Y extends ItemModel>PaginationData<T> populate(PaginationData<Y> page) {
+        final PaginationData result = new PaginationData<>();
+        result.setCurrentPage(page.getCurrentPage());
+        result.setTotalPages(page.getTotalPages());
+        if (!CollectionUtils.isEmpty(page.getItems())) {
+            result.setItems(page.getItems()
+                    .stream()
+                    .map(item -> getPopulator().populate(item))
+                    .collect(Collectors.toList()));
+        }
+        return  result;
+    }
     abstract protected FlexibleSearch getFlexibleSearch() ;
 
     abstract protected  SettingFacade getSettingFacade() ;
 
     protected MetaService getMetaService() { return null ;};
+     protected Populator getPopulator() {
+        return null;
+    }
 }

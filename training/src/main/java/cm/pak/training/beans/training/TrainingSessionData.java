@@ -20,9 +20,7 @@ import java.util.List;
         @SearchKey(value = "code", label = "code", primary = true),
         @SearchKey(value = "intitule", label = "intitule"),
         @SearchKey(value = "training", label = "training"),
-        @SearchKey(value = "statut", label = "statut"),
-        @SearchKey(value = "startAt", label = "startAt"),
-        @SearchKey(value = "endAt", label = "endAt")
+        @SearchKey(value = "statut", label = "statut")
 })
 public class TrainingSessionData extends AbstractItemData implements Serializable {
     @NotNull

@@ -17,6 +17,11 @@ import java.util.Set;
         @Group(name = "timesheet", label = "timesheet.group"),
         @Group(name = "registered", label = "registered.group")
 })
+@SearchKeys({
+        @SearchKey(value = "code", label = "code", primary = true),
+        @SearchKey(value = "session", label = "session"),
+        @SearchKey(value = "classRoom", label = "classRoom")
+})
 public class TrainingGroupData extends AbstractItemData implements Serializable {
     @Widget(value = "text", column = true, group = "general")
     private String code ;

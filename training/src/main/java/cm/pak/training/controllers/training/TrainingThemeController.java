@@ -1,7 +1,9 @@
 package cm.pak.training.controllers.training;
 
+import cm.pak.data.PaginationData;
 import cm.pak.exceptions.ModelServiceException;
 import cm.pak.models.training.TrainingThemeModel;
+import cm.pak.populators.Populator;
 import cm.pak.repositories.FlexibleSearch;
 import cm.pak.training.beans.training.TrainingThemeData;
 import cm.pak.training.controllers.AbstractController;
@@ -28,19 +30,14 @@ public class TrainingThemeController extends AbstractController {
     private FlexibleSearch flexibleSearch;
     @Autowired
     private TrainingThemePopulator populator;
+    @Autowired
+    private SettingFacade settingFacade;
 
 
     @GetMapping
-    public ResponseEntity<List<TrainingThemeData>> getThemes(@RequestParam(required = false) String search) {
-        final List<TrainingThemeModel> themes = searchData(TrainingThemeModel.class, 0, 50, buildSearchFilter(TrainingThemeData.class, search));
-
-        if (!CollectionUtils.isEmpty(themes)) {
-            return ResponseEntity.ok(themes.stream()
-                    .map(theme -> populator.populate(theme))
-                    .collect(Collectors.toList()));
-        }
-
-         return ResponseEntity.ok(new ArrayList<>());
+    public ResponseEntity<PaginationData<TrainingThemeData>> getThemes(@RequestParam(required = false) String search, @RequestParam(required = false) Integer page) {
+        final PaginationData<TrainingThemeModel> pageable = searchData(TrainingThemeModel.class, page, settingFacade.getSetting().getPageSize(), buildSearchFilter(TrainingThemeData.class, search));
+        return ResponseEntity.ok(populate(pageable));
     }
 
     @PostMapping
@@ -66,5 +63,10 @@ public class TrainingThemeController extends AbstractController {
     @Override
     protected SettingFacade getSettingFacade() {
         return null;
+    }
+
+    @Override
+    protected Populator getPopulator() {
+        return populator;
     }
 }

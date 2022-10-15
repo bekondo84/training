@@ -1,5 +1,5 @@
 var l_header = Vue.component("l-header", {
-     props: ["menu", "meta", "backbtn"],
+     props: ["menu", "meta", "backbtn", "page"],
      data() {
          return {
             selectItem : null,
@@ -21,6 +21,8 @@ var l_header = Vue.component("l-header", {
              this.$emit("search-action", text);
          },getMessage(key) {
             return this.i18n!= null && this.i18n[key]!=null ? this.i18n[key]: key;
+         }, paginationAction() {
+            this.$emit("search-action");
          }
      },computed :{
          creatable() {
@@ -43,7 +45,8 @@ var l_header = Vue.component("l-header", {
      },template : `<div class="title-bloc">
       <div class="title-bar">
           <div class="title"><p>{{title}}</p></div>
-          <v-search @search-action="searchAction"></v-search>
+          <v-search @search-action="searchAction"
+                    :page="page"></v-search>
      </div>
        <div class="title-bar">
           <ul class="nav">
@@ -62,7 +65,7 @@ var l_header = Vue.component("l-header", {
                 </ul>
               </li>
           </ul>
-          <div class="margin-left-auto"><v-pagination></v-pagination></div>
+          <div class="margin-left-auto"><v-pagination :page="page" @pagination-action="paginationAction"></v-pagination></div>
        </div>
      </div>`
 

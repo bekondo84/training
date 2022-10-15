@@ -97,15 +97,15 @@ public class DefaultMetaService implements MetaService {
     private FieldData getColumn(Class clazz, Locale locale, Field field) {
         final Widget annot = field.getAnnotation(Widget.class);
         String fieldName = clazz.getSimpleName().concat(".").concat(field.getName());
-        if (Objects.nonNull(annot)) {
+        if (Objects.nonNull(annot) && annot.column()) {
             return  new FieldData(field.getName(), getMessage(fieldName, locale), annot.sequence(), annot.value());
         }
         final Manytoone manytoone = field.getAnnotation(Manytoone.class);
-        if (Objects.nonNull(manytoone)) {
+        if (Objects.nonNull(manytoone) && manytoone.column()) {
             return new FieldData(field.getName(), getMessage(fieldName, locale), manytoone.sequence(), "many-to-one");
         }
         final Select select = field.getAnnotation(Select.class);
-        if (Objects.nonNull(select)) {
+        if (Objects.nonNull(select) && select.column()) {
             return new FieldData(field.getName(), getMessage(fieldName, locale), select.sequence(), "select");
         }
         return null;

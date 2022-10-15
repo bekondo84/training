@@ -53,6 +53,7 @@ public class SettingData extends AbstractItemData implements Serializable {
     private String poolName ;
 
     public SettingData() {
+        pageSize = 30 ;
     }
 
     public String getMailHost() {

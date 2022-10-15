@@ -1,8 +1,10 @@
 package cm.pak.training.controllers.security;
 
 import cm.pak.data.FieldData;
+import cm.pak.data.PaginationData;
 import cm.pak.exceptions.ModelServiceException;
 import cm.pak.models.security.UserModel;
+import cm.pak.populators.Populator;
 import cm.pak.repositories.FlexibleSearch;
 import cm.pak.services.MetaService;
 import cm.pak.training.beans.ImportUserData;
@@ -44,23 +46,23 @@ public class UserController extends AbstractController {
     private MetaService metaService;
     @Autowired
     private MessageSource messageSource;
-
+    @Autowired
+    private SettingFacade settingFacade;
 
     @GetMapping("/fields")
-    public ResponseEntity<Set<FieldData>> getFields() {
-       return ResponseEntity.ok(metaService.getExportedFields(UserData.class));
+    public ResponseEntity<PaginationData<FieldData>> getFields() {
+        final PaginationData pageable = new PaginationData<>();
+        pageable.setTotalPages(1);
+        pageable.setCurrentPage(1);
+        pageable.setItems(metaService.getExportedFields(UserData.class)
+                .stream().collect(Collectors.toList()));
+       return ResponseEntity.ok(pageable);
     }
     @GetMapping
-    public ResponseEntity<List<UserData>> getUsers(@RequestParam(required = false) String search) {
-        List<UserModel> users = searchData(UserModel.class, 0, 50, buildSearchFilter(UserData.class, search));
-
-        if (!CollectionUtils.isEmpty(users)) {
-            return ResponseEntity.ok(users
-                    .stream()
-                    .map(us ->populator.populate(us))
-                    .collect(Collectors.toList()));
-        }
-        return ResponseEntity.ok(new ArrayList<>());
+    public ResponseEntity<PaginationData<UserData>> getUsers(@RequestParam(required = false) String search, @RequestParam(required = false) Integer page) {
+        PaginationData<UserModel> pageable = searchData(UserModel.class, page, settingFacade.getSetting().getPageSize(), buildSearchFilter(UserData.class, search));
+        PaginationData<UserData> result = populate(pageable);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping
@@ -108,12 +110,12 @@ public class UserController extends AbstractController {
     @GetMapping("/setPassword/{pk}")
     public ResponseEntity<SetPasswordData> setPasswordData(@PathVariable("pk")Long pk) {
         final SetPasswordData data = new SetPasswordData();
-        data.setPk(pk);
+        data.setItempk(pk);
         return ResponseEntity.ok(data);
     }
-    @PostMapping("/setPassword/{pk}")
-    public ResponseEntity<UserData> setPassword(@PathVariable("pk")Long pk, @RequestBody SetPasswordData source) throws ModelServiceException, TrainingException {
-          return ResponseEntity.ok(facade.setPassword(pk,  source));
+    @PostMapping("/setPassword")
+    public ResponseEntity<UserData> setPassword( @RequestBody SetPasswordData source) throws ModelServiceException, TrainingException {
+          return ResponseEntity.ok(facade.setPassword(source.getItempk(),  source));
     }
 
     @Override
@@ -124,5 +126,10 @@ public class UserController extends AbstractController {
     @Override
     protected SettingFacade getSettingFacade() {
         return null;
+    }
+
+    @Override
+    protected Populator getPopulator() {
+        return populator;
     }
 }

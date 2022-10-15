@@ -2,6 +2,7 @@ package cm.pak.repositories.impl;
 
 import cm.pak.data.Connector;
 import cm.pak.data.FilterData;
+import cm.pak.data.PaginationData;
 import cm.pak.models.security.base.ItemModel;
 import cm.pak.repositories.FlexibleSearch;
 import org.slf4j.Logger;
@@ -92,31 +93,62 @@ public class DefaultFlexibleSearch implements FlexibleSearch {
      * @return
      */
     @Override
-    public <T extends ItemModel> List<T> search(Class<T> clazz, List<FilterData> rules, int start, int max, FilterData... prefilter) {
+    public <T extends ItemModel> PaginationData<T> search(Class<T> clazz, List<FilterData> rules, int start, int max, FilterData... prefilter) {
+        final PaginationData result = new PaginationData<>();
         final CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        final CriteriaBuilder countCB = em.getCriteriaBuilder();
         final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(clazz);
         final Root<T> from = criteriaQuery.from(clazz);
+        final CriteriaQuery<Long> count = countCB.createQuery(Long.class);
+        final Root countRoot = count.from(clazz);
+        count.select(criteriaBuilder.count(countRoot));
         Predicate leftCondition = null;
+        Predicate countLFC = null ;
         if (Objects.nonNull(prefilter)) {
             leftCondition = getPreFilterPredicates(criteriaBuilder, from, leftCondition, prefilter);
+            countLFC = getPreFilterPredicates(countCB, countRoot, countLFC, prefilter);
         }
         Predicate rigthCondition = null ;
+        Predicate countRC = null ;
         if (!CollectionUtils.isEmpty(rules) ) {
             rigthCondition = getSearchPredicates(rules, criteriaBuilder, from, rigthCondition);
+            countRC = getSearchPredicates(rules, countCB, countRoot, countRC);
         }
 
         if (Objects.nonNull(rigthCondition) && Objects.nonNull(leftCondition)) {
            final Predicate condition = criteriaBuilder.and(leftCondition, rigthCondition) ;
+           final Predicate countC = countCB.and(countLFC, countRC);
             criteriaQuery.where(condition);
+            count.where(countC);
         } else if (Objects.nonNull(leftCondition)) {
             criteriaQuery.where(leftCondition);
+            count.where(countLFC);
         } else if (Objects.nonNull(rigthCondition)) {
             criteriaQuery.where(rigthCondition);
+            count.where(countRC);
         }
+        result.setTotalPages(getTotalPages(max, count));
+        result.setCurrentPage(start + 1);
         Query query = em.createQuery(criteriaQuery);
-        query.setFirstResult(start);
-        query.setMaxResults(max);
-        return query.getResultList();
+
+        if (result.getTotalPages() > 1) {
+            query.setFirstResult(start);
+            query.setMaxResults(max);
+        } else {
+            result.setCurrentPage(1);
+        }
+        result.setItems(query.getResultList());
+
+        return result;
+    }
+
+    private int getTotalPages(int max, CriteriaQuery<Long> count) {
+        int nbreofitems = em.createQuery(count).getSingleResult().intValue();
+
+        if (nbreofitems%max == 0) {
+            return nbreofitems/max;
+        }
+        return (nbreofitems/max)+1;
     }
 
     private <T extends ItemModel> Predicate getSearchPredicates(List<FilterData> rules, CriteriaBuilder criteriaBuilder, Root<T> from, Predicate rigthCondition) {

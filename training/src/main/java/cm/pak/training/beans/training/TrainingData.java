@@ -17,8 +17,7 @@ import java.io.Serializable;
         @SearchKey(value = "name", label = "name", primary = true),
         @SearchKey(value = "description", label = "description"),
         @SearchKey(value = "fullDescription", label = "fullDescription"),
-        @SearchKey(value = "theme", label = "theme"),
-        @SearchKey(value = "activate", label = "activate")
+        @SearchKey(value = "theme", label = "theme")
 })
 public class TrainingData extends AbstractItemData implements Serializable {
     @NotNull

@@ -1,8 +1,10 @@
 package cm.pak.training.controllers.training;
 
 import cm.pak.data.FilterData;
+import cm.pak.data.PaginationData;
 import cm.pak.exceptions.ModelServiceException;
 import cm.pak.models.training.TrainingModel;
+import cm.pak.populators.Populator;
 import cm.pak.repositories.FlexibleSearch;
 import cm.pak.services.MetaService;
 import cm.pak.training.beans.training.TrainingData;
@@ -34,19 +36,16 @@ public class TrainingController extends AbstractController {
     private TrainingPopulator populator;
     @Autowired
     private MetaService metaService;
+    @Autowired
+    private SettingFacade settingFacade;
 
     @GetMapping
-    public ResponseEntity<List<TrainingData>> getTrainings(@RequestParam(required = false) List<String> filter, @RequestParam(required = false)String search) {
+    public ResponseEntity<PaginationData<TrainingData>> getTrainings(@RequestParam(required = false) List<String> filter, @RequestParam(required = false)String search, @RequestParam(required = false) Integer page) {
         //LOG.info(String.format("--------------------------------- %s, %s", filter, search));
         final List<FilterData> filters = filtersBuilder(filter);
 
-        final List<TrainingModel> trainings = searchData(TrainingModel.class, 0, 50, buildSearchFilter(TrainingData.class, search), filters.toArray(new FilterData[filters.size()]));
-        if (!CollectionUtils.isEmpty(trainings)) {
-            return ResponseEntity.ok(trainings.stream()
-                    .map(training -> populator.populate(training))
-                    .collect(Collectors.toList()));
-        }
-        return ResponseEntity.ok(new ArrayList<>());
+        final PaginationData<TrainingModel> pageable = searchData(TrainingModel.class, page, settingFacade.getSetting().getPageSize(), buildSearchFilter(TrainingData.class, search), filters.toArray(new FilterData[filters.size()]));
+        return ResponseEntity.ok(populate(pageable));
     }
 
     @PostMapping
@@ -86,5 +85,10 @@ public class TrainingController extends AbstractController {
     @PostMapping("/desactivate")
     public ResponseEntity<TrainingData> desactivate(@RequestBody TrainingData source) throws ModelServiceException {
         return ResponseEntity.ok(facade.desactivate(source));
+    }
+
+    @Override
+    protected Populator getPopulator() {
+        return populator;
     }
 }

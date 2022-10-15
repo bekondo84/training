@@ -3,7 +3,8 @@ var dialogtable = Vue.component("d-table", {
       data() {
          return {
             datas:  [],
-            selectedItem : null
+            selectedItem : null,
+            page : {page: 0, size:0, search: ""}
          }
       },methods : {
         isDataArray() {
@@ -26,18 +27,27 @@ var dialogtable = Vue.component("d-table", {
                   var modal = bootstrap.Modal.getInstance(modalEl)
                   modal.hide();
               }
-          }, async searchAction(text) {
+          }, async searchAction() {
               try {
                  let searchUrl =this.url ;
-                 if (text) {
+                 if (this.page.search) {
                     if (searchUrl.includes("filter")) {
-                       searchUrl = searchUrl.concat("&search=").concat(text);
+                       searchUrl = searchUrl.concat("&search=")
+                       .concat(this.page.search)
+                       .concat("&page="+this.page.page);
                     } else {
-                       searchUrl = searchUrl.concat("search=").concat(text);
+                       searchUrl = searchUrl.concat("/?search=")
+                        .concat(this.page.search)
+                        .concat("&page="+this.page.page);;
                     }
                  }
+                 this.datas.splice(0, this.datas.length);
                  let response = await axios.get(searchUrl);
-                 console.log("Search Action result  ::: "+JSON.stringify(response.data));
+                 for(i=0; i < response.data.items.length; i++) {
+                   this.datas.push(response.data.items[i]);
+                 }
+                 this.page.size = response.data.totalPages;
+                 //console.log("Search Action result  ::: "+JSON.stringify(response.data));
               } catch(error) {
 
               }
@@ -67,13 +77,15 @@ var dialogtable = Vue.component("d-table", {
       },async created(){
         try {
              let response = await axios.get(this.url);
-             this.datas = response.data ;
+             this.datas = response.data.items ;
+             this.page.page = response.data.currentPage;
+             this.page.size = response.data.totalPages;
          } catch(error) {
              this.$emit("notify-error", error);
          }
       },template: `<div>
                      <div class="title-bar title-bloc modal-header-background">
-                           <v-search @search-action="searchAction"></v-search>
+                           <v-search @search-action="searchAction" :page="page" ></v-search>
                       </div>
                       <div class="table-responsive">
                           <table class="table table-striped table-hover table-sm">
@@ -95,6 +107,6 @@ var dialogtable = Vue.component("d-table", {
                               </tbody>
                           </table>
                       </div>
-                      <div class="margin-left-auto modal-pagination"><v-pagination></v-pagination></div>
+                      <div class="margin-left-auto modal-pagination"><v-pagination :page="page" @pagination-action="searchAction"></v-pagination></div>
                       </div>`
 });

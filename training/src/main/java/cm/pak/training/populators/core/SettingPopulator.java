@@ -3,6 +3,8 @@ package cm.pak.training.populators.core;
 import cm.pak.models.core.SettingModel;
 import cm.pak.populators.Populator;
 import cm.pak.training.beans.core.SettingData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;

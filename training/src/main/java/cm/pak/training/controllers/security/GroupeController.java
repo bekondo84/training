@@ -1,5 +1,6 @@
 package cm.pak.training.controllers.security;
 
+import cm.pak.data.PaginationData;
 import cm.pak.exceptions.ModelServiceException;
 import cm.pak.models.security.GroupeModel;
 import cm.pak.repositories.FlexibleSearch;
@@ -40,15 +41,18 @@ public class GroupeController extends AbstractController {
     private SettingFacade settingFacade;
 
     @GetMapping
-    public ResponseEntity<List<GroupeData>> getGroupes(@RequestParam(required = false) String search) {
-        List<GroupeModel> groupes = searchData(GroupeModel.class, 0, 50, buildSearchFilter(GroupeData.class, search));
-        if (!CollectionUtils.isEmpty(groupes)) {
-           return ResponseEntity.ok(groupes.stream()
+    public ResponseEntity<PaginationData<GroupeData>> getGroupes(@RequestParam(required = false) String search, @RequestParam(required = false) Integer page) {
+        PaginationData<GroupeModel> pageable = searchData(GroupeModel.class, page, settingFacade.getSetting().getPageSize(), buildSearchFilter(GroupeData.class, search));
+        PaginationData<GroupeData> result = new PaginationData<>();
+        result.setCurrentPage(pageable.getCurrentPage());
+        result.setTotalPages(pageable.getTotalPages());
+        if (!CollectionUtils.isEmpty(pageable.getItems())) {
+           result.setItems(pageable.getItems().stream()
                    .map(grp -> populaor.populate(grp))
                    .collect(Collectors.toList()));
         }
 
-        return ResponseEntity.ok(new ArrayList<>());
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{pk}")

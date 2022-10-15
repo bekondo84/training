@@ -9,7 +9,8 @@ var home = Vue.component("t-home", {
            viewMode : null,
            data : null,
            meta : null,
-           caretaker : []
+           caretaker : [],
+           page : {page: 0, size:0, search: ""}
        }
    },methods : {
       showAlert(type, message) {
@@ -41,8 +42,12 @@ var home = Vue.component("t-home", {
                let response = await axios.get("/api/v1/meta/".concat(this.menu.metadata));
                this.meta = response.data ;
               if (this.viewMode == 'list') {
-                    response = await axios.get(menu.source);
-                    this.data = response.data;
+                    this.page.search = "";
+                    let url = menu.source.concat("?page=0") ;
+                    response = await axios.get(url);
+                    this.data = response.data.items;
+                    this.page.page=response.data.currentPage;
+                    this.page.size=response.data.totalPages;
                     this.container = menu.listComponent ;
               } else {
                  response = await axios.get(menu.source);
@@ -91,7 +96,9 @@ var home = Vue.component("t-home", {
            }
            try {
                let response = await axios.get(source);
-               this.data = response.data;
+               this.data = response.data.items;
+               this.page.page=response.data.currentPage;
+               this.page.size=response.data.totalPages;
            } catch (error) {
               this.notifyError(error);
            }
@@ -102,11 +109,12 @@ var home = Vue.component("t-home", {
              let action = obj.action;
              let response = await axios.get("/api/v1/meta/".concat(action.metadata));
              this.meta = response.data ;
+             console.log("************************* : "+JSON.stringify(this.meta));
              this.data = item;
              if (item != null && item.pk != null) {
                  action.source = action.source.concat("/").concat(item.pk);
                  response = await axios.get(action.source);
-                 this.data = response.data ;
+                 this.data = response.data.items ;
              }
              this.menu = action ;
              let viewModes = action.scope.split(",");
@@ -138,11 +146,15 @@ var home = Vue.component("t-home", {
            }
         },async searchAction(text) {
            try{
-              let response = await axios.get(this.menu.source.concat("/?search="+text));
+              let url =  this.menu.source.concat("/?search="+this.searchValue);
+              url = url.concat("&page="+this.currentPage)
+              let response = await axios.get(url);
               this.data.splice(0, this.data.length);
-              for(i=0; i < response.data.length; i++) {
-                  this.data.push(response.data[i]);
+              for(i=0; i < response.data.items.length; i++) {
+                  this.data.push(response.data.items[i]);
               }
+              //this.page.page=response.data.currentPage;
+              this.page.size=response.data.totalPages;
            } catch(error){
            }
         }
@@ -151,11 +163,15 @@ var home = Vue.component("t-home", {
             return this.menu.name;
         },activatedBackButton() {
             return this.caretaker.length > 1;
+        }, searchValue() {
+            return this.page != null && this.page.search != null ? this.page.search : "";
+        }, currentPage() {
+            return this.page != null && this.page.page != null ? this.page.page : 1;
         }
    },async mounted() {
        try {
           let response = await axios.get("/api/v1/plugins");
-          this.plugins = response.data ;
+          this.plugins = response.data.items ;
           this.menus = this.plugins[0].menus.slice(0, this.plugins[0].menus.length);
           this.plugin = this.plugins[0];
           if (this.menus != null && this.menus.length > 0) {
@@ -179,6 +195,7 @@ var home = Vue.component("t-home", {
                             :menu="menu"
                             :data="data"
                             :meta="meta"
+                            :page="page"
                             :backbtn="activatedBackButton"
                             @item-selected="itemSelected"
                             @created-action="createdAction"

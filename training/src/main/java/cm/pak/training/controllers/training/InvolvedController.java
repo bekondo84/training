@@ -1,8 +1,10 @@
 package cm.pak.training.controllers.training;
 
 import cm.pak.data.FilterData;
+import cm.pak.data.PaginationData;
 import cm.pak.exceptions.ModelServiceException;
 import cm.pak.models.training.InvolvedModel;
+import cm.pak.populators.Populator;
 import cm.pak.repositories.FlexibleSearch;
 import cm.pak.training.beans.training.InvolvedData;
 import cm.pak.training.controllers.AbstractController;
@@ -32,18 +34,14 @@ public class InvolvedController extends AbstractController {
     private FlexibleSearch flexibleSearch;
     @Autowired
     private InvolvePopulator populator ;
+    @Autowired
+    private SettingFacade settingFacade;
 
     @GetMapping("/{session}")
-    public ResponseEntity<List<InvolvedData>> getInvolveForSessionID(@PathVariable("session")Long sessoin, @RequestParam(required = false) final String search) {
-        List<InvolvedModel> involves = searchData(InvolvedModel.class, 0, 50, buildSearchFilter(InvolvedData.class, search), new FilterData("session.pk", sessoin, "eq"));
-
-       if (!CollectionUtils.isEmpty(involves)) {
-          return ResponseEntity.ok(involves.stream()
-                  .map(involve -> populator.populate(involve))
-                  .collect(Collectors.toList()));
-       }
-
-       return ResponseEntity.ok(new ArrayList<>());
+    public ResponseEntity<PaginationData<InvolvedData>> getInvolveForSessionID(@PathVariable("session")Long sessoin, @RequestParam(required = false) final String search, @RequestParam(required = false) Integer page) {
+        PaginationData<InvolvedModel> pageable = searchData(InvolvedModel.class, page, settingFacade.getSetting().getPageSize(), buildSearchFilter(InvolvedData.class, search), new FilterData("session.pk", sessoin, "eq"));
+        PaginationData<InvolvedData> result = populate(pageable);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/{session}")
@@ -69,5 +67,10 @@ public class InvolvedController extends AbstractController {
     @Override
     protected SettingFacade getSettingFacade() {
         return null;
+    }
+
+    @Override
+    protected Populator getPopulator() {
+        return populator;
     }
 }

@@ -1,9 +1,12 @@
 package cm.pak.training.controllers.training;
 
 import cm.pak.data.FilterData;
+import cm.pak.data.PaginationData;
 import cm.pak.exceptions.ModelServiceException;
 import cm.pak.models.training.InvolvedModel;
+import cm.pak.populators.Populator;
 import cm.pak.repositories.FlexibleSearch;
+import cm.pak.training.beans.training.InvolvedData;
 import cm.pak.training.beans.training.MyLearningData;
 import cm.pak.training.beans.training.MyLearningGroupData;
 import cm.pak.training.controllers.AbstractController;
@@ -34,17 +37,14 @@ public class MyLearningController extends AbstractController {
     private FlexibleSearch flexibleSearch;
     @Autowired
     private MyLearningPopulator populator;
+    @Autowired
+    private SettingFacade settingFacade;
 
     @GetMapping
-    public ResponseEntity<List<MyLearningData>> getMyLearningForAuthentication(@RequestParam(required = false) String search, Authentication authentication) {
-       final List<InvolvedModel> involves = searchData(InvolvedModel.class, 0, 50, buildSearchFilter(MyLearningData.class, search), new FilterData("involve.code", authentication.getName(), "eq"), new FilterData("session.statut", "P", "eq"));
-
-       if (!CollectionUtils.isEmpty(involves)) {
-           return ResponseEntity.ok(involves.stream()
-                   .map(involve -> populator.populate(involve))
-                   .collect(Collectors.toList()));
-       }
-        return ResponseEntity.ok(new ArrayList<>());
+    public ResponseEntity<PaginationData<MyLearningData>> getMyLearningForAuthentication(@RequestParam(required = false) String search, @RequestParam(required = false) Integer page, Authentication authentication) {
+       final PaginationData<InvolvedModel> pageable = searchData(InvolvedModel.class, 0, -1, buildSearchFilter(MyLearningData.class, search), new FilterData("involve.code", authentication.getName(), "eq"), new FilterData("session.statut", "P", "eq"));
+       final PaginationData<MyLearningData> result = populate(pageable);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{pk}")
@@ -75,5 +75,10 @@ public class MyLearningController extends AbstractController {
     @Override
     protected SettingFacade getSettingFacade() {
         return null;
+    }
+
+    @Override
+    protected Populator getPopulator() {
+        return populator;
     }
 }
