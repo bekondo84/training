@@ -104,6 +104,7 @@ public class UserController extends AbstractController {
                 .map(f -> f.getName())
                 .collect(Collectors.toList());
         facade.updateUsersFromInputStream(is, source.getType(), headers);
+        session.removeAttribute(Constants.SESSION_FILE);
         return ResponseEntity.ok(source);
     }
 
