@@ -33,13 +33,16 @@ var dialogtable = Vue.component("d-table", {
                  if (this.page.search) {
                     if (searchUrl.includes("filter")) {
                        searchUrl = searchUrl.concat("&search=")
-                       .concat(this.page.search)
-                       .concat("&page="+this.page.page);
+                       .concat(this.page.search);
                     } else {
                        searchUrl = searchUrl.concat("/?search=")
-                        .concat(this.page.search)
-                        .concat("&page="+this.page.page);;
+                        .concat(this.page.search);
                     }
+                 }
+                 if (searchUrl.includes("filter") || searchUrl.includes("search")) {
+                      searchUrl = searchUrl.concat("&page="+this.page.page);
+                 }else {
+                     searchUrl = searchUrl.concat("?page="+this.page.page)
                  }
                  this.datas.splice(0, this.datas.length);
                  let response = await axios.get(searchUrl);
@@ -80,6 +83,7 @@ var dialogtable = Vue.component("d-table", {
              this.datas = response.data.items ;
              this.page.page = response.data.currentPage;
              this.page.size = response.data.totalPages;
+             console.log("____________________________________________ "+JSON.stringify(this.page));
          } catch(error) {
              this.$emit("notify-error", error);
          }

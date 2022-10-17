@@ -109,7 +109,6 @@ var home = Vue.component("t-home", {
              let action = obj.action;
              let response = await axios.get("/api/v1/meta/".concat(action.metadata));
              this.meta = response.data ;
-             console.log("************************* : "+JSON.stringify(this.meta));
              this.data = item;
              if (item != null && item.pk != null) {
                  action.source = action.source.concat("/").concat(item.pk);

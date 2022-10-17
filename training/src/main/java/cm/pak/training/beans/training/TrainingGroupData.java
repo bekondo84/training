@@ -23,6 +23,7 @@ import java.util.Set;
         @SearchKey(value = "classRoom", label = "classRoom")
 })
 public class TrainingGroupData extends AbstractItemData implements Serializable {
+    @NotNull
     @Widget(value = "text", column = true, group = "general")
     private String code ;
     @Manytoone(group = "general", editable = false, source = "/api/v1/sessions")

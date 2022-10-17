@@ -18,7 +18,9 @@ var pagination = Vue.component("v-pagination", {
         }
   }, computed : {
        hidden() { return this.page.size > 1 ;}
-  }, template : `<nav aria-label="Page navigation example" v-if="hidden">
+  }, created() {
+
+  }, template : `<nav aria-label="Page navigation example" >
                    <ul class="pagination pagination-sm">
                      <li class="page-item">
                        <a class="page-link" href="#" aria-label="Previous" @click="preview">

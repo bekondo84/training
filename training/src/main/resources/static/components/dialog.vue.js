@@ -57,12 +57,13 @@ var dialog = Vue.component("t-dialog", {
                           :field="field"
                           :data="data"
                         ></d-table>
-                        <d-form v-else
+                        <d-form v-else-if="type=='view'"
                             :meta="meta"
                             :field="field"
                             :data="data"
                             :type="type">
                         </d-form>
+                        <div v-else></div>
                       </div>
                       <d-footer :type="type"
                                  @d-save-event="save"></d-footer>

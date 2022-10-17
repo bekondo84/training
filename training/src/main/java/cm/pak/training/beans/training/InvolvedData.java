@@ -29,12 +29,13 @@ public class InvolvedData extends AbstractItemData implements Serializable {
             @SelectItem(value = "T",name = "teacher"),@SelectItem(value = "L", name = "learner")
     }, column = true)
     private String role ;
+
     @Manytoone(group = "general", column = true, sequence = 10, editable = false, source = "/api/v1/groups")
     private TrainingGroupData group;
-    @NotNull
+
     @Widget(value = "date", group = "general", column = true, editable = false)
     private String registredDate ;
-    @NotNull
+
     @Widget(value = "checkbox", column = true,group = "general", editable = false)
     private boolean registered ;
 
