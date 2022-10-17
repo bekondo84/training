@@ -16,6 +16,10 @@ var myDialog = Vue.component("myDialog", {
               this.$emit("unregister-action", group);
           }, getMessage(key) {
               return this.i18n!= null && this.i18n[key]!=null ? this.i18n[key]: key;
+          }, disabledForSubscribe(group) {
+              return group.availablePlaces <= 0 ;
+          }, openForSubscribe(group) {
+              return !this.disabledForSubscribe(group);
           }
     }, computed : {
           dialogId() { return "my-dialog";},
@@ -45,7 +49,7 @@ var myDialog = Vue.component("myDialog", {
                          </div>
                          <div class="modal-body">
                            <div class="accordion" id="accordionGroups">
-                             <div class="accordion-item" v-for="group in groups">
+                             <div class="accordion-item" v-for="group in groups"  v-if="openForSubscribe(group)">
                                <h2 class="accordion-header" :id="group.pk">
                                  <button class="accordion-button btn-sm" type="button" data-bs-toggle="collapse" :data-bs-target="dataBs(group)"
                                          aria-expanded="true" :aria-controls="collapse(group)">
@@ -56,7 +60,7 @@ var myDialog = Vue.component("myDialog", {
                                  <div class="accordion-body">
                                      <div class="title-bar">
                                         <nav class="nav">
-                                          <a class="btn btn-success btn-sm" aria-current="page" href="#" @click.self="register(group)">{{getMessage('register.btn')}}</a>                                        </nav>
+                                          <button class="btn btn-success btn-sm" aria-current="page" href="#" @click.self="register(group)" :disabled="disabledForSubscribe(group)">{{getMessage('register.btn')}}</button>                                        </nav>
                                      </div>
                                      <div class="table-responsive">
                                         <table class="table table-striped table-hover table-sm">

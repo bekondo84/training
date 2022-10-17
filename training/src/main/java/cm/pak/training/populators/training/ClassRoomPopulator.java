@@ -16,6 +16,8 @@ public class ClassRoomPopulator implements Populator<ClassRoomModel, ClassRoomDa
         data.setIntitule(source.getIntitule());
         data.setValue(source.getIntitule());
         data.setAbility(source.getAbility());
+        data.setAdresse(source.getAdresse());
+        data.setLocalisation(source.getLocalisation());
         return data;
     }
 
@@ -26,6 +28,8 @@ public class ClassRoomPopulator implements Populator<ClassRoomModel, ClassRoomDa
         data.setCode(source.getCode());
         data.setIntitule(source.getIntitule());
         data.setAbility(source.getAbility());
+        data.setAdresse(source.getAdresse());
+        data.setLocalisation(source.getLocalisation());
         return data;
     }
 }

@@ -34,6 +34,9 @@ public class MyLearningGroupPopulator implements Populator<TrainingGroupModel, M
         data.setCode(source.getCode());
         data.setReservePlaces(0);
         data.setNumberOfPlaces(0);
+        if (Objects.nonNull(source.getReservePlaces())) {
+            data.setReservePlaces(source.getReservePlaces());
+        }
         if (Objects.nonNull(source.getClassRoom())) {
             data.setClassRoom(classRoomPopulator.populate(source.getClassRoom()));
             data.setNumberOfPlaces(source.getClassRoom().getAbility());

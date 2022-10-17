@@ -19,20 +19,18 @@ import java.util.Date;
         @SearchKey(value = "involve", label = "involve", primary = true)
 })
 public class InvolvedData extends AbstractItemData implements Serializable {
-    @Manytoone(group = "general", editable = false, source = "/api/v1/sessions")
-    private TrainingSessionData session ;
     @NotNull
     @Manytoone(group = "general",column = true, source = "/api/v1/users")
     private UserData involve;
+    @Manytoone(group = "general", editable = false, source = "/api/v1/sessions")
+    private TrainingSessionData session ;
+    @Manytoone(group = "general", column = true, sequence = 10, editable = false, source = "/api/v1/groups")
+    private TrainingGroupData group;
     @NotNull
     @Select(group = "general", value = {
             @SelectItem(value = "T",name = "teacher"),@SelectItem(value = "L", name = "learner")
     }, column = true)
     private String role ;
-
-    @Manytoone(group = "general", column = true, sequence = 10, editable = false, source = "/api/v1/groups")
-    private TrainingGroupData group;
-
     @Widget(value = "date", group = "general", column = true, editable = false)
     private String registredDate ;
 
